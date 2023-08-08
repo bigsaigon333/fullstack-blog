@@ -5,7 +5,7 @@ const isProduction = process.env.NODE_ENV == "production";
 
 /** @type {import('webpack').Configuration} */
 const config = {
-  entry: "./src/index.ts",
+  entry: "./src/index.tsx",
   output: {
     path: path.resolve(__dirname, "dist"),
   },
@@ -14,17 +14,25 @@ const config = {
     host: "localhost",
     port: 3000,
   },
-  plugins: [
-    new HtmlWebpackPlugin({
-      template: "public/index.html",
-    }),
-  ],
+  plugins: [new HtmlWebpackPlugin({ template: "public/index.html" })],
   module: {
     rules: [
       {
-        test: /\.(ts|tsx)$/i,
-        loader: "ts-loader",
-        exclude: ["/node_modules/"],
+        test: /\.[mc]?[jt]sx?$/,
+        include: path.resolve(__dirname, "src"),
+        exclude: /node_modules/,
+        use: [
+          {
+            loader: "babel-loader",
+            options: {
+              presets: [
+                ["@babel/preset-env", { targets: "defaults" }],
+                ["@babel/preset-react", { runtime: "automatic" }],
+                "@babel/preset-typescript",
+              ],
+            },
+          },
+        ],
       },
       {
         test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
@@ -33,7 +41,14 @@ const config = {
     ],
   },
   resolve: {
-    extensions: [".tsx", ".ts", ".jsx", ".js", "..."],
+    extensions: ["mjs", "js", "ts", "tsx", "json", "jsx"].map(
+      (ext) => `.${ext}`
+    ),
+    extensionAlias: {
+      ".js": [".ts", ".tsx", ".js", ".jsx"],
+      ".cjs": [".cts", ".cjs"],
+      ".mjs": [".mts", ".mjs"],
+    },
   },
 };
 

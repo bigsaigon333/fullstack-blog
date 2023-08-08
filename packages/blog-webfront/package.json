@@ -1,7 +1,7 @@
 {
-  "name": "my-webpack-project",
-  "version": "1.0.0",
-  "description": "My webpack project",
+  "name": "blog-webfront",
+  "version": "0.0.1",
+  "description": "blog-webfront",
   "private": true,
   "main": "src/index.tsx",
   "type": "module",

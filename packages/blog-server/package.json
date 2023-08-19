@@ -16,6 +16,8 @@
     "fastify": "^4.21.0"
   },
   "devDependencies": {
+    "@tsconfig/node18": "^18.2.0",
+    "@tsconfig/recommended": "^1.0.2",
     "@types/node": "^18.17.3",
     "tsup": "^7.2.0",
     "tsx": "^3.12.7",

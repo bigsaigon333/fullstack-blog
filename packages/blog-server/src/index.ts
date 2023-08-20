@@ -44,6 +44,39 @@ fastify.post(
   }
 );
 
+fastify.get(
+  "/posts/:id",
+  (
+    request: FastifyRequest<{
+      Params: {
+        id: string;
+      };
+    }>,
+    reply
+  ) => {
+    const { id } = request.params;
+
+    db.get(
+      "SELECT * FROM post WHERE id = $id",
+      { $id: id },
+      function (err, row) {
+        if (err) {
+          console.error(err);
+          reply.status(500).send(err.message);
+          return;
+        }
+
+        if (!row) {
+          reply.status(404).send();
+          return;
+        }
+
+        reply.status(200).send(row);
+      }
+    );
+  }
+);
+
 // Run the server!
 try {
   await fastify.listen({ port: 8080 });

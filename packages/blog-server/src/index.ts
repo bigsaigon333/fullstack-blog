@@ -8,10 +8,10 @@ const db = new sqlite3.Database("blog-server.db");
 
 db.serialize(() => {
   db.run(`CREATE TABLE IF NOT EXISTS post (
-    id TEXT PRIMARY KEY NOT NULL,
-    title TEXT,
-    date INTEGER
-  )`);
+    id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL ,
+    title TEXT NOT NULL,
+    date INTEGER NOT NULL
+  );`);
 });
 
 fastify.post(

@@ -1,6 +1,5 @@
 import Fastify, { FastifyRequest } from "fastify";
 import Sqlite3 from "sqlite3";
-import { v4 as uuidv4 } from "uuid";
 
 const fastify = Fastify({ logger: true });
 const sqlite3 = Sqlite3.verbose();
@@ -20,23 +19,21 @@ fastify.post(
     request: FastifyRequest<{ Body: { title: string; date: number } }>,
     reply
   ) => {
-    // TODO: title, date runtime validation
+    // TODO: title, date runtime validation / fastify의 내장된 validation도 있음
     const { title, date } = request.body;
 
-    const id = uuidv4();
-
     db.run(
-      "INSERT INTO post (title, date, id) VALUES ($title, $date, $id)",
-      { $title: title, $date: date, $id: id },
+      "INSERT INTO post (title, date) VALUES ($title, $date)",
+      { $title: title, $date: date },
       function (err) {
         if (err) {
           console.error("Error inserting post:", err);
           reply.status(500).send(err.message);
         } else {
-          console.log("New post inserted with ID:", id);
+          console.log("New post inserted with ID:", this.lastID);
           reply
             .status(200)
-            .headers({ location: `/posts/${id}` })
+            .headers({ location: `/posts/${this.lastID}` })
             .send();
         }
       }
@@ -44,17 +41,35 @@ fastify.post(
   }
 );
 
+fastify.get("/posts", (request: FastifyRequest, reply) => {
+  db.get("SELECT * FROM post", function (err, row) {
+    if (err) {
+      console.error(err);
+      reply.status(500).send(err.message);
+      return;
+    }
+
+    if (!row) {
+      reply.status(404).send();
+      return;
+    }
+
+    reply.status(200).send(row);
+  });
+});
+
 fastify.get(
   "/posts/:id",
   (
     request: FastifyRequest<{
       Params: {
-        id: string;
+        id: number;
       };
     }>,
     reply
   ) => {
-    const { id } = request.params;
+    // TODO: id runtime validation
+    const id = Number(request.params.id);
 
     db.get(
       "SELECT * FROM post WHERE id = $id",

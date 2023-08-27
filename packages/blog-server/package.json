@@ -14,8 +14,7 @@
   "license": "ISC",
   "dependencies": {
     "fastify": "^4.21.0",
-    "sqlite3": "^5.1.6",
-    "uuid": "^9.0.0"
+    "sqlite3": "^5.1.6"
   },
   "devDependencies": {
     "@tsconfig/node18": "^18.2.0",

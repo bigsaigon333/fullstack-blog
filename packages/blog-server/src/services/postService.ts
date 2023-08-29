@@ -1,13 +1,11 @@
 import db from "../db.js"; // Adjust the path accordingly
 import { Post } from "../models/postModel.js";
 
-// ... (other functions remain the same)
-
 // Get all posts
 export const getAllPosts = async (): Promise<Post[]> => {
   try {
     return new Promise((resolve, reject) => {
-      db.all("SELECT * FROM post", (err, rows: Post[]) =>
+      db.all("SELECT * FROM Posts", (err, rows: Post[]) =>
         err ? (console.error(err), reject(err)) : resolve(rows)
       );
     });
@@ -21,7 +19,7 @@ export const getAllPosts = async (): Promise<Post[]> => {
 export const getPost = async (id: number): Promise<Post | undefined> => {
   try {
     return new Promise((resolve, reject) => {
-      db.get("SELECT * FROM post WHERE id = ?", id, (err, row: Post) =>
+      db.get("SELECT * FROM Posts WHERE id = ?", id, (err, row: Post) =>
         err ? (console.error(err), reject(err)) : resolve(row)
       );
     });
@@ -35,26 +33,27 @@ export const getPost = async (id: number): Promise<Post | undefined> => {
 // Create a new post
 export const createPost = async ({
   title,
-  date,
+  createdAt,
 }: {
   title: string;
-  date: number;
+  createdAt: number;
 }): Promise<Post> => {
   try {
     return new Promise((resolve, reject) => {
       db.run(
-        "INSERT INTO post (title, date) VALUES (?, ?)",
-        [title, date],
-        function (err) {
+        "INSERT INTO Posts (title, createdAt) VALUES (?, ?)",
+        [title, createdAt],
+        async function (err) {
           if (err) {
             console.error(err);
             reject(err);
           } else {
-            const newPost: Post = {
-              id: this.lastID,
-              title,
-              date,
-            };
+            const newPost = await getPost(this.lastID);
+            if (newPost == null) {
+              reject(new Error("Failed to create post"));
+              return;
+            }
+
             resolve(newPost);
           }
         }
@@ -82,7 +81,7 @@ export const updatePost = async (
       const placeholders = Object.keys(updates)
         .map((column) => `${column} = ?`)
         .join(", ");
-      const sql = `UPDATE post SET ${placeholders} WHERE id = ?`;
+      const sql = `UPDATE Posts SET ${placeholders} WHERE id = ?`;
       const values = [...Object.values(updates), id];
 
       db.run(sql, values, function (err) {
@@ -110,10 +109,10 @@ export const updatePost = async (
 export const deletePost = async (id: number): Promise<Post | undefined> => {
   try {
     return new Promise((resolve, reject) => {
-      const sql = "DELETE FROM post WHERE id = ?";
+      const sql = "DELETE FROM Posts WHERE id = ?";
 
       db.get(
-        "SELECT * FROM post WHERE id = ?",
+        "SELECT * FROM Posts WHERE id = ?",
         id,
         (err, existingPost: Post) => {
           if (err) {

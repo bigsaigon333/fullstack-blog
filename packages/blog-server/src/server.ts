@@ -1,12 +1,14 @@
 import Fastify from "fastify";
 import { Database } from "sqlite3";
 import postRoutes from "./routes/postRoutes.js"; // Adjust the path accordingly
+import postContentRoutes from "./routes/postConentRoutes.js";
 
 export const startServer = async (db: Database) => {
   const fastify = Fastify();
 
   // Register the postRoutes module
   fastify.register(postRoutes);
+  fastify.register(postContentRoutes);
 
   // Run the server!
   try {

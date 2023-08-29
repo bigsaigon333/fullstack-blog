@@ -46,12 +46,12 @@ export const getPostByIdHandler = async (
 
 // Create a new post
 export const createPostHandler = async (
-  request: FastifyRequest<{ Body: { title: string; date: number } }>,
+  request: FastifyRequest<{ Body: { title: string } }>,
   reply: FastifyReply
 ) => {
   try {
-    const { title, date } = request.body;
-    const newPost = await createPost({ title, date });
+    const { title } = request.body;
+    const newPost = await createPost({ title, createdAt: Date.now() });
     reply.status(201).send(newPost);
   } catch (error) {
     console.error(error);

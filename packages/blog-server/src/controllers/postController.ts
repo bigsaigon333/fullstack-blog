@@ -32,7 +32,7 @@ export const getPostByIdHandler = async (
     const id = Number(request.params.id);
     const post = await getPost(id);
 
-    if (!post) {
+    if (post == null) {
       reply.status(404).send();
       return;
     }
@@ -49,12 +49,15 @@ export const createPostHandler = async (
   request: FastifyRequest<{ Body: { title: string } }>,
   reply: FastifyReply
 ) => {
+  const { title } = request.body;
+
   try {
-    const { title } = request.body;
     const newPost = await createPost({ title, createdAt: Date.now() });
+
     reply.status(201).send(newPost);
   } catch (error) {
     console.error(error);
+
     reply.status(500).send(getErrorMessage(error));
   }
 };
@@ -64,9 +67,10 @@ export const updatePostHandler = async (
   request: FastifyRequest<{ Params: { id: number }; Body: Partial<Post> }>,
   reply: FastifyReply
 ) => {
+  const id = Number(request.params.id);
+  const updates = request.body;
+
   try {
-    const id = Number(request.params.id);
-    const updates = request.body;
     const updatedPost = await updatePost(id, updates);
 
     if (!updatedPost) {
@@ -77,6 +81,7 @@ export const updatePostHandler = async (
     reply.status(200).send(updatedPost);
   } catch (error) {
     console.error(error);
+
     reply.status(500).send(getErrorMessage(error));
   }
 };
@@ -86,8 +91,9 @@ export const deletePostHandler = async (
   request: FastifyRequest<{ Params: { id: number } }>,
   reply: FastifyReply
 ) => {
+  const id = Number(request.params.id);
+
   try {
-    const id = Number(request.params.id);
     const deletedPost = await deletePost(id);
 
     if (!deletedPost) {
@@ -98,6 +104,7 @@ export const deletePostHandler = async (
     reply.status(204).send();
   } catch (error) {
     console.error(error);
+
     reply.status(500).send(getErrorMessage(error));
   }
 };

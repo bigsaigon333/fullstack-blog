@@ -19,8 +19,19 @@ export const getAllPosts = async (): Promise<Post[]> => {
 export const getPost = async (id: number): Promise<Post | undefined> => {
   try {
     return new Promise((resolve, reject) => {
-      db.get("SELECT * FROM Posts WHERE id = ?", id, (err, row: Post) =>
-        err ? (console.error(err), reject(err)) : resolve(row)
+      db.get(
+        "SELECT * FROM Posts WHERE id = ?",
+        id,
+        (err, row: Post | undefined) => {
+          if (err) {
+            console.error(err);
+            reject(err);
+          } else if (row == null) {
+            resolve(undefined); // No matching row found
+          } else {
+            resolve(row);
+          }
+        }
       );
     });
   } catch (error) {
@@ -34,17 +45,15 @@ export const getPost = async (id: number): Promise<Post | undefined> => {
 export const createPost = async ({
   title,
   createdAt,
-  content = "",
 }: {
   title: string;
   createdAt: number;
-  content?: string;
 }): Promise<Post> => {
   try {
     return new Promise((resolve, reject) => {
       db.run(
-        "INSERT INTO Posts (title, createdAt, lastUpdatedAt, content) VALUES (?, ?, ?, ?)",
-        [title, createdAt, createdAt, content],
+        "INSERT INTO Posts (title, createdAt, lastUpdatedAt) VALUES (?, ?, ?)",
+        [title, createdAt, createdAt],
         async function (err) {
           if (err) {
             console.error(err);
@@ -75,7 +84,7 @@ export const updatePost = async (
   try {
     // Fetch the existing post
     const existingPost = await getPost(id);
-    if (!existingPost) {
+    if (existingPost == null) {
       return undefined; // No matching post found
     }
 
@@ -110,35 +119,27 @@ export const updatePost = async (
 // Delete a post
 export const deletePost = async (id: number): Promise<Post | undefined> => {
   try {
-    return new Promise((resolve, reject) => {
-      const sql = "DELETE FROM Posts WHERE id = ?";
+    const existingPost = await getPost(id);
 
-      db.get(
-        "SELECT * FROM Posts WHERE id = ?",
-        id,
-        (err, existingPost: Post) => {
-          if (err) {
-            console.error(err);
-            reject(err);
-          } else if (!existingPost) {
-            resolve(undefined); // No matching row found
-          } else {
-            db.run(sql, id, function (err) {
-              if (err) {
-                console.error(err);
-                reject(err);
-              } else if (this.changes === 0) {
-                resolve(undefined); // No matching row found
-              } else {
-                resolve(existingPost);
-              }
-            });
-          }
+    if (existingPost == null) {
+      return undefined; // No matching post found
+    }
+
+    return new Promise((resolve, reject) => {
+      db.run("DELETE FROM Posts WHERE id = ?", id, function (err) {
+        if (err) {
+          console.error(err);
+          reject(err);
+        } else if (this.changes === 0) {
+          resolve(undefined); // No matching row found
+        } else {
+          resolve(existingPost);
         }
-      );
+      });
     });
   } catch (error) {
     console.error(error);
+
     throw error;
   }
 };

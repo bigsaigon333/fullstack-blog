@@ -3,5 +3,4 @@ export interface Post {
   title: string;
   createdAt: number;
   lastUpdatedAt: number;
-  content: string;
 }

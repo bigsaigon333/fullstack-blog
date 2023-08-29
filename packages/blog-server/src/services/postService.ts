@@ -34,15 +34,17 @@ export const getPost = async (id: number): Promise<Post | undefined> => {
 export const createPost = async ({
   title,
   createdAt,
+  content = "",
 }: {
   title: string;
   createdAt: number;
+  content: string;
 }): Promise<Post> => {
   try {
     return new Promise((resolve, reject) => {
       db.run(
-        "INSERT INTO Posts (title, createdAt) VALUES (?, ?)",
-        [title, createdAt],
+        "INSERT INTO Posts (title, createdAt, lastUpdatedAt, content) VALUES (?, ?, ?, ?)",
+        [title, createdAt, createdAt, content],
         async function (err) {
           if (err) {
             console.error(err);

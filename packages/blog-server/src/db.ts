@@ -1,5 +1,4 @@
 import sqlite3 from "sqlite3";
-import { promisify } from "util";
 
 const sqlite3Verbose = sqlite3.verbose();
 const db = new sqlite3Verbose.Database("blog-server.db", (err) => {
@@ -15,9 +14,13 @@ const db = new sqlite3Verbose.Database("blog-server.db", (err) => {
 const createTableSQL = /* sql */ `
 -- Posts 테이블 생성
   CREATE TABLE IF NOT EXISTS Posts (
-    id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL ,
-    title TEXT NOT NULL,
-    createdAt INTEGER NOT NULL
+    "id" INTEGER NOT NULL,
+    "title" TEXT NOT NULL,
+    "createdAt"	INTEGER NOT NULL,
+    "lastUpdatedAt"	INTEGER NOT NULL,
+    "content"	TEXT NOT NULL,
+    UNIQUE("title"),
+    PRIMARY KEY("id" AUTOINCREMENT)
   );
 `;
 

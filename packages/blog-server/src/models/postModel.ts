@@ -2,4 +2,6 @@ export interface Post {
   id: number;
   title: string;
   createdAt: number;
+  lastUpdatedAt: number;
+  content: string;
 }

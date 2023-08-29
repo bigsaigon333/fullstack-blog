@@ -38,7 +38,7 @@ export const createPost = async ({
 }: {
   title: string;
   createdAt: number;
-  content: string;
+  content?: string;
 }): Promise<Post> => {
   try {
     return new Promise((resolve, reject) => {

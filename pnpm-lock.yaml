@@ -44,6 +44,9 @@ importers:
       '@tanstack/react-query':
         specifier: 5.0.0-beta.20
         version: 5.0.0-beta.20(react-dom@18.2.0)(react@18.2.0)
+      ky:
+        specifier: ^1.0.0
+        version: 1.0.0
       react:
         specifier: ^18
         version: 18.2.0
@@ -90,6 +93,9 @@ importers:
       html-webpack-plugin:
         specifier: ^5.5.3
         version: 5.5.3(webpack@5.88.2)
+      http-proxy-middleware:
+        specifier: ^2.0.6
+        version: 2.0.6(@types/express@4.17.17)
       postcss:
         specifier: ^8.4.28
         version: 8.4.28
@@ -5466,6 +5472,11 @@ packages:
     resolution: {integrity: sha512-dcS1ul+9tmeD95T+x28/ehLgd9mENa3LsvDTtzm3vyBEO7RPptvAD+t44WVXaUjTBRcrpFeFlC8WCruUR456hw==}
     engines: {node: '>=0.10.0'}
     dev: true
+
+  /ky@1.0.0:
+    resolution: {integrity: sha512-ptUup6btycj2IXLL/L5Bh/QC9ghYC2k/BsnnSf0ccEap8FpCvJ32FL5s5Potb8NkH6HOTdnVGmyI1wkHZ3mfEQ==}
+    engines: {node: '>=18'}
+    dev: false
 
   /launch-editor@2.6.0:
     resolution: {integrity: sha512-JpDCcQnyAAzZZaZ7vEiSqL690w7dAEyLao+KC96zBplnYbJS7TYNjvM3M7y3dGz+v7aIsJk3hllWuc0kWAjyRQ==}

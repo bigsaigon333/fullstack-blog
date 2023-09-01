@@ -10,6 +10,6 @@
     "title" TEXT NOT NULL UNIQUE,
     "createdAt" INTEGER NOT NULL,
     "lastUpdatedAt" INTEGER NOT NULL,
-    "content" TEXT NOT NULL,
+    "content" TEXT NOT NULL
   );
 ```

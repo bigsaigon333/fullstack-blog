@@ -6,7 +6,7 @@ export const startServer = async (db: Database) => {
   const fastify = Fastify();
 
   // Register the postRoutes module
-  fastify.register(postRoutes);
+  fastify.register(postRoutes, { prefix: "api" });
 
   // Run the server!
   try {

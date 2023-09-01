@@ -43,6 +43,7 @@
     "webpack-dev-server": "^4.15.1"
   },
   "dependencies": {
+    "@tanstack/react-query": "5.0.0-beta.20",
     "react": "^18",
     "react-dom": "^18"
   }

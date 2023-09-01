@@ -13,6 +13,12 @@ const config = {
     open: true,
     host: "localhost",
     port: 3000,
+    proxy: {
+      "/api": {
+        target: "http://localhost:8080",
+        changeOrigin: true,
+      },
+    },
   },
   plugins: [new HtmlWebpackPlugin({ template: "public/index.html" })],
   module: {

@@ -1,12 +1,14 @@
 import db from "../db.js"; // Adjust the path accordingly
-import { Post } from "../models/postModel.js";
+import { Post, PostContent, PostWithoutContent } from "../models/postModel.js";
 
 // Get all posts
-export const getAllPosts = async (): Promise<Post[]> => {
+export const getAllPosts = async (): Promise<PostWithoutContent[]> => {
   try {
     return new Promise((resolve, reject) => {
-      db.all("SELECT * FROM Posts", (err, rows: Post[]) =>
-        err ? (console.error(err), reject(err)) : resolve(rows)
+      db.all(
+        "SELECT id, title, createdAt, lastUpdatedAt FROM Posts",
+        (err, rows: PostWithoutContent[]) =>
+          err ? (console.error(err), reject(err)) : resolve(rows)
       );
     });
   } catch (error) {
@@ -16,13 +18,15 @@ export const getAllPosts = async (): Promise<Post[]> => {
 };
 
 // Get a specific post by ID
-export const getPost = async (id: number): Promise<Post | undefined> => {
+export const getPost = async (
+  id: number
+): Promise<PostWithoutContent | undefined> => {
   try {
     return new Promise((resolve, reject) => {
       db.get(
-        "SELECT * FROM Posts WHERE id = ?",
+        "SELECT id, title, createdAt, lastUpdatedAt FROM Posts WHERE id = ?",
         id,
-        (err, row: Post | undefined) => {
+        (err, row: PostWithoutContent | undefined) => {
           if (err) {
             console.error(err);
             reject(err);
@@ -41,19 +45,49 @@ export const getPost = async (id: number): Promise<Post | undefined> => {
   }
 };
 
+// Get Post Contents by ID
+export const getPostContent = async (
+  id: number
+): Promise<PostContent | undefined> => {
+  try {
+    return new Promise((resolve, reject) =>
+      db.get(
+        "SELECT id, content FROM Posts WHERE id = ?",
+        id,
+        (err, row: PostContent | undefined) => {
+          if (err) {
+            console.error(err);
+            reject(err);
+          } else if (row == null) {
+            resolve(undefined); // No matching row found
+          } else {
+            resolve(row);
+          }
+        }
+      )
+    );
+  } catch (error) {
+    console.error(error);
+
+    throw error;
+  }
+};
+
 // Create a new post
 export const createPost = async ({
   title,
   createdAt,
+  content,
 }: {
   title: string;
   createdAt: number;
-}): Promise<Post> => {
+  content: string;
+}): Promise<PostWithoutContent> => {
   try {
     return new Promise((resolve, reject) => {
       db.run(
-        "INSERT INTO Posts (title, createdAt, lastUpdatedAt) VALUES (?, ?, ?)",
-        [title, createdAt, createdAt],
+        "INSERT INTO Posts (title, createdAt, lastUpdatedAt, content) VALUES (?, ?, ?)",
+        [title, createdAt, createdAt, content],
         async function (err) {
           if (err) {
             console.error(err);
@@ -80,7 +114,7 @@ export const createPost = async ({
 export const updatePost = async (
   id: number,
   updates: Partial<Post>
-): Promise<Post | undefined> => {
+): Promise<PostWithoutContent | undefined> => {
   try {
     // Fetch the existing post
     const existingPost = await getPost(id);
@@ -102,7 +136,7 @@ export const updatePost = async (
         } else if (this.changes === 0) {
           resolve(undefined); // No matching row found
         } else {
-          const updatedPost: Post = {
+          const updatedPost: PostWithoutContent = {
             ...existingPost,
             ...updates,
           };
@@ -117,7 +151,9 @@ export const updatePost = async (
 };
 
 // Delete a post
-export const deletePost = async (id: number): Promise<Post | undefined> => {
+export const deletePost = async (
+  id: number
+): Promise<PostWithoutContent | undefined> => {
   try {
     const existingPost = await getPost(id);
 

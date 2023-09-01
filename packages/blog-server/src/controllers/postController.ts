@@ -5,6 +5,7 @@ import {
   deletePost,
   getAllPosts,
   getPost,
+  getPostContent,
   updatePost,
 } from "../services/postService.js";
 import { getErrorMessage } from "../utils/error.js";
@@ -44,15 +45,35 @@ export const getPostByIdHandler = async (
   }
 };
 
-// Create a new post
-export const createPostHandler = async (
-  request: FastifyRequest<{ Body: { title: string } }>,
+export const getPostContentsByIdHandler = async (
+  request: FastifyRequest<{ Params: { id: number } }>,
   reply: FastifyReply
 ) => {
-  const { title } = request.body;
+  const id = Number(request.params.id);
 
   try {
-    const newPost = await createPost({ title, createdAt: Date.now() });
+    const postContent = await getPostContent(id);
+
+    if (postContent == null) {
+      reply.status(404).send();
+      return;
+    }
+
+    reply.status(200).send(postContent);
+  } catch (error) {
+    reply.status(500).send(getErrorMessage(error));
+  }
+};
+
+// Create a new post
+export const createPostHandler = async (
+  request: FastifyRequest<{ Body: { title: string; content: string } }>,
+  reply: FastifyReply
+) => {
+  const { title, content } = request.body;
+
+  try {
+    const newPost = await createPost({ title, createdAt: Date.now(), content });
 
     reply.status(201).send(newPost);
   } catch (error) {

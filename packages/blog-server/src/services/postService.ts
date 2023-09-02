@@ -86,7 +86,7 @@ export const createPost = async ({
   try {
     return new Promise((resolve, reject) => {
       db.run(
-        "INSERT INTO Posts (title, createdAt, lastUpdatedAt, content) VALUES (?, ?, ?)",
+        "INSERT INTO Posts (title, createdAt, lastUpdatedAt, content) VALUES (?, ?, ?, ?)",
         [title, createdAt, createdAt, content],
         async function (err) {
           if (err) {

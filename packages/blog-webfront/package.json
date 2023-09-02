@@ -45,8 +45,10 @@
   },
   "dependencies": {
     "@tanstack/react-query": "5.0.0-beta.20",
+    "dayjs": "^1.11.9",
     "ky": "^1.0.0",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "zod": "^3.22.2"
   }
 }

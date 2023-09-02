@@ -1,5 +1,6 @@
 import Container from "../components/Container.js";
-import Header from "../components/header.js";
+import PostListItem from "../components/PostListItem.js";
+import Header from "../components/Header.js";
 import usePosts from "../hooks/queries/usePosts.js";
 
 const Posts = () => {
@@ -9,7 +10,9 @@ const Posts = () => {
     <Container>
       <Header title="프론트엔드 개발자 김동희입니다" />
 
-      <div>Hello, World! {data.length}</div>
+      {data.map((post) => (
+        <PostListItem key={post.id} post={post} />
+      ))}
     </Container>
   );
 };

@@ -8,6 +8,7 @@ import Header from "./components/Header.js";
 
 import "./main.css";
 import Container from "./components/Container.js";
+import PostContentPage from "./pages/PostContentPage.js";
 
 const App = () => {
   return (
@@ -24,6 +25,9 @@ const App = () => {
               }
             >
               <Route path="/" element={<PostsPage />} />
+              <Route path="/posts/:id" element={<PostContentPage />} />
+
+              {/* TODO: 404 page */}
             </Route>
           </Routes>
         </BrowserRouter>

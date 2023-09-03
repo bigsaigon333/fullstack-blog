@@ -1,6 +1,9 @@
 import { Dayjs } from "dayjs";
 import { z } from "zod";
-import { createDayjsFromUnixTimestampMs } from "../utils/date.js";
+import {
+  createDayjsFromUnixTimestampMs,
+  unixTimestampMsSchema,
+} from "../utils/date.js";
 
 export type PostResponse = {
   id: number;
@@ -9,24 +12,11 @@ export type PostResponse = {
   lastUpdatedAt: number;
 };
 
-const unixTimestampMsSchema = z
-  .number()
-  .refine(
-    (value) => typeof value === "number" && !Number.isNaN(value) && value > 0
-  );
-
 export const PostResponse = z.object({
   id: z.number(),
   title: z.string(),
   createdAt: unixTimestampMsSchema,
   lastUpdatedAt: unixTimestampMsSchema,
-});
-
-export const Post = z.object({
-  id: z.number(),
-  title: z.string(),
-  createdAt: z.number().transform(createDayjsFromUnixTimestampMs),
-  lastUpdatedAt: z.number().transform(createDayjsFromUnixTimestampMs),
 });
 
 export type Post = {
@@ -35,3 +25,20 @@ export type Post = {
   createdAt: Dayjs;
   lastUpdatedAt: Dayjs;
 };
+
+export const Post = z.object({
+  id: z.number(),
+  title: z.string(),
+  createdAt: z.number().transform(createDayjsFromUnixTimestampMs),
+  lastUpdatedAt: z.number().transform(createDayjsFromUnixTimestampMs),
+});
+
+export type PostContent = {
+  id: number;
+  content: string;
+};
+
+export const PostContent = z.object({
+  id: z.number(),
+  content: z.string(),
+});

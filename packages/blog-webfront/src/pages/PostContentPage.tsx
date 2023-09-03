@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom";
 import { z } from "zod";
 import PostContent from "../components/PostContent.js";
 import usePost from "../hooks/queries/usePost.js";
+import PostListItem from "../components/PostListItem.js";
 
 const PostContentPage = () => {
   const { id } = useParams();
@@ -15,7 +16,10 @@ const PostContentPage = () => {
 
   return (
     <>
-      <h1 className="text-2xl font-medium mb-4">{post.title}</h1>
+      <PostListItem post={post} />
+
+      <hr className="my-4" />
+
       <PostContent postId={postId} />
     </>
   );

@@ -3,11 +3,11 @@ import { Suspense } from "react";
 import PostsPage from "./pages/PostsPage.js";
 import { globalQueryClient } from "./utils/reactQuery.js";
 
-import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Link, Outlet, Route, Routes } from "react-router-dom";
 import Header from "./components/Header.js";
 
-import "./main.css";
 import Container from "./components/Container.js";
+import "./main.css";
 import PostContentPage from "./pages/PostContentPage.js";
 
 const App = () => {
@@ -19,7 +19,9 @@ const App = () => {
             <Route
               element={
                 <Container>
-                  <Header title="프론트엔드 개발자 김동희입니다" />
+                  <Link to="/">
+                    <Header title="프론트엔드 개발자 김동희입니다" />
+                  </Link>
                   <Outlet />
                 </Container>
               }

@@ -1,8 +1,8 @@
 import { useParams } from "react-router-dom";
 import { z } from "zod";
 import PostContent from "../components/PostContent.js";
-import usePost from "../hooks/queries/usePost.js";
 import PostListItem from "../components/PostListItem.js";
+import usePost from "../hooks/queries/usePost.js";
 
 const PostContentPage = () => {
   const { id } = useParams();

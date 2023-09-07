@@ -3,12 +3,15 @@ import { Suspense } from "react";
 import PostsPage from "./pages/PostsPage.js";
 import { globalQueryClient } from "./utils/reactQuery.js";
 
-import { BrowserRouter, Link, Outlet, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
 import Header from "./components/Header.js";
 
 import Container from "./components/Container.js";
-import "./main.css";
+import Link from "./components/Link.js";
+import EditPage from "./pages/EditPage.js";
 import PostContentPage from "./pages/PostContentPage.js";
+
+import "./main.css";
 
 const App = () => {
   return (
@@ -22,13 +25,15 @@ const App = () => {
                   <Link to="/">
                     <Header title="프론트엔드 개발자 김동희입니다" />
                   </Link>
-                  <Outlet />
+                  <Suspense>
+                    <Outlet />
+                  </Suspense>
                 </Container>
               }
             >
               <Route path="/" element={<PostsPage />} />
               <Route path="/posts/:id" element={<PostContentPage />} />
-
+              <Route path="/edit" element={<EditPage />} />
               {/* TODO: 404 page */}
             </Route>
           </Routes>

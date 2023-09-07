@@ -1,6 +1,7 @@
-import { Marked, marked } from "marked";
-import usePostContent from "../hooks/queries/usePostContent.js";
 import DOMPurify from "dompurify";
+import { marked } from "marked";
+import { useMemo } from "react";
+import usePostContent from "../hooks/queries/usePostContent.js";
 
 type Props = {
   postId: number;
@@ -11,7 +12,10 @@ const PostContent = ({ postId }: Props) => {
     data: { content },
   } = usePostContent({ id: postId });
 
-  const html = DOMPurify.sanitize(marked.parse(content));
+  const html = useMemo(
+    () => DOMPurify.sanitize(marked.parse(content)),
+    [content]
+  );
 
   return (
     <div

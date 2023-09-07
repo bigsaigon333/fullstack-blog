@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import Link from "../components/Link.js";
 import PostListItem from "../components/PostListItem.js";
 import usePosts from "../hooks/queries/usePosts.js";
 

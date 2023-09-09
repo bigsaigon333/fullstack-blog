@@ -82,7 +82,7 @@ export const createPost = async ({
   title: string;
   createdAt: number;
   content: string;
-}): Promise<PostWithoutContent> => {
+}): Promise<Post> => {
   try {
     return new Promise((resolve, reject) => {
       db.run(
@@ -94,12 +94,13 @@ export const createPost = async ({
             reject(err);
           } else {
             const newPost = await getPost(this.lastID);
-            if (newPost == null) {
+            const newPostContent = await getPostContent(this.lastID);
+            if (newPost == null || newPostContent == null) {
               reject(new Error("Failed to create post"));
               return;
             }
 
-            resolve(newPost);
+            resolve({ ...newPost, ...newPostContent });
           }
         }
       );

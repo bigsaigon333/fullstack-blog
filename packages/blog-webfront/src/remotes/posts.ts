@@ -23,3 +23,14 @@ export const fetchPostContent = async ({
 
   return PostContent.parse(json);
 };
+
+export const craetePost = async (payload: {
+  title: string;
+  content: string;
+}) => {
+  const json = await http
+    .post(`/api/posts`, { json: payload })
+    .json<PostResponse>();
+
+  return json;
+};

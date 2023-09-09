@@ -16,7 +16,7 @@ const PostContentPage = () => {
 
   return (
     <>
-      <PostListItem post={post} />
+      <PostListItem {...post} />
 
       <hr className="my-4" />
 

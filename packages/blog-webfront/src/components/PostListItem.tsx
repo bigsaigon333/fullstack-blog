@@ -1,17 +1,18 @@
-import { Post } from "../models/post.js";
+import { Dayjs } from "dayjs";
 
 type Props = {
-  post: Post;
+  title: string;
+  lastUpdatedAt: Dayjs;
 };
 
-const PostListItem = ({ post }: Props) => {
+const PostListItem = ({ title, lastUpdatedAt }: Props) => {
   return (
     <article className="flex flex-col gap-y-2 mb-8">
-      <h2 className="text-xl md:text-2xl font-medium">{post.title}</h2>
+      <h2 className="text-xl md:text-2xl font-medium">{title}</h2>
       <p className="self-end text-sm">
         <span>{"최종 수정 시간: "}</span>
-        <time dateTime={post.lastUpdatedAt.toISOString()}>
-          {post.lastUpdatedAt.format("YYYY-MM-DD ddd HH:MM:ss z")}
+        <time dateTime={lastUpdatedAt.toISOString()}>
+          {lastUpdatedAt.format("YYYY-MM-DD ddd HH:MM:ss z")}
         </time>
       </p>
     </article>

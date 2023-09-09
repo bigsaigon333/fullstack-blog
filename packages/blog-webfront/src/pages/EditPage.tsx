@@ -1,6 +1,12 @@
+import useColorMode from "../hooks/useColorMode.js";
+
 const EditPage = () => {
+  const [colorMode, _, toggleColorMode] = useColorMode();
+  console.log("🚀 ~ file: EditPage.tsx:5 ~ EditPage ~ a:", colorMode);
+
   return (
     <div>
+      <button onClick={() => toggleColorMode()}>current: {colorMode}</button>
       <form onSubmit={(e) => e.preventDefault()}>
         <div className="w-full mb-4 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600">
           <div className="flex items-center justify-between px-3 py-2 border-t dark:border-gray-600">
@@ -18,8 +24,8 @@ const EditPage = () => {
                 >
                   <path
                     stroke="currentColor"
-                    stroke-linejoin="round"
-                    stroke-width="2"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
                     d="M1 6v8a5 5 0 1 0 10 0V4.5a3.5 3.5 0 1 0-7 0V13a2 2 0 0 0 4 0V6"
                   />
                 </svg>

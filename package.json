@@ -8,5 +8,10 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "pnpm": {
+    "patchedDependencies": {
+      "react-icons@4.11.0": "patches/react-icons@4.11.0.patch"
+    }
+  }
 }

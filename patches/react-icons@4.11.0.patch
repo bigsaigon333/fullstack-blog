@@ -1,0 +1,181 @@
+diff --git a/package.json b/package.json
+index 427726d78442b16b8f4a73e54a80e3a43acc1c99..ae1fd337522540590c4bc59a9c4714417ab10128 100644
+--- a/package.json
++++ b/package.json
+@@ -12,7 +12,7 @@
+   "types": "lib/esm/index.d.ts",
+   "sideEffects": false,
+   "repository": {
+-    "type": "git",
++    "types": "git",
+     "url": "git+ssh://git@github.com:react-icons/react-icons.git"
+   },
+   "bugs": {
+@@ -21,5 +21,167 @@
+   "homepage": "https://github.com/react-icons/react-icons#readme",
+   "peerDependencies": {
+     "react": "*"
++  },
++  "exports": {
++    ".": {
++      "require": "./lib/cjs/index.js",
++      "import": "./lib/esm/index.js",
++      "types": "./lib/esm/index.d.ts"
++    },
++    "./ai": {
++      "require": "./ai/index.js",
++      "import": "./ai/index.esm.js",
++      "types": "./ai/index.d.ts"
++    },
++    "./bi": {
++      "require": "./bi/index.js",
++      "import": "./bi/index.esm.js",
++      "types": "./bi/index.d.ts"
++    },
++    "./bs": {
++      "require": "./bs/index.js",
++      "import": "./bs/index.esm.js",
++      "types": "./bs/index.d.ts"
++    },
++    "./cg": {
++      "require": "./cg/index.js",
++      "import": "./cg/index.esm.js",
++      "types": "./cg/index.d.ts"
++    },
++    "./ci": {
++      "require": "./ci/index.js",
++      "import": "./ci/index.esm.js",
++      "types": "./ci/index.d.ts"
++    },
++    "./di": {
++      "require": "./di/index.js",
++      "import": "./di/index.esm.js",
++      "types": "./di/index.d.ts"
++    },
++    "./fa": {
++      "require": "./fa/index.js",
++      "import": "./fa/index.esm.js",
++      "types": "./fa/index.d.ts"
++    },
++    "./fa6": {
++      "require": "./fa6/index.js",
++      "import": "./fa6/index.esm.js",
++      "types": "./fa6/index.d.ts"
++    },
++    "./fc": {
++      "require": "./fc/index.js",
++      "import": "./fc/index.esm.js",
++      "types": "./fc/index.d.ts"
++    },
++    "./fi": {
++      "require": "./fi/index.js",
++      "import": "./fi/index.esm.js",
++      "types": "./fi/index.d.ts"
++    },
++    "./gi": {
++      "require": "./gi/index.js",
++      "import": "./gi/index.esm.js",
++      "types": "./gi/index.d.ts"
++    },
++    "./go": {
++      "require": "./go/index.js",
++      "import": "./go/index.esm.js",
++      "types": "./go/index.d.ts"
++    },
++    "./gr": {
++      "require": "./gr/index.js",
++      "import": "./gr/index.esm.js",
++      "types": "./gr/index.d.ts"
++    },
++    "./hi": {
++      "require": "./hi/index.js",
++      "import": "./hi/index.esm.js",
++      "types": "./hi/index.d.ts"
++    },
++    "./hi2": {
++      "require": "./hi2/index.js",
++      "import": "./hi2/index.esm.js",
++      "types": "./hi2/index.d.ts"
++    },
++    "./im": {
++      "require": "./im/index.js",
++      "import": "./im/index.esm.js",
++      "types": "./im/index.d.ts"
++    },
++    "./io": {
++      "require": "./io/index.js",
++      "import": "./io/index.esm.js",
++      "types": "./io/index.d.ts"
++    },
++    "./io5": {
++      "require": "./io5/index.js",
++      "import": "./io5/index.esm.js",
++      "types": "./io5/index.d.ts"
++    },
++    "./lia": {
++      "require": "./lia/index.js",
++      "import": "./lia/index.esm.js",
++      "types": "./lia/index.d.ts"
++    },
++    "./lu": {
++      "require": "./lu/index.js",
++      "import": "./lu/index.esm.js",
++      "types": "./lu/index.d.ts"
++    },
++    "./md": {
++      "require": "./md/index.js",
++      "import": "./md/index.esm.js",
++      "types": "./md/index.d.ts"
++    },
++    "./pi": {
++      "require": "./pi/index.js",
++      "import": "./pi/index.esm.js",
++      "types": "./pi/index.d.ts"
++    },
++    "./ri": {
++      "require": "./ri/index.js",
++      "import": "./ri/index.esm.js",
++      "types": "./ri/index.d.ts"
++    },
++    "./rx": {
++      "require": "./rx/index.js",
++      "import": "./rx/index.esm.js",
++      "types": "./rx/index.d.ts"
++    },
++    "./si": {
++      "require": "./si/index.js",
++      "import": "./si/index.esm.js",
++      "types": "./si/index.d.ts"
++    },
++    "./sl": {
++      "require": "./sl/index.js",
++      "import": "./sl/index.esm.js",
++      "types": "./sl/index.d.ts"
++    },
++    "./tb": {
++      "require": "./tb/index.js",
++      "import": "./tb/index.esm.js",
++      "types": "./tb/index.d.ts"
++    },
++    "./tfi": {
++      "require": "./tfi/index.js",
++      "import": "./tfi/index.esm.js",
++      "types": "./tfi/index.d.ts"
++    },
++    "./ti": {
++      "require": "./ti/index.js",
++      "import": "./ti/index.esm.js",
++      "types": "./ti/index.d.ts"
++    },
++    "./vsc": {
++      "require": "./vsc/index.js",
++      "import": "./vsc/index.esm.js",
++      "types": "./vsc/index.d.ts"
++    },
++    "./wi": {
++      "require": "./wi/index.js",
++      "import": "./wi/index.esm.js",
++      "types": "./wi/index.d.ts"
++    }
+   }
+ }

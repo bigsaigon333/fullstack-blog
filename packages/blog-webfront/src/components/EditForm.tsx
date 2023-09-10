@@ -3,6 +3,7 @@ import { Button, Label, TextInput, Textarea } from "flowbite-react";
 import { startTransition, useId } from "react";
 import { useForm } from "react-hook-form";
 import { MdAttachFile, MdImage } from "react-icons/md";
+import useSaveDraft from "../hooks/useSaveDraft.js";
 
 type EditFormProps = {
   onSubmit?: (data: FormValues) => void;
@@ -14,10 +15,11 @@ export type FormValues = {
 };
 
 export const EditForm = ({ onSubmit }: EditFormProps) => {
+  const [draft, setDraft] = useSaveDraft();
   const titleId = useId();
   const editorId = useId();
   const form = useForm<FormValues>({
-    defaultValues: { title: "", content: "" },
+    defaultValues: draft ?? { title: "", content: "" },
   });
 
   const handleSubmit = form.handleSubmit((data) => {
@@ -91,7 +93,13 @@ export const EditForm = ({ onSubmit }: EditFormProps) => {
       </div>
 
       <div className="flex justify-end gap-x-2">
-        <Button color="gray" disabled>
+        <Button
+          color="gray"
+          onClick={() => {
+            setDraft(form.getValues());
+            window.alert("Saved draft!");
+          }}
+        >
           Save Draft
         </Button>
         <Button type="submit">Preview post</Button>

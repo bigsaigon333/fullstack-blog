@@ -6,7 +6,7 @@ const EditPage = () => {
   const [data, setData] = useState<EditPreviewProps | null>(null);
 
   return (
-    <div>
+    <div className="space-y-8">
       <EditForm onSubmit={setData} />
       {data && <EditPreview {...data} />}
     </div>

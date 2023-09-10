@@ -3,12 +3,12 @@ import { useCallback, useLayoutEffect, useSyncExternalStore } from "react";
 import { P, match } from "ts-pattern";
 
 import { atomWithStorage } from "jotai/utils";
+import { safeJsonParse } from "../utils/json.js";
 
 export type Theme = "light" | "dark";
 
 const themeKeyname = "@@theme";
-const initialTheme = (JSON.parse(localStorage.getItem(themeKeyname) ?? "") ||
-  null) as Theme | null;
+const initialTheme = safeJsonParse<Theme>(themeKeyname);
 const themeAtom = atomWithStorage<Theme | null>(themeKeyname, initialTheme);
 
 const darkModeQuery = window.matchMedia("(prefers-color-scheme: dark)");
@@ -34,11 +34,14 @@ const useColorMode = () => {
     )
     .exhaustive();
 
-  const toggleColorMode = useCallback((force: boolean = true) => {
-    if (force) {
-      setTheme((prev) => (prev === "dark" ? "light" : "dark"));
-    }
-  }, []);
+  const toggleColorMode = useCallback(
+    (force: boolean = true) => {
+      if (force) {
+        setTheme(colorMode === "dark" ? "light" : "dark");
+      }
+    },
+    [colorMode]
+  );
 
   const respectSystemPreference = useCallback(() => setTheme(null), []);
 

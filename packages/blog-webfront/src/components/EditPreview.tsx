@@ -7,12 +7,14 @@ import usePosts from "../hooks/queries/usePosts.js";
 import { useDialog } from "../hooks/useDialog.js";
 import MarkdownRenderer from "./MarkdownRenderer.js";
 import PostListItem from "./PostListItem.js";
+import useSaveDraft from "../hooks/useSaveDraft.js";
 
 export type EditPreviewProps = { title: string; content: string };
 
 export const EditPreview = (data: EditPreviewProps) => {
   const navigate = useNavigate();
   const publishConfirm = useDialog();
+  const [, , clearDraft] = useSaveDraft();
   const { refetch: refetchPosts } = usePosts();
 
   const handleSubmit: FormEventHandler = (e) => {
@@ -26,6 +28,7 @@ export const EditPreview = (data: EditPreviewProps) => {
           onClose();
           startTransition(() => {
             refetchPosts();
+            clearDraft();
             navigate(`/posts/${data.id}`);
           });
         },

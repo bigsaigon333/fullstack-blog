@@ -1,9 +1,10 @@
 import cx from "classnames";
 import { Button, Label, TextInput, Textarea } from "flowbite-react";
-import { startTransition, useId } from "react";
+import { startTransition, useEffect, useId, useState } from "react";
 import { useForm } from "react-hook-form";
 import { MdAttachFile, MdImage } from "react-icons/md";
 import useSaveDraft from "../hooks/useSaveDraft.js";
+import { delay } from "../utils/time.js";
 
 type EditFormProps = {
   onSubmit?: (data: FormValues) => void;
@@ -25,6 +26,18 @@ export const EditForm = ({ onSubmit }: EditFormProps) => {
   const handleSubmit = form.handleSubmit((data) => {
     onSubmit?.(data);
   });
+
+  const [isSaving, setIsSaving] = useState(false);
+  useEffect(() => {
+    const timerId = window.setInterval(async () => {
+      setIsSaving(true);
+      setDraft(form.getValues());
+      await delay(500);
+      setIsSaving(false);
+    }, 10 * 1_000);
+
+    return () => window.clearInterval(timerId);
+  }, [form, setDraft, setIsSaving]);
 
   return (
     <form onSubmit={handleSubmit}>
@@ -95,12 +108,13 @@ export const EditForm = ({ onSubmit }: EditFormProps) => {
       <div className="flex justify-end gap-x-2">
         <Button
           color="gray"
+          isProcessing={isSaving}
           onClick={() => {
             setDraft(form.getValues());
             window.alert("Saved draft!");
           }}
         >
-          Save Draft
+          {isSaving ? "...saving" : "Save Draft"}
         </Button>
         <Button type="submit">Preview post</Button>
       </div>

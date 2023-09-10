@@ -3,6 +3,7 @@
 @tailwind utilities;
 
 body {
+  height: 100%;
   overflow-y: scroll;
   --sb-track-color: #ffffff; /* it should be always same as background color of page */
   --sb-thumb-color: #6baf8d;

@@ -12,33 +12,36 @@ import EditPage from "./pages/EditPage.js";
 import PostContentPage from "./pages/PostContentPage.js";
 
 import "./main.css";
+import { DialogProvider } from "./hooks/useDialog.js";
 
 const App = () => {
   return (
     <QueryClientProvider client={globalQueryClient}>
-      <Suspense fallback={null}>
-        <BrowserRouter>
-          <Routes>
-            <Route
-              element={
-                <Container>
-                  <Link to="/">
-                    <Header title="프론트엔드 개발자 김동희입니다" />
-                  </Link>
-                  <Suspense>
-                    <Outlet />
-                  </Suspense>
-                </Container>
-              }
-            >
-              <Route path="/" element={<PostsPage />} />
-              <Route path="/posts/:id" element={<PostContentPage />} />
-              <Route path="/edit" element={<EditPage />} />
-              {/* TODO: 404 page */}
-            </Route>
-          </Routes>
-        </BrowserRouter>
-      </Suspense>
+      <DialogProvider>
+        <Suspense fallback={null}>
+          <BrowserRouter>
+            <Routes>
+              <Route
+                element={
+                  <Container>
+                    <Link to="/">
+                      <Header title="프론트엔드 개발자 김동희입니다" />
+                    </Link>
+                    <Suspense>
+                      <Outlet />
+                    </Suspense>
+                  </Container>
+                }
+              >
+                <Route path="/" element={<PostsPage />} />
+                <Route path="/posts/:id" element={<PostContentPage />} />
+                <Route path="/edit" element={<EditPage />} />
+                {/* TODO: 404 page */}
+              </Route>
+            </Routes>
+          </BrowserRouter>
+        </Suspense>
+      </DialogProvider>
     </QueryClientProvider>
   );
 };

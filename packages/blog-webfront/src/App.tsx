@@ -11,8 +11,10 @@ import Link from "./components/Link.js";
 import EditPage from "./pages/EditPage.js";
 import PostContentPage from "./pages/PostContentPage.js";
 
-import "./main.css";
+import Navbar from "./components/Navbar.js";
 import { DialogProvider } from "./hooks/useDialog.js";
+
+import "./main.css";
 
 const App = () => {
   return (
@@ -24,6 +26,7 @@ const App = () => {
               <Route
                 element={
                   <Container>
+                    <Navbar />
                     <Link to="/">
                       <Header title="프론트엔드 개발자 김동희입니다" />
                     </Link>

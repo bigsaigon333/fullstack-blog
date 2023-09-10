@@ -1,4 +1,5 @@
 import classNames from "classnames";
+import { startTransition } from "react";
 import { AiOutlineEdit } from "react-icons/ai";
 import {
   MdOutlineDarkMode,
@@ -27,7 +28,10 @@ const Navbar = () => {
       {isHomePage ? (
         <div />
       ) : (
-        <button className="p-1 opacity-75" onClick={() => navigate(-1)}>
+        <button
+          className="p-1 opacity-75"
+          onClick={() => startTransition(() => navigate(-1))}
+        >
           <MdOutlineKeyboardBackspace className="w-5 h-5" />
           <span className="sr-only">Go back</span>
         </button>

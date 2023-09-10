@@ -97,8 +97,8 @@ export const EditForm = ({ onSubmit }: EditFormProps) => {
               required: true,
               onChange: (e) => {
                 startTransition(() => {
-                  e.target.style.height = "auto";
-                  e.target.style.height = `${e.target.scrollHeight}px`;
+                  e.currentTarget.style.height = "auto";
+                  e.currentTarget.style.height = `${e.target.scrollHeight}px`;
                 });
               },
             })}

@@ -24,6 +24,7 @@ export const EditForm = ({ onSubmit }: EditFormProps) => {
   });
 
   const handleSubmit = form.handleSubmit((data) => {
+    setDraft(data);
     onSubmit?.(data);
   });
 
@@ -116,7 +117,7 @@ export const EditForm = ({ onSubmit }: EditFormProps) => {
         >
           {isSaving ? "...saving" : "Save Draft"}
         </Button>
-        <Button type="submit">Preview post</Button>
+        <Button type="submit">Preview Post</Button>
       </div>
     </form>
   );

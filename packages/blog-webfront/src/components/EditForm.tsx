@@ -1,8 +1,8 @@
-import { Button, Label, TextInput } from "flowbite-react";
+import cx from "classnames";
+import { Button, Label, TextInput, Textarea } from "flowbite-react";
 import { startTransition, useId } from "react";
 import { useForm } from "react-hook-form";
 import { MdAttachFile, MdImage } from "react-icons/md";
-import cx from "classnames";
 
 type EditFormProps = {
   onSubmit?: (data: FormValues) => void;
@@ -30,17 +30,25 @@ export const EditForm = ({ onSubmit }: EditFormProps) => {
         <Label htmlFor={titleId}>제목</Label>
         <TextInput
           id={titleId}
+          color={!!form.formState.errors.title ? "failure" : undefined}
           type="text"
           placeholder="제목을 입력해주세요"
           {...form.register("title", { required: true })}
         />
       </div>
-      <div className="w-full mb-4 border border-gray-200 rounded-lg bg-gray-100 dark:bg-gray-700 dark:border-gray-600">
+      <div
+        className={cx(
+          "w-full mb-4 border border-gray-200 rounded-lg bg-gray-100 dark:bg-gray-700 dark:border-gray-600 focus-within:ring-1",
+          !!form.formState.errors.content
+            ? "text-red-900 border-red-500 placeholder-red-700 focus-within:border-red-500 focus-within:ring-red-500"
+            : "focus-within:ring-cyan-500 focus-within:border-cyan-500"
+        )}
+      >
         <div className="flex items-center px-3 py-2 border-b dark:border-gray-600 gap-x-1">
           <button
             className={cx(
               "p-2",
-              /* disabled style */ "cursor-not-allowed focus:outline-none opacity-50"
+              "cursor-not-allowed focus:outline-none opacity-50"
             )}
             disabled
           >
@@ -51,7 +59,7 @@ export const EditForm = ({ onSubmit }: EditFormProps) => {
           <button
             className={cx(
               "p-2",
-              /* disabled style */ "cursor-not-allowed focus:outline-none opacity-50"
+              "cursor-not-allowed focus:outline-none opacity-50"
             )}
             disabled
           >
@@ -59,14 +67,15 @@ export const EditForm = ({ onSubmit }: EditFormProps) => {
             <span className="sr-only">Upload image</span>
           </button>
         </div>
-        <div className="px-4 py-2 bg-gray-50 rounded-b-lg dark:bg-gray-800">
+        <div className="bg-gray-50 rounded-b-lg dark:bg-gray-800">
           <label htmlFor={editorId} className="sr-only">
             Editor
           </label>
-          <textarea
+          <Textarea
             id={editorId}
             rows={8}
-            className="block w-full px-0 text-sm bg-inherit text-gray-800 border-0 dark:bg-gray-800 focus:ring-0 outline-none dark:text-white dark:placeholder-gray-400 resize-none"
+            className="outline-none border-none focus:ring-0 text-sm"
+            color={!!form.formState.errors.content ? "failure" : undefined}
             placeholder="Write an article..."
             {...form.register("content", {
               required: true,

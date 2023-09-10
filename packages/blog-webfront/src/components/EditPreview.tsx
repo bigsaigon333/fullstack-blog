@@ -1,22 +1,39 @@
 import dayjs from "dayjs";
+import { Button, Modal, Spinner } from "flowbite-react";
+import { FormEventHandler, startTransition } from "react";
+import { useNavigate } from "react-router-dom";
+import useCreatePost from "../hooks/mutation/useCreatePost.js";
+import usePosts from "../hooks/queries/usePosts.js";
+import { useDialog } from "../hooks/useDialog.js";
 import MarkdownRenderer from "./MarkdownRenderer.js";
 import PostListItem from "./PostListItem.js";
-import useCreatePost from "../hooks/mutation/useCreatePost.js";
-import { FormEventHandler } from "react";
-import { Button, Modal, Spinner } from "flowbite-react";
-import { useDialog } from "../hooks/useDialog.js";
 
 export type EditPreviewProps = { title: string; content: string };
 
 export const EditPreview = (data: EditPreviewProps) => {
+  const navigate = useNavigate();
   const publishConfirm = useDialog();
+  const { refetch: refetchPosts } = usePosts();
 
   const handleSubmit: FormEventHandler = (e) => {
     e.preventDefault();
 
     publishConfirm.open(({ open, onOpenChange }) => {
       const onClose = () => onOpenChange(false);
-      const { mutate, isPending } = useCreatePost({ onSettled: onClose });
+      const { mutate, isPending } = useCreatePost({
+        onSuccess: (data) => {
+          window.alert("아티클 게시에 성공하였습니다!");
+          onClose();
+          startTransition(() => {
+            refetchPosts();
+            navigate(`/posts/${data.id}`);
+          });
+        },
+        onError: (error) => {
+          onClose();
+          window.alert(error.message);
+        },
+      });
 
       return (
         <Modal

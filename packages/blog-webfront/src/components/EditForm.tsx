@@ -1,6 +1,6 @@
 import cx from "classnames";
 import { Button, Label, TextInput, Textarea } from "flowbite-react";
-import { startTransition, useEffect, useId, useState } from "react";
+import { memo, startTransition, useEffect, useId, useState } from "react";
 import { useForm } from "react-hook-form";
 import { MdAttachFile, MdImage } from "react-icons/md";
 import useSaveDraft from "../hooks/useSaveDraft.js";
@@ -15,7 +15,7 @@ export type FormValues = {
   content: string;
 };
 
-export const EditForm = ({ onSubmit }: EditFormProps) => {
+const EditForm = ({ onSubmit }: EditFormProps) => {
   const [draft, setDraft] = useSaveDraft();
   const titleId = useId();
   const editorId = useId();
@@ -122,3 +122,5 @@ export const EditForm = ({ onSubmit }: EditFormProps) => {
     </form>
   );
 };
+
+export default memo(EditForm);

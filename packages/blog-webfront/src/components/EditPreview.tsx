@@ -8,6 +8,7 @@ import { useDialog } from "../hooks/useDialog.js";
 import MarkdownRenderer from "./MarkdownRenderer.js";
 import PostListItem from "./PostListItem.js";
 import useSaveDraft from "../hooks/useSaveDraft.js";
+import { useQueryClient } from "@tanstack/react-query";
 
 export type EditPreviewProps = { title: string; content: string };
 
@@ -15,7 +16,7 @@ export const EditPreview = (data: EditPreviewProps) => {
   const navigate = useNavigate();
   const publishConfirm = useDialog();
   const [, , clearDraft] = useSaveDraft();
-  const { refetch: refetchPosts } = usePosts();
+  const queryClient = useQueryClient();
 
   const handleSubmit: FormEventHandler = (e) => {
     e.preventDefault();
@@ -27,7 +28,11 @@ export const EditPreview = (data: EditPreviewProps) => {
           window.alert("아티클 게시에 성공하였습니다!");
           onClose();
           startTransition(() => {
-            refetchPosts();
+            queryClient.refetchQueries({
+              queryKey: usePosts.getQueryKey(),
+              exact: true,
+            });
+
             clearDraft();
             navigate(`/posts/${data.id}`);
           });

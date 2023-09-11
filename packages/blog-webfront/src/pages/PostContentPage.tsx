@@ -1,4 +1,6 @@
-import { useParams } from "react-router-dom";
+import { Button } from "flowbite-react";
+import { startTransition } from "react";
+import { useLinkClickHandler, useParams } from "react-router-dom";
 import { z } from "zod";
 import PostContent from "../components/PostContent.js";
 import PostListItem from "../components/PostListItem.js";
@@ -14,6 +16,9 @@ const PostContentPage = () => {
 
   const { data: post } = usePost({ id: postId });
 
+  const toEditPage = `/posts/${postId}/edit`;
+  const handleClick = useLinkClickHandler(toEditPage);
+
   return (
     <>
       <PostListItem {...post} />
@@ -21,6 +26,17 @@ const PostContentPage = () => {
       <hr className="my-4" />
 
       <PostContent postId={postId} />
+
+      <hr className="mb-4 mt-24" />
+      <div className="flex justify-end">
+        <Button
+          as="a"
+          href={toEditPage}
+          onClick={(event) => startTransition(() => handleClick(event))}
+        >
+          Edit
+        </Button>
+      </div>
     </>
   );
 };

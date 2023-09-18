@@ -4,19 +4,28 @@ import { Post, PostContent, PostWithoutContent } from "../models/postModel.js";
 export const getPosts = async ({
   page,
   size,
+  q,
 }: {
   page: number;
   size: number;
+  q?: string;
 }): Promise<PostWithoutContent[]> => {
   try {
     const offset = (page - 1) * size;
+    let query = "SELECT id, title, createdAt, lastUpdatedAt FROM PostsFts";
+    const params: (string | number)[] = [];
+
+    if (q) {
+      query += " WHERE PostsFts MATCH ?";
+      params.push(q);
+    }
+
+    query += " LIMIT ? OFFSET ?";
+    params.push(size, offset);
 
     return await new Promise<PostWithoutContent[]>((resolve, reject) => {
-      db.all(
-        "SELECT id, title, createdAt, lastUpdatedAt FROM Posts LIMIT ? OFFSET ?",
-        [size, offset],
-        (err, rows: PostWithoutContent[]) =>
-          err ? (console.error(err), reject(err)) : resolve(rows)
+      db.all(query, params, (err, rows: PostWithoutContent[]) =>
+        err ? (console.error(err), reject(err)) : resolve(rows)
       );
     });
   } catch (error) {
@@ -25,13 +34,19 @@ export const getPosts = async ({
   }
 };
 
-export const getPostsCount = async (): Promise<number> => {
+export const getPostsCount = async ({ q }: { q?: string }): Promise<number> => {
+  let query = "SELECT COUNT(id) as total FROM PostsFts";
+  const params: (string | number)[] = [];
+
+  if (q) {
+    query += " WHERE PostsFts MATCH ?";
+    params.push(q);
+  }
+
   try {
     return await new Promise<number>((resolve, reject) =>
-      db.get(
-        "SELECT COUNT(*) as total FROM Posts",
-        (err, { total }: { total: number }) =>
-          err ? (console.error(err), reject(err)) : resolve(total)
+      db.get(query, params, (err, { total }: { total: number }) =>
+        err ? (console.error(err), reject(err)) : resolve(total)
       )
     );
   } catch (error) {

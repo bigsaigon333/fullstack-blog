@@ -14,14 +14,17 @@ import { DEFAULT_PAGINATION_SIZE } from "../utils/constants.js";
 
 // Get paginated posts
 export const getPaginatedPostsHandler = async (
-  request: FastifyRequest<{ Querystring: { page: string; size: string } }>,
+  request: FastifyRequest<{
+    Querystring: { page: string; size: string; q?: string };
+  }>,
   reply: FastifyReply
 ) => {
   try {
     const page = Number(request.query.page) || 1;
     const size = Number(request.query.size) || DEFAULT_PAGINATION_SIZE;
-    const data = await getPosts({ page, size });
-    const total = await getPostsCount();
+    const q = request.query.q;
+    const data = await getPosts({ page, size, q });
+    const total = await getPostsCount({ q });
     reply.status(200).send({ data, total });
   } catch (error) {
     console.error(error);

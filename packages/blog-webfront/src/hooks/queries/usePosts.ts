@@ -1,13 +1,33 @@
-import { useSuspenseQuery } from "@tanstack/react-query";
+import {
+  UseSuspenseQueryOptions,
+  useSuspenseQuery,
+} from "@tanstack/react-query";
+import { Pagination } from "../../models/pagination.js";
+import { Post } from "../../models/post.js";
 import { fetchPosts } from "../../remotes/posts.js";
 
-const usePosts = () => {
+type UsePostsParams = {
+  page?: number;
+  size?: number;
+  q?: string;
+};
+
+type UsePostsOptions = Omit<
+  UseSuspenseQueryOptions<Pagination<Post>>,
+  "queryKey" | "queryFn"
+>;
+
+const usePosts = (params: UsePostsParams = {}, options?: UsePostsOptions) => {
   return useSuspenseQuery({
-    queryKey: usePosts.getQueryKey(),
+    queryKey: usePosts.getQueryKey(params),
     queryFn: fetchPosts,
+    ...options,
   });
 };
 
-usePosts.getQueryKey = () => ["post"];
+usePosts.getQueryKey = (params: UsePostsParams) => [
+  "post",
+  ...Object.values(params),
+];
 
 export default usePosts;

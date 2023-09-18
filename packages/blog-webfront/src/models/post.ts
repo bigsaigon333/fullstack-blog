@@ -4,20 +4,23 @@ import {
   createDayjsFromUnixTimestampMs,
   unixTimestampMsSchema,
 } from "../utils/date.js";
+import { Pagination } from "./pagination.js";
 
-export type PostResponse = {
+export type PostResponse = Pagination<{
   id: number;
   title: string;
   createdAt: number;
   lastUpdatedAt: number;
-};
+}>;
 
-export const PostResponse = z.object({
-  id: z.number(),
-  title: z.string(),
-  createdAt: unixTimestampMsSchema,
-  lastUpdatedAt: unixTimestampMsSchema,
-});
+export const PostResponse = Pagination(
+  z.object({
+    id: z.number(),
+    title: z.string(),
+    createdAt: unixTimestampMsSchema,
+    lastUpdatedAt: unixTimestampMsSchema,
+  })
+);
 
 export type Post = {
   id: number;

@@ -1,11 +1,13 @@
 import { z } from "zod";
+import { Pagination } from "../models/pagination.js";
 import { Post, PostContent, PostResponse } from "../models/post.js";
 import { http } from "../utils/network.js";
 
-export const fetchPosts = async (): Promise<Post[]> => {
-  const json = await http.get("/api/posts").json<PostResponse[]>();
+export const fetchPosts = async (): Promise<Pagination<Post>> => {
+  const json = await http.get("/api/posts").json<PostResponse>();
+  const parsedJson = PostResponse.parse(json);
 
-  return z.array(Post).parse(json);
+  return z.object({ total: z.number(), data: z.array(Post) }).parse(parsedJson);
 };
 
 export const fetchPost = async ({ id }: { id: number }): Promise<Post> => {

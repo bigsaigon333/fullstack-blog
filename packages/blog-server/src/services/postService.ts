@@ -1,16 +1,39 @@
-import db from "../db.js"; // Adjust the path accordingly
+import db from "../db.js";
 import { Post, PostContent, PostWithoutContent } from "../models/postModel.js";
 
-// Get all posts
-export const getAllPosts = async (): Promise<PostWithoutContent[]> => {
+export const getPosts = async ({
+  page,
+  size,
+}: {
+  page: number;
+  size: number;
+}): Promise<PostWithoutContent[]> => {
   try {
-    return new Promise((resolve, reject) => {
+    const offset = (page - 1) * size;
+
+    return await new Promise<PostWithoutContent[]>((resolve, reject) => {
       db.all(
-        "SELECT id, title, createdAt, lastUpdatedAt FROM Posts",
+        "SELECT id, title, createdAt, lastUpdatedAt FROM Posts LIMIT ? OFFSET ?",
+        [size, offset],
         (err, rows: PostWithoutContent[]) =>
           err ? (console.error(err), reject(err)) : resolve(rows)
       );
     });
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+
+export const getPostsCount = async (): Promise<number> => {
+  try {
+    return await new Promise<number>((resolve, reject) =>
+      db.get(
+        "SELECT COUNT(*) as total FROM Posts",
+        (err, { total }: { total: number }) =>
+          err ? (console.error(err), reject(err)) : resolve(total)
+      )
+    );
   } catch (error) {
     console.error(error);
     throw error;

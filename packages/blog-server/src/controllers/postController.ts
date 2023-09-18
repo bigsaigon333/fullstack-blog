@@ -3,21 +3,26 @@ import { Post } from "../models/postModel.js";
 import {
   createPost,
   deletePost,
-  getAllPosts,
+  getPosts,
   getPost,
   getPostContent,
   updatePost,
+  getPostsCount,
 } from "../services/postService.js";
 import { getErrorMessage } from "../utils/error.js";
+import { DEFAULT_PAGINATION_SIZE } from "../utils/constants.js";
 
-// Get all posts
-export const getAllPostsHandler = async (
-  _: FastifyRequest,
+// Get paginated posts
+export const getPaginatedPostsHandler = async (
+  request: FastifyRequest<{ Querystring: { page: string; size: string } }>,
   reply: FastifyReply
 ) => {
   try {
-    const posts = await getAllPosts();
-    reply.status(200).send(posts);
+    const page = Number(request.query.page) || 1;
+    const size = Number(request.query.size) || DEFAULT_PAGINATION_SIZE;
+    const data = await getPosts({ page, size });
+    const total = await getPostsCount();
+    reply.status(200).send({ data, total });
   } catch (error) {
     console.error(error);
     reply.status(500).send(getErrorMessage(error));

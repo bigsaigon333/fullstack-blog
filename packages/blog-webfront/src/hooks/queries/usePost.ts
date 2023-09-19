@@ -1,5 +1,5 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { fetchPost, fetchPosts } from "../../remotes/posts.js";
+import { fetchPost } from "../../remotes/posts.js";
 
 const usePost = ({ id }: { id: number }) => {
   return useSuspenseQuery({

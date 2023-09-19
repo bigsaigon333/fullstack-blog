@@ -26,7 +26,7 @@ const usePosts = (params: UsePostsParams = {}, options?: UsePostsOptions) => {
 };
 
 usePosts.getQueryKey = (params: UsePostsParams) => [
-  "post",
+  "posts",
   ...Object.values(params),
 ];
 

@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { startTransition } from "react";
+import { startTransition, useState } from "react";
 import { AiOutlineEdit } from "react-icons/ai";
 import {
   MdOutlineDarkMode,
@@ -11,6 +11,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { match } from "ts-pattern";
 import useColorMode from "../hooks/useColorMode.js";
 import Link from "./Link.js";
+import SearchModal from "./SearchModal.js";
 
 const Navbar = () => {
   const [colorMode, _, toggleColorMode] = useColorMode();
@@ -22,46 +23,46 @@ const Navbar = () => {
   const location = useLocation();
   const isHomePage = location.pathname === "/";
   const isEditPage = location.pathname.startsWith("/edit");
+  const [openSearchModal, setOpenSearchModal] = useState(false);
+  const handleSearchIconClick = () => setOpenSearchModal(true);
+  const handleSearchModalClose = () => setOpenSearchModal(false);
 
   return (
-    <div className="flex items-center justify-between py-2 dark:border-gray-600 ">
-      {isHomePage ? (
-        <div />
-      ) : (
-        <button
-          className="p-1 opacity-75"
-          onClick={() => startTransition(() => navigate(-1))}
-        >
-          <MdOutlineKeyboardBackspace className="w-5 h-5" />
-          <span className="sr-only">Go back</span>
-        </button>
-      )}
-      <div className="flex gap-x-2">
-        <button className="p-1 opacity-75" onClick={() => toggleColorMode()}>
-          <ColorModeIcon className="w-5 h-5" />
-          <span className="sr-only">Write a new Article</span>
-        </button>
-        <Link className="p-1 opacity-75" to="/edit">
-          <AiOutlineEdit
-            className={classNames(
-              "w-5 h-5",
-              isEditPage && "text-cyan-700 scale-105"
-            )}
-          />
-          <span className="sr-only">Write a new Article</span>
-        </Link>
-        <button
-          className={classNames(
-            "p-1",
-            "cursor-not-allowed focus:outline-none opacity-50"
-          )}
-          disabled
-        >
-          <MdOutlineSearch className="w-5 h-5" />
-          <span className="sr-only">Search Article by keyword</span>
-        </button>
+    <>
+      <div className="flex items-center justify-between py-2 dark:border-gray-600 ">
+        {isHomePage ? (
+          <div />
+        ) : (
+          <button
+            className="p-1 opacity-75"
+            onClick={() => startTransition(() => navigate(-1))}
+          >
+            <MdOutlineKeyboardBackspace className="w-5 h-5" />
+            <span className="sr-only">Go back</span>
+          </button>
+        )}
+        <div className="flex gap-x-2">
+          <button className="p-1 opacity-75" onClick={() => toggleColorMode()}>
+            <ColorModeIcon className="w-5 h-5" />
+            <span className="sr-only">Write a new Article</span>
+          </button>
+          <Link className="p-1 opacity-75" to="/edit">
+            <AiOutlineEdit
+              className={classNames(
+                "w-5 h-5",
+                isEditPage && "text-cyan-700 scale-105"
+              )}
+            />
+            <span className="sr-only">Write a new Article</span>
+          </Link>
+          <button className={"p-1"} onClick={handleSearchIconClick}>
+            <MdOutlineSearch className="w-5 h-5" />
+            <span className="sr-only">Search Article by keyword</span>
+          </button>
+        </div>
       </div>
-    </div>
+      <SearchModal open={openSearchModal} onClose={handleSearchModalClose} />
+    </>
   );
 };
 

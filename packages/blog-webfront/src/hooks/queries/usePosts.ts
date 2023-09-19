@@ -20,7 +20,7 @@ type UsePostsOptions = Omit<
 const usePosts = (params: UsePostsParams = {}, options?: UsePostsOptions) => {
   return useSuspenseQuery({
     queryKey: usePosts.getQueryKey(params),
-    queryFn: fetchPosts,
+    queryFn: () => fetchPosts(params),
     ...options,
   });
 };

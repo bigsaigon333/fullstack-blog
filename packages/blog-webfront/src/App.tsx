@@ -10,6 +10,7 @@ import Link from "./components/Link.js";
 import Navbar from "./components/Navbar.js";
 import { DialogProvider } from "./hooks/useDialog.js";
 import EditPage from "./pages/EditPage.js";
+import LoginPage from "./pages/LoginPage.js";
 import PostContentPage from "./pages/PostContentPage.js";
 import PostsPage from "./pages/PostsPage.js";
 import { globalQueryClient } from "./utils/reactQuery.js";
@@ -46,6 +47,7 @@ const App = () => {
                   <Route path="/" element={<PostsPage />} />
                   <Route path="/posts/:id" element={<PostContentPage />} />
                   <Route path="/edit" element={<EditPage />} />
+                  <Route path="/login" element={<LoginPage />} />
                   {/* TODO: 404 page */}
                 </Route>
               </Routes>

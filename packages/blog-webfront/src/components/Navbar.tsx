@@ -12,6 +12,7 @@ import { match } from "ts-pattern";
 import useColorMode from "../hooks/useColorMode.js";
 import Link from "./Link.js";
 import SearchModal from "./SearchModal.js";
+import LoginButton from "./LoginButton.js";
 
 const Navbar = () => {
   const [colorMode, _, toggleColorMode] = useColorMode();
@@ -59,6 +60,7 @@ const Navbar = () => {
             <MdOutlineSearch className="w-5 h-5" />
             <span className="sr-only">Search Article by keyword</span>
           </button>
+          <LoginButton />
         </div>
       </div>
       <SearchModal open={openSearchModal} onClose={handleSearchModalClose} />

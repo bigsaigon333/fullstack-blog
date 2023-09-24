@@ -1,5 +1,6 @@
 import Fastify from "fastify";
 import { Database } from "sqlite3";
+import authRoutes from "./routes/authRoutes.js";
 import postRoutes from "./routes/postRoutes.js"; // Adjust the path accordingly
 
 export const startServer = async (db: Database) => {
@@ -7,6 +8,7 @@ export const startServer = async (db: Database) => {
 
   // Register the postRoutes module
   fastify.register(postRoutes, { prefix: "api" });
+  fastify.register(authRoutes, { prefix: "oauth" });
 
   // Run the server!
   try {

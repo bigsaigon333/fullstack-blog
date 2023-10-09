@@ -1,9 +1,9 @@
 import { FastifyReply, FastifyRequest } from "fastify";
 import ky from "ky";
 
-type KakaoOauthTokenResponse = {
-  access_token: number;
-  tokey_type: string;
+type KakaoOAuthTokenResponse = {
+  access_token: string;
+  token_type: string;
   refresh_token: string;
   id_token: string;
   expires_in: number;
@@ -30,7 +30,7 @@ export async function getKakaoOauthToken(
     });
 
     const response = await ky.post(KAKAO_OAUTH_TOKEN_URL, { body });
-    const json: KakaoOauthTokenResponse = await response.json();
+    const json: KakaoOAuthTokenResponse = await response.json();
 
     // TODO: session 설정하고 main page로 redirect
     reply.status(200).send(true);

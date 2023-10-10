@@ -25,9 +25,7 @@ export const startServer = async (db: Database) => {
   });
 
   fastify.addHook("preHandler", async (request) => {
-    const kakao = request.session.kakao as
-      | (KakaoOAuthTokenResponse & { originDate: number })
-      | undefined;
+    const { kakao } = request.session;
     if (kakao == null) return;
 
     const { originDate, expires_in } = kakao;

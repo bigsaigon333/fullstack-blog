@@ -2,6 +2,8 @@ import ky from "ky";
 import { http } from "../utils/network.js";
 
 export type MyProfile = {
+  id: number;
+  role: "admin" | "user";
   nickname: string;
   profile_image_url: string;
   thumbnail_image_url: string;

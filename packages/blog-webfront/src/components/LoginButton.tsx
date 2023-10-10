@@ -16,11 +16,20 @@ const url = `${KAKAO_AUTHORIZE_API_ENDPOINT}?${queryString.stringify(
 
 export default function LoginButton() {
   const { data } = useMyProfile();
-  console.log("🚀 ~ file: LoginButton.tsx:19 ~ LoginButton ~ data:", data);
 
-  return (
+  return data == null ? (
     <a href={url}>
       <img src={kakaoLoginButton} alt="카카오 로그인" />
     </a>
+  ) : (
+    <button onClick={() => /* TODO */ console.log("logout")}>
+      <img
+        src={data.thumbnail_image_url}
+        alt={data.nickname}
+        width={30}
+        height={30}
+        className="rounded"
+      />
+    </button>
   );
 }

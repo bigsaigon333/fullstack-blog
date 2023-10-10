@@ -38,7 +38,7 @@ export async function logoutKakao(
     .json<{ id: number }>();
 }
 
-type KakaoProfile = {
+export type KakaoProfile = {
   is_default_image: boolean;
   nickname: string;
   profile_image_url: string;
@@ -47,10 +47,8 @@ type KakaoProfile = {
 
 export async function getKakaoProfile(
   accessToken: string
-): Promise<KakaoProfile> {
-  const {
-    kakao_account: { profile },
-  } = await ky
+): Promise<{ id: number } & KakaoProfile> {
+  const json = await ky
     .get("https://kapi.kakao.com/v2/user/me", {
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -60,7 +58,12 @@ export async function getKakaoProfile(
         property_keys: JSON.stringify(["kakao_account.profile"]),
       },
     })
-    .json<{ kakao_account: { profile: KakaoProfile } }>();
+    .json<{ id: number; kakao_account: { profile: KakaoProfile } }>();
 
-  return profile;
+  const {
+    id,
+    kakao_account: { profile },
+  } = json;
+
+  return { id, ...profile };
 }

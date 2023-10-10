@@ -1,9 +1,11 @@
 import { FastifyReply, FastifyRequest } from "fastify";
+import { UserProfile } from "../models/userModel.js";
 import {
   authorizeKakao,
   getKakaoProfile,
   logoutKakao,
 } from "../services/kakaoService.js";
+import { getUserRole } from "../services/userService.js";
 
 export async function getKakaoOAuthToken(
   request: FastifyRequest<{ Querystring: { code: string } }>,
@@ -34,9 +36,11 @@ export async function getMyProfile(
       return;
     }
 
-    const profile = await getKakaoProfile(kakao.access_token);
+    const kakaoProfile = await getKakaoProfile(kakao.access_token);
+    const role = await getUserRole(kakaoProfile.id);
+    const userProfile: UserProfile = { ...kakaoProfile, role };
 
-    reply.send(profile);
+    reply.send(userProfile);
   } catch (error) {
     console.error((error as Error).message);
     reply.status(500).send({ message: "Internal Server Error" });

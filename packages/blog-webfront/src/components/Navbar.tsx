@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { startTransition, useState } from "react";
+import { Suspense, startTransition, useState } from "react";
 import { AiOutlineEdit } from "react-icons/ai";
 import {
   MdOutlineDarkMode,
@@ -11,8 +11,9 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { match } from "ts-pattern";
 import useColorMode from "../hooks/useColorMode.js";
 import Link from "./Link.js";
-import SearchModal from "./SearchModal.js";
 import LoginButton from "./LoginButton.js";
+import SearchModal from "./SearchModal.js";
+import { ErrorBoundary } from "react-error-boundary";
 
 const Navbar = () => {
   const [colorMode, _, toggleColorMode] = useColorMode();
@@ -60,7 +61,11 @@ const Navbar = () => {
             <MdOutlineSearch className="w-5 h-5" />
             <span className="sr-only">Search Article by keyword</span>
           </button>
-          <LoginButton />
+          <ErrorBoundary fallback={<>Hello Error!</>}>
+            <Suspense fallback={null}>
+              <LoginButton />
+            </Suspense>
+          </ErrorBoundary>
         </div>
       </div>
       <SearchModal open={openSearchModal} onClose={handleSearchModalClose} />

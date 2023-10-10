@@ -20,6 +20,10 @@ const config = {
         target: "http://localhost:8080",
         changeOrigin: true,
       },
+      "/oauth": {
+        target: "http://localhost:8080",
+        changeOrigin: true,
+      },
     },
     historyApiFallback: true,
   },

@@ -31,10 +31,12 @@ export async function getKakaoOauthToken(
 
     const response = await ky.post(KAKAO_OAUTH_TOKEN_URL, { body });
     const json: KakaoOAuthTokenResponse = await response.json();
+    const kakaoSession = {
+      ...json,
+      originDate: Date.now(),
+    };
 
-    // TODO: session 설정하고 main page로 redirect
-
-    request.session.set("kakao", json);
+    request.session.set("kakao", kakaoSession);
 
     reply.redirect(308, "http://localhost:3000");
   } catch (error) {

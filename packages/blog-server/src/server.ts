@@ -7,6 +7,7 @@ import crypto from "node:crypto";
 
 import authRoutes from "./routes/authRoutes.js";
 import postRoutes from "./routes/postRoutes.js"; // Adjust the path accordingly
+import { KakaoOAuthTokenResponse } from "./controllers/authController.js";
 
 export const startServer = async (db: Database) => {
   const fastify = Fastify();
@@ -21,6 +22,20 @@ export const startServer = async (db: Database) => {
       maxAge: 86_400_000, // 1 day in milliseconds
       httpOnly: true,
     },
+  });
+
+  fastify.addHook("preHandler", async (request) => {
+    const kakao = request.session.kakao as
+      | (KakaoOAuthTokenResponse & { originDate: number })
+      | undefined;
+    if (kakao == null) return;
+
+    const { originDate, expires_in } = kakao;
+    const expires = originDate + expires_in;
+    const now = Date.now();
+    if (expires <= now) {
+      // TODO: referesh token
+    }
   });
 
   // Register the postRoutes module

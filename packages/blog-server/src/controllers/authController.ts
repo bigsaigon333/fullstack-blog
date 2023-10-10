@@ -14,7 +14,7 @@ export type KakaoOAuthTokenResponse = {
 const KAKAO_OAUTH_TOKEN_URL = "https://kauth.kakao.com/oauth/token";
 const CLIENT_ID = "38dad1a0f1c2a8f2064197351a79e6ed";
 
-export async function getKakaoOauthToken(
+export async function getKakaoOAuthToken(
   request: FastifyRequest<{ Querystring: { code: string } }>,
   reply: FastifyReply
 ) {
@@ -40,6 +40,46 @@ export async function getKakaoOauthToken(
 
     reply.redirect(308, "http://localhost:3000");
   } catch (error) {
+    console.error((error as Error).message);
+    reply.status(500).send({ message: "Internal Server Error" });
+  }
+}
+
+type KakaoProfile = {
+  is_default_image: boolean;
+  nickname: string;
+  profile_image_url: string;
+  thumbnail_image_url: string;
+};
+
+export async function getMyProfile(
+  request: FastifyRequest,
+  reply: FastifyReply
+) {
+  try {
+    const { kakao } = request.session;
+    if (kakao == null) {
+      reply.send(null);
+      return;
+    }
+
+    const {
+      kakao_account: { profile },
+    } = await ky
+      .get("https://kapi.kakao.com/v2/user/me", {
+        headers: {
+          Authorization: `Bearer ${kakao.access_token}`,
+          "Content-type": "application/x-www-form-urlencoded;charset=utf-8",
+        },
+        searchParams: {
+          property_keys: JSON.stringify(["kakao_account.profile"]),
+        },
+      })
+      .json<{ kakao_account: { profile: KakaoProfile } }>();
+
+    reply.send(profile);
+  } catch (error) {
+    console.log(JSON.stringify(error, null, 2));
     console.error((error as Error).message);
     reply.status(500).send({ message: "Internal Server Error" });
   }

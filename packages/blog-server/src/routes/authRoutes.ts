@@ -1,6 +1,10 @@
 import { FastifyInstance } from "fastify";
-import { getKakaoOauthToken } from "../controllers/authController.js";
+import {
+  getKakaoOAuthToken,
+  getMyProfile,
+} from "../controllers/authController.js";
 
 export default async function authRoutes(fastify: FastifyInstance) {
-  fastify.get("/kakao/authorize", getKakaoOauthToken);
+  fastify.get("/kakao/authorize", getKakaoOAuthToken);
+  fastify.get("/my-profile", getMyProfile);
 }

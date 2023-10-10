@@ -79,7 +79,29 @@ export async function getMyProfile(
 
     reply.send(profile);
   } catch (error) {
-    console.log(JSON.stringify(error, null, 2));
+    console.error((error as Error).message);
+    reply.status(500).send({ message: "Internal Server Error" });
+  }
+}
+
+export async function logout(request: FastifyRequest, reply: FastifyReply) {
+  try {
+    const { kakao } = request.session;
+    if (kakao == null) {
+      reply.send(null);
+      return;
+    }
+
+    await ky
+      .post("https://kapi.kakao.com/v1/user/logout", {
+        headers: { Authorization: `Bearer ${kakao.access_token}` },
+      })
+      .json<{ id: number }>();
+
+    await request.session.destroy();
+
+    reply.send(true);
+  } catch (error) {
     console.error((error as Error).message);
     reply.status(500).send({ message: "Internal Server Error" });
   }

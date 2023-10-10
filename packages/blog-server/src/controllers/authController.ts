@@ -1,7 +1,7 @@
 import { FastifyReply, FastifyRequest } from "fastify";
 import ky from "ky";
 
-type KakaoOAuthTokenResponse = {
+export type KakaoOAuthTokenResponse = {
   access_token: string;
   token_type: string;
   refresh_token: string;
@@ -33,7 +33,10 @@ export async function getKakaoOauthToken(
     const json: KakaoOAuthTokenResponse = await response.json();
 
     // TODO: session 설정하고 main page로 redirect
-    reply.status(200).send(true);
+
+    request.session.set("kakao", json);
+
+    reply.redirect(308, "http://localhost:3000");
   } catch (error) {
     console.error((error as Error).message);
     reply.status(500).send({ message: "Internal Server Error" });

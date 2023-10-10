@@ -5,6 +5,7 @@ import fastifyCookie from "@fastify/cookie";
 import fastifySession from "@fastify/session";
 import crypto from "node:crypto";
 
+import { refreshKakao } from "./hooks/oauth.js";
 import authRoutes from "./routes/authRoutes.js";
 import postRoutes from "./routes/postRoutes.js"; // Adjust the path accordingly
 
@@ -23,17 +24,7 @@ export const startServer = async (db: Database) => {
     saveUninitialized: false,
   });
 
-  fastify.addHook("preHandler", async (request) => {
-    const { kakao } = request.session;
-    if (kakao == null) return;
-
-    const { originDate, expires_in } = kakao;
-    const expires = originDate + expires_in;
-    const now = Date.now();
-    if (expires <= now) {
-      // TODO: referesh token
-    }
-  });
+  fastify.addHook("preHandler", refreshKakao);
 
   // Register the postRoutes module
   fastify.register(postRoutes, { prefix: "api" });

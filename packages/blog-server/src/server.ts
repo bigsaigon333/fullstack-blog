@@ -7,7 +7,6 @@ import crypto from "node:crypto";
 
 import authRoutes from "./routes/authRoutes.js";
 import postRoutes from "./routes/postRoutes.js"; // Adjust the path accordingly
-import { KakaoOAuthTokenResponse } from "./controllers/authController.js";
 
 export const startServer = async (db: Database) => {
   const fastify = Fastify();
@@ -19,9 +18,9 @@ export const startServer = async (db: Database) => {
     secret,
     cookie: {
       secure: false, // Set to true for HTTPS
-      maxAge: 86_400_000, // 1 day in milliseconds
       httpOnly: true,
     },
+    saveUninitialized: false,
   });
 
   fastify.addHook("preHandler", async (request) => {

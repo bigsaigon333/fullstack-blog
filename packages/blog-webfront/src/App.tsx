@@ -1,7 +1,13 @@
 import { QueryClientProvider } from "@tanstack/react-query";
 import queryString from "query-string";
 import { Suspense } from "react";
-import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter,
+  Navigate,
+  Outlet,
+  Route,
+  Routes,
+} from "react-router-dom";
 import { QueryParamProvider } from "use-query-params";
 import { ReactRouter6Adapter } from "use-query-params/adapters/react-router-6";
 import Container from "./components/Container.js";
@@ -15,6 +21,7 @@ import PostContentPage from "./pages/PostContentPage.js";
 import PostsPage from "./pages/PostsPage.js";
 import { globalQueryClient } from "./utils/reactQuery.js";
 
+import Authorized from "./components/Authorized.js";
 import "./main.css";
 
 const App = () => {
@@ -46,7 +53,17 @@ const App = () => {
                 >
                   <Route path="/" element={<PostsPage />} />
                   <Route path="/posts/:id" element={<PostContentPage />} />
-                  <Route path="/edit" element={<EditPage />} />
+                  <Route
+                    path="/edit"
+                    element={
+                      <Authorized
+                        expectedRole="admin"
+                        fallback={<Navigate to="/" replace />}
+                      >
+                        <EditPage />
+                      </Authorized>
+                    }
+                  />
                   <Route path="/login" element={<LoginPage />} />
                   {/* TODO: 404 page */}
                 </Route>

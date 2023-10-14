@@ -10,29 +10,22 @@ import authRoutes from "./routes/authRoutes.js";
 import postRoutes from "./routes/postRoutes.js"; // Adjust the path accordingly
 
 export const startServer = async (db: Database) => {
+  const secret = crypto.randomBytes(32).toString("hex");
   const fastify = Fastify();
 
-  const secret = crypto.randomBytes(32).toString("hex");
-
-  fastify.register(fastifyCookie);
-  fastify.register(fastifySession, {
-    secret,
-    cookie: {
-      secure: false, // Set to true for HTTPS
-      httpOnly: true,
-    },
-    saveUninitialized: false,
-  });
-
-  fastify.addHook("preHandler", refreshKakao);
-
-  // Register the postRoutes module
-  fastify.register(postRoutes, { prefix: "api" });
-  fastify.register(authRoutes, { prefix: "oauth" });
-
-  // Run the server!
   try {
-    await fastify.listen({ port: 8080 });
+    await Fastify({ logger: true })
+      .register(fastifyCookie)
+      .register(fastifySession, {
+        secret,
+        cookie: { secure: false, httpOnly: true },
+        saveUninitialized: false,
+      })
+      .addHook("preHandler", refreshKakao)
+      .register(postRoutes, { prefix: "api" })
+      .register(authRoutes, { prefix: "oauth" })
+      .listen({ port: 8080 });
+
     console.log("Server is running on port 8080");
   } catch (err) {
     fastify.log.error(err);

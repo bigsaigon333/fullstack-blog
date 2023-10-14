@@ -51,14 +51,14 @@ const PostContentPage = () => {
           >
             Delete
           </Button>
+          <Button
+            as="a"
+            href={toEditPage}
+            onClick={(event) => startTransition(() => handleClick(event))}
+          >
+            Edit
+          </Button>
         </Authorized>
-        <Button
-          as="a"
-          href={toEditPage}
-          onClick={(event) => startTransition(() => handleClick(event))}
-        >
-          Edit
-        </Button>
       </div>
     </>
   );

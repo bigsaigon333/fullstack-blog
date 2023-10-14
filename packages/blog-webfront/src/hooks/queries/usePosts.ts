@@ -5,6 +5,7 @@ import {
 import { Pagination } from "../../models/pagination.js";
 import { Post } from "../../models/post.js";
 import { fetchPosts } from "../../remotes/posts.js";
+import { globalQueryClient } from "../../utils/reactQuery.js";
 
 type UsePostsParams = {
   page?: number;
@@ -29,5 +30,19 @@ usePosts.getQueryKey = (params: UsePostsParams) => [
   "posts",
   ...Object.values(params),
 ];
+
+usePosts.invalidate = (params: UsePostsParams = {}) => {
+  globalQueryClient.invalidateQueries({
+    queryKey: usePosts.getQueryKey(params),
+    exact: false,
+  });
+};
+
+usePosts.refetch = async (params: UsePostsParams = {}) => {
+  return globalQueryClient.refetchQueries({
+    queryKey: usePosts.getQueryKey(params),
+    exact: false,
+  });
+};
 
 export default usePosts;

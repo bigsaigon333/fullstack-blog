@@ -54,3 +54,9 @@ export const craetePost = async (payload: {
 
   return json;
 };
+
+export const deletePost = async (id: number) => {
+  await http.delete(`/api/posts/${id}`, {
+    headers: { "Content-Type": undefined },
+  });
+};

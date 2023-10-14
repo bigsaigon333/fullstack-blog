@@ -12,7 +12,8 @@ export const getPosts = async ({
 }): Promise<PostWithoutContent[]> => {
   try {
     const offset = (page - 1) * size;
-    let query = "SELECT id, title, createdAt, lastUpdatedAt FROM PostsFts";
+    let query =
+      "SELECT id, title, createdAt, lastUpdatedAt FROM PostsFts Order By lastUpdatedAt DESC";
     const params: (string | number)[] = [];
 
     if (q) {

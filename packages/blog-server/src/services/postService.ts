@@ -12,8 +12,7 @@ export const getPosts = async ({
 }): Promise<PostWithoutContent[]> => {
   try {
     const offset = (page - 1) * size;
-    let query =
-      "SELECT id, title, createdAt, lastUpdatedAt FROM PostsFts Order By lastUpdatedAt DESC";
+    let query = "SELECT id, title, createdAt, lastUpdatedAt FROM PostsFts";
     const params: (string | number)[] = [];
 
     if (q) {
@@ -21,7 +20,7 @@ export const getPosts = async ({
       params.push(q);
     }
 
-    query += " LIMIT ? OFFSET ?";
+    query += " ORDER BY lastUpdatedAt DESC LIMIT ? OFFSET ?";
     params.push(size, offset);
 
     return await new Promise<PostWithoutContent[]>((resolve, reject) => {

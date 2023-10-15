@@ -48,9 +48,7 @@ export const craetePost = async (payload: {
   title: string;
   content: string;
 }) => {
-  const json = await http
-    .post(`/api/posts`, { json: payload })
-    .json<PostResponse>();
+  const json = await http.post(`/api/posts`, { json: payload }).json<Post>();
 
   return json;
 };

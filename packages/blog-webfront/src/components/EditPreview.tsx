@@ -27,13 +27,14 @@ export const EditPreview = (data: EditPreviewProps) => {
         onSuccess: (data) => {
           window.alert("아티클 게시에 성공하였습니다!");
           onClose();
+          clearDraft();
+
           startTransition(() => {
             queryClient.refetchQueries({
               queryKey: usePosts.getQueryKey(),
               exact: true,
             });
 
-            clearDraft();
             navigate(`/posts/${data.id}`);
           });
         },

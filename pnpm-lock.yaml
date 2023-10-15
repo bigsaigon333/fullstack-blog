@@ -40,9 +40,6 @@ importers:
       '@types/node':
         specifier: ^18.17.3
         version: 18.17.3
-      '@types/uuid':
-        specifier: ^9.0.2
-        version: 9.0.2
       tsup:
         specifier: ^7.2.0
         version: 7.2.0(typescript@5.1.6)
@@ -194,6 +191,31 @@ importers:
       webpack-dev-server:
         specifier: ^4.15.1
         version: 4.15.1(webpack-cli@5.1.4)(webpack@5.88.2)
+
+  packages/ssr-server:
+    dependencies:
+      fastify:
+        specifier: ^4.21.0
+        version: 4.21.0
+    devDependencies:
+      '@tsconfig/node18':
+        specifier: ^18.2.0
+        version: 18.2.0
+      '@tsconfig/recommended':
+        specifier: ^1.0.2
+        version: 1.0.2
+      '@types/node':
+        specifier: ^18.17.3
+        version: 18.17.3
+      tsup:
+        specifier: ^7.2.0
+        version: 7.2.0(typescript@5.1.6)
+      tsx:
+        specifier: ^3.12.7
+        version: 3.12.7
+      typescript:
+        specifier: ^5.1.6
+        version: 5.1.6
 
 packages:
 
@@ -3022,10 +3044,6 @@ packages:
 
   /@types/trusted-types@2.0.3:
     resolution: {integrity: sha512-NfQ4gyz38SL8sDNrSixxU2Os1a5xcdFxipAFxYEuLUlvU2uDwS4NUpsImcf1//SlWItCVMMLiylsxbmNMToV/g==}
-    dev: true
-
-  /@types/uuid@9.0.2:
-    resolution: {integrity: sha512-kNnC1GFBLuhImSnV7w4njQkUiJi0ZXUycu1rUaouPqiKlXkh77JKgdRnTAp1x5eBwcIwbtI+3otwzuIDEuDoxQ==}
     dev: true
 
   /@types/vinyl@2.0.7:

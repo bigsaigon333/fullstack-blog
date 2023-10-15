@@ -1,81 +1,47 @@
 import { useQueryClient } from "@tanstack/react-query";
 import dayjs from "dayjs";
-import { Button, Modal, Spinner } from "flowbite-react";
-import { FormEventHandler, startTransition } from "react";
+import { Button } from "flowbite-react";
+import { FormEventHandler, startTransition, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useCreatePost from "../hooks/mutation/useCreatePost.js";
 import usePosts from "../hooks/queries/usePosts.js";
-import { useDialog } from "../hooks/useDialog.js";
 import useSaveDraft from "../hooks/useSaveDraft.js";
 import MarkdownRenderer from "./MarkdownRenderer.js";
 import PostListItem from "./PostListItem.js";
+import PublishConfirmModal from "./PublishConfirmModal.js";
 
 export type EditPreviewProps = { title: string; content: string };
 
 export const EditPreview = (data: EditPreviewProps) => {
+  const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
-  const publishConfirm = useDialog();
   const [, , clearDraft] = useSaveDraft();
   const queryClient = useQueryClient();
+  const { mutateAsync } = useCreatePost({
+    onSuccess: (data) => {
+      window.alert("아티클 게시에 성공하였습니다!");
+      clearDraft();
+      setShowModal(false);
+
+      startTransition(() => {
+        queryClient.refetchQueries({
+          queryKey: usePosts.getQueryKey(),
+          exact: true,
+        });
+
+        navigate(`/posts/${data.id}`);
+      });
+    },
+    onError: (error) => {
+      setShowModal(false);
+      window.alert(error.message);
+    },
+  });
 
   const handleSubmit: FormEventHandler = (e) => {
     e.preventDefault();
 
-    publishConfirm.open(({ open, onOpenChange }) => {
-      const onClose = () => onOpenChange(false);
-      const { mutate, isPending } = useCreatePost({
-        onSuccess: (data) => {
-          window.alert("아티클 게시에 성공하였습니다!");
-          onClose();
-          clearDraft();
-
-          startTransition(() => {
-            queryClient.refetchQueries({
-              queryKey: usePosts.getQueryKey(),
-              exact: true,
-            });
-
-            navigate(`/posts/${data.id}`);
-          });
-        },
-        onError: (error) => {
-          onClose();
-          window.alert(error.message);
-        },
-      });
-
-      return (
-        <Modal
-          size="md"
-          popup
-          show={open}
-          onClose={isPending ? undefined : onClose}
-          dismissible={!isPending}
-        >
-          <Modal.Header />
-          <Modal.Body>
-            <div className="text-center">
-              <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
-                정말로 아티클을 게시하시겠습니까?
-              </h3>
-              <div className="flex justify-center gap-4">
-                <Button color="gray" onClick={onClose} disabled={isPending}>
-                  아니오, 취소하겠습니다
-                </Button>
-                <Button
-                  color="failure"
-                  isProcessing={isPending}
-                  processingSpinner={<Spinner color="failure" />}
-                  onClick={() => mutate(data)}
-                >
-                  네, 게시하겠습니다
-                </Button>
-              </div>
-            </div>
-          </Modal.Body>
-        </Modal>
-      );
-    });
+    setShowModal(true);
   };
 
   return (
@@ -89,6 +55,11 @@ export const EditPreview = (data: EditPreviewProps) => {
           Publish Post
         </Button>
       </div>
+      <PublishConfirmModal
+        open={showModal}
+        onOpenChange={setShowModal}
+        onConfirm={() => mutateAsync(data)}
+      />
     </form>
   );
 };

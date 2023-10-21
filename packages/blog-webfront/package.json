@@ -6,7 +6,10 @@
   "main": "src/index.tsx",
   "type": "module",
   "exports": {
-    ".": {
+    "./client": {
+      "default": "./dist/client/main.js"
+    },
+    "./server": {
       "types": "./dist/server/server.d.cts",
       "default": "./dist/server/main.cjs"
     },
@@ -16,10 +19,11 @@
     "build": "pnpm build:prod",
     "build:dev": "webpack --mode=development",
     "build:prod": "webpack --mode=production --node-env=production",
-    "build:server": "webpack --mode=production --node-env=production --config webpack.config.server.cjs",
-    "build:client": "webpack --mode=production --node-env=production --config webpack.config.client.cjs",
+    "build:server": "pnpm build:prod --config webpack.config.server.cjs",
+    "build:server:dev": "pnpm build:dev --config webpack.config.server.cjs",
+    "build:client": "pnpm build:prod --config webpack.config.client.cjs",
     "watch": "webpack --watch",
-    "dev": "pnpm dev:client && pnpm dev:server",
+    "dev": "concurrently 'pnpm dev:client' 'pnpm dev:server'",
     "dev:client": "webpack --watch --config webpack.config.client.cjs",
     "dev:server": "webpack --watch --config webpack.config.server.cjs"
   },
@@ -40,6 +44,7 @@
     "@webpack-cli/generators": "^3.0.7",
     "autoprefixer": "^10.4.15",
     "babel-loader": "^9.1.3",
+    "concurrently": "^8.2.2",
     "copy-webpack-plugin": "^11.0.0",
     "css-loader": "^6.8.1",
     "html-webpack-plugin": "^5.5.3",

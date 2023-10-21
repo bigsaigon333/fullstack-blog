@@ -1,5 +1,8 @@
-import Fastify from "fastify";
 import httpProxy from "@fastify/http-proxy";
+import fastifyStatic from "@fastify/static";
+import Fastify from "fastify";
+import path from "path";
+import { fileURLToPath } from "url";
 import { routeHandler } from "./routes.js";
 
 const API_SERVER_UPSTREAM = "http://localhost:8080";
@@ -18,13 +21,20 @@ const envToLogger = {
   test: false,
 };
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 async function run() {
-  const fastify = Fastify();
+  const fastify = await Fastify({
+    logger: envToLogger[process.env.NODE_ENV!] ?? true,
+  });
 
   try {
-    await Fastify({
-      logger: envToLogger[process.env.NODE_ENV!] ?? true,
-    })
+    fastify
+      .register(fastifyStatic, {
+        root: path.join(__dirname, "../public"),
+        prefix: "/public/",
+      })
       .register(httpProxy, {
         upstream: API_SERVER_UPSTREAM,
         prefix: "/api",

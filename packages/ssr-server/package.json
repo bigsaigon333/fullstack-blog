@@ -14,6 +14,7 @@
   "license": "ISC",
   "dependencies": {
     "@fastify/http-proxy": "^9.2.1",
+    "@fastify/static": "^6.11.2",
     "blog-webfront": "workspace:*",
     "fastify": "^4.21.0"
   },

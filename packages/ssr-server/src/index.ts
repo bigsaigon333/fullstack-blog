@@ -1,5 +1,8 @@
 import Fastify from "fastify";
+import httpProxy from "@fastify/http-proxy";
 import { routeHandler } from "./routes.js";
+
+const API_SERVER_UPSTREAM = "http://localhost:8080";
 
 const envToLogger = {
   development: {
@@ -22,7 +25,16 @@ async function run() {
     await Fastify({
       logger: envToLogger[process.env.NODE_ENV!] ?? true,
     })
-    await Fastify({ logger: false })
+      .register(httpProxy, {
+        upstream: API_SERVER_UPSTREAM,
+        prefix: "/api",
+        rewritePrefix: "/api",
+      })
+      .register(httpProxy, {
+        upstream: API_SERVER_UPSTREAM,
+        prefix: "/oauth",
+        rewritePrefix: "/oauth",
+      })
       .route({
         method: "GET",
         url: "*",

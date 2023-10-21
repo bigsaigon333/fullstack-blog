@@ -13,8 +13,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "fastify": "^4.21.0",
-    "blog-webfront": "workspace:*"
+    "@fastify/http-proxy": "^9.2.1",
+    "blog-webfront": "workspace:*",
+    "fastify": "^4.21.0"
   },
   "devDependencies": {
     "@tsconfig/node18": "^18.2.0",

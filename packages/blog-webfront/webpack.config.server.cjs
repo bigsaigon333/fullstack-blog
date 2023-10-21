@@ -1,5 +1,6 @@
 const path = require("path");
 const { merge } = require("webpack-merge");
+const CopyPlugin = require("copy-webpack-plugin");
 const commonConfig = require("./webpack.config.common.cjs");
 
 /** @type {import('webpack').Configuration} */
@@ -12,6 +13,11 @@ const config = {
     libraryTarget: "commonjs",
     filename: "main.cjs",
   },
+  plugins: [
+    new CopyPlugin({
+      patterns: [{ from: "src/server.d.ts", to: "server.d.cts" }],
+    }),
+  ],
 };
 
 module.exports = merge(commonConfig, config);

@@ -4,6 +4,7 @@ import { P, match } from "ts-pattern";
 
 import { atomWithStorage } from "jotai/utils";
 import { safeJsonParse } from "../utils/json.js";
+import { isServer } from "@tanstack/react-query";
 
 export type Theme = "light" | "dark";
 
@@ -11,14 +12,17 @@ const themeKeyname = "@@theme";
 const initialTheme = safeJsonParse<Theme>(themeKeyname);
 const themeAtom = atomWithStorage<Theme | null>(themeKeyname, initialTheme);
 
-const darkModeQuery = window.matchMedia("(prefers-color-scheme: dark)");
-const getSnapshot = () => darkModeQuery.matches;
+const darkModeQuery: MediaQueryList | null = isServer
+  ? null
+  : window.matchMedia("(prefers-color-scheme: dark)");
+const getSnapshot = () => !!darkModeQuery?.matches;
+const getServerSnapshot = () => false;
 const subscribe = (onStoreChange: () => void) => (
-  darkModeQuery.addEventListener("change", onStoreChange),
-  () => darkModeQuery.removeEventListener("change", onStoreChange)
+  darkModeQuery?.addEventListener("change", onStoreChange),
+  () => darkModeQuery?.removeEventListener("change", onStoreChange)
 );
 const useIsSystemDarkMode = (): boolean =>
-  useSyncExternalStore(subscribe, getSnapshot);
+  useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
 
 /**
  * localStorage에 저장된 값이 있으면 그 값을 사용하고 없으면 시스템 설정을 따라갑니다.

@@ -3,4 +3,7 @@ import {
   RenderToPipeableStreamOptions,
 } from "react-dom/server";
 
-export function render(options?: RenderToPipeableStreamOptions): PipeableStream;
+export function render(
+  url: string,
+  options?: RenderToPipeableStreamOptions
+): PipeableStream;

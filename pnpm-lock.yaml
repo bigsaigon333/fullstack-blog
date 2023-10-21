@@ -200,6 +200,9 @@ importers:
 
   packages/ssr-server:
     dependencies:
+      blog-webfront:
+        specifier: workspace:*
+        version: link:../blog-webfront
       fastify:
         specifier: ^4.21.0
         version: 4.21.0

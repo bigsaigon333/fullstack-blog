@@ -15,7 +15,7 @@ const config = {
   },
   plugins: [
     new CopyPlugin({
-      patterns: [{ from: "src/server.d.ts", to: "server.d.cts" }],
+      patterns: [{ from: "src/server.d.ts", to: "main.d.cts" }],
     }),
   ],
 };

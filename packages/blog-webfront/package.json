@@ -5,6 +5,13 @@
   "private": true,
   "main": "src/index.tsx",
   "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/server/server.d.cts",
+      "default": "./dist/server/main.cjs"
+    },
+    "./package.json": "./package.json"
+  },
   "scripts": {
     "build": "pnpm build:prod",
     "build:dev": "webpack --mode=development",

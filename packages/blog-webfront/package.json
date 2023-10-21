@@ -20,7 +20,7 @@
     "build:client": "webpack --mode=production --node-env=production --config webpack.config.client.cjs",
     "watch": "webpack --watch",
     "dev": "pnpm dev:client && pnpm dev:server",
-    "dev:client": "webpack serve --config webpack.config.client.cjs",
+    "dev:client": "webpack --watch --config webpack.config.client.cjs",
     "dev:server": "webpack --watch --config webpack.config.server.cjs"
   },
   "keywords": [],

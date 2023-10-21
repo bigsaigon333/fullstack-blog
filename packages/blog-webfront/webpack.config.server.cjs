@@ -18,6 +18,7 @@ const config = {
       patterns: [{ from: "src/server.d.ts", to: "main.d.cts" }],
     }),
   ],
+  target: "node",
 };
 
 module.exports = merge(commonConfig, config);

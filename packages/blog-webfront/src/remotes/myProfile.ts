@@ -11,13 +11,15 @@ export type MyProfile = {
 };
 
 export async function fetchMyProfile(): Promise<MyProfile | null> {
-  const json = await http.get("/oauth/my-profile").json<MyProfile | null>();
+  const json = await http.get("oauth/my-profile").json<MyProfile | null>();
 
   return json;
 }
 
 export async function logout(): Promise<true | null> {
-  const json = await ky.post("/oauth/logout").json<true | null>();
+  const json = await http
+    .post("oauth/logout", { headers: { "Content-Type": undefined } })
+    .json<true | null>();
 
   return json;
 }

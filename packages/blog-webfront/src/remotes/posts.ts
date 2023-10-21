@@ -17,7 +17,7 @@ export const fetchPosts = async (
 ): Promise<Pagination<Post>> => {
   const json = await http
     .get(
-      `/api/posts?${queryString.stringify(
+      `api/posts?${queryString.stringify(
         { size: DEFAULT_PAGE_SIZE, ...params },
         { skipEmptyString: true }
       )}`
@@ -29,7 +29,7 @@ export const fetchPosts = async (
 };
 
 export const fetchPost = async ({ id }: { id: number }): Promise<Post> => {
-  const json = await http.get(`/api/posts/${id}`).json<PostResponse>();
+  const json = await http.get(`api/posts/${id}`).json<PostResponse>();
 
   return Post.parse(json);
 };
@@ -39,7 +39,7 @@ export const fetchPostContent = async ({
 }: {
   id: number;
 }): Promise<PostContent> => {
-  const json = await http.get(`/api/posts/${id}/content`).json<PostResponse>();
+  const json = await http.get(`api/posts/${id}/content`).json<PostResponse>();
 
   return PostContent.parse(json);
 };
@@ -48,13 +48,13 @@ export const craetePost = async (payload: {
   title: string;
   content: string;
 }) => {
-  const json = await http.post(`/api/posts`, { json: payload }).json<Post>();
+  const json = await http.post(`api/posts`, { json: payload }).json<Post>();
 
   return json;
 };
 
 export const deletePost = async (id: number) => {
-  await http.delete(`/api/posts/${id}`, {
+  await http.delete(`api/posts/${id}`, {
     headers: { "Content-Type": undefined },
   });
 };

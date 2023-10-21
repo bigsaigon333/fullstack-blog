@@ -1,7 +1,6 @@
 const path = require("path");
 const { merge } = require("webpack-merge");
 const commonConfig = require("./webpack.config.common.cjs");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 /** @type {import('webpack').Configuration} */
 const config = {
@@ -28,7 +27,6 @@ const config = {
     },
     historyApiFallback: true,
   },
-  plugins: [new HtmlWebpackPlugin({ template: "public/index.html" })],
 };
 
 module.exports = merge(commonConfig, config);

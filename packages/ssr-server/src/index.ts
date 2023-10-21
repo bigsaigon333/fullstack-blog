@@ -1,10 +1,27 @@
 import Fastify from "fastify";
 import { routeHandler } from "./routes.js";
 
+const envToLogger = {
+  development: {
+    transport: {
+      target: "pino-pretty",
+      options: {
+        translateTime: "HH:MM:ss Z",
+        ignore: "pid,hostname",
+      },
+    },
+  },
+  production: true,
+  test: false,
+};
+
 async function run() {
   const fastify = Fastify();
 
   try {
+    await Fastify({
+      logger: envToLogger[process.env.NODE_ENV!] ?? true,
+    })
     await Fastify({ logger: false })
       .route({
         method: "GET",

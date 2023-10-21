@@ -26,41 +26,39 @@ const App = () => {
         objectToSearchString: queryString.stringify,
       }}
     >
-      <QueryClientProvider client={globalQueryClient}>
-        <Suspense fallback={null}>
-          <Routes>
+      <Suspense fallback={null}>
+        <Routes>
+          <Route
+            element={
+              <Container>
+                <Navbar />
+                <Link to="/">
+                  <Header title="프론트엔드 개발자 김동희입니다" />
+                </Link>
+                <Suspense>
+                  <Outlet />
+                </Suspense>
+              </Container>
+            }
+          >
+            <Route path="/" element={<PostsPage />} />
+            <Route path="/posts/:id" element={<PostContentPage />} />
             <Route
+              path="/edit"
               element={
-                <Container>
-                  <Navbar />
-                  <Link to="/">
-                    <Header title="프론트엔드 개발자 김동희입니다" />
-                  </Link>
-                  <Suspense>
-                    <Outlet />
-                  </Suspense>
-                </Container>
+                <Authorized
+                  expectedRole="admin"
+                  fallback={<Navigate to="/" replace />}
+                >
+                  <EditPage />
+                </Authorized>
               }
-            >
-              <Route path="/" element={<PostsPage />} />
-              <Route path="/posts/:id" element={<PostContentPage />} />
-              <Route
-                path="/edit"
-                element={
-                  <Authorized
-                    expectedRole="admin"
-                    fallback={<Navigate to="/" replace />}
-                  >
-                    <EditPage />
-                  </Authorized>
-                }
-              />
-              <Route path="/login" element={<LoginPage />} />
-              {/* TODO: 404 page */}
-            </Route>
-          </Routes>
-        </Suspense>
-      </QueryClientProvider>
+            />
+            <Route path="/login" element={<LoginPage />} />
+            {/* TODO: 404 page */}
+          </Route>
+        </Routes>
+      </Suspense>
     </QueryParamProvider>
   );
 };

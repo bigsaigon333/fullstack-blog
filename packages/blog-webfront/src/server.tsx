@@ -1,3 +1,5 @@
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { useState } from "react";
 import {
   PipeableStream,
   RenderToPipeableStreamOptions,
@@ -5,6 +7,7 @@ import {
 } from "react-dom/server";
 import { StaticRouter } from "react-router-dom/server.js";
 import App from "./App.js";
+import { defaultOptions } from "./utils/reactQuery.js";
 
 export function render(
   url: string,
@@ -18,9 +21,24 @@ type Props = {
 };
 
 function Main({ url }: Props) {
+  const [queryClient] = useState(() => new QueryClient({ defaultOptions }));
+
   return (
-    <StaticRouter location={url}>
-      <App />
-    </StaticRouter>
+    <html lang="ko">
+      <head>
+        <meta charSet="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+      </head>
+      <body>
+        <div id="app">
+          <StaticRouter location={url}>
+            <QueryClientProvider client={queryClient}>
+              <App />
+            </QueryClientProvider>
+          </StaticRouter>
+        </div>
+      </body>
+    </html>
   );
 }

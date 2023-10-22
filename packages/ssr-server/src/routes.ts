@@ -1,4 +1,4 @@
-import ssr from "blog-webfront";
+import * as ssr from "blog-webfront/server";
 import { FastifyReply, FastifyRequest } from "fastify";
 
 export function routeHandler(request: FastifyRequest, reply: FastifyReply) {

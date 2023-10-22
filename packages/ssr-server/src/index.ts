@@ -1,8 +1,7 @@
 import httpProxy from "@fastify/http-proxy";
-import fastifyStatic from "@fastify/static";
 import Fastify from "fastify";
-import path from "path";
-import { fileURLToPath } from "url";
+import fs from "node:fs";
+import path, { dirname } from "node:path";
 import { routeHandler } from "./routes.js";
 
 const API_SERVER_UPSTREAM = "http://localhost:8080";
@@ -21,9 +20,6 @@ const envToLogger = {
   test: false,
 };
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
 async function run() {
   const fastify = await Fastify({
     logger: envToLogger[process.env.NODE_ENV!] ?? true,
@@ -31,9 +27,17 @@ async function run() {
 
   try {
     fastify
-      .register(fastifyStatic, {
-        root: path.join(__dirname, "../public"),
-        prefix: "/public/",
+      .route({
+        method: "GET",
+        url: "/public/*",
+        handler: (request, reply) => {
+          const dir = dirname(require.resolve("blog-webfront/client"));
+          const filename = request.url.replace("/public/", "");
+          const stream = fs.createReadStream(path.join(dir, filename));
+
+          reply.header("Content-Type", "application/octet-stream");
+          reply.send(stream);
+        },
       })
       .register(httpProxy, {
         upstream: API_SERVER_UPSTREAM,

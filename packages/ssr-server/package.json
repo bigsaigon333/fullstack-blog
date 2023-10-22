@@ -2,7 +2,6 @@
   "name": "ssr-server",
   "version": "1.0.0",
   "description": "",
-  "type": "module",
   "main": "index.js",
   "scripts": {
     "dev": "NODE_ENV=development tsx watch src/index.ts",
@@ -14,7 +13,6 @@
   "license": "ISC",
   "dependencies": {
     "@fastify/http-proxy": "^9.2.1",
-    "@fastify/static": "^6.11.2",
     "blog-webfront": "workspace:*",
     "fastify": "^4.21.0"
   },

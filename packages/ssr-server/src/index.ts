@@ -5,6 +5,7 @@ import path, { dirname } from "node:path";
 import { routeHandler } from "./routes.js";
 
 const API_SERVER_UPSTREAM = "http://localhost:8080";
+const PORT = 3000;
 
 const envToLogger = {
   development: {
@@ -64,9 +65,9 @@ async function run() {
       .setErrorHandler((error, request, reply) => {
         reply.code(500).send({ ok: false, message: error.message });
       })
-      .listen({ port: 4000 });
+      .listen({ port: PORT });
 
-    console.log("Server is running on port 4000");
+    console.log(`Server is running on port ${PORT}`);
   } catch (err) {
     fastify.log.error(err);
 

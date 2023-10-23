@@ -7,14 +7,30 @@ import crypto from "node:crypto";
 
 import { refreshKakao } from "./hooks/oauth.js";
 import authRoutes from "./routes/authRoutes.js";
-import postRoutes from "./routes/postRoutes.js"; // Adjust the path accordingly
+import postRoutes from "./routes/postRoutes.js";
+
+const envToLogger = {
+  development: {
+    transport: {
+      target: "pino-pretty",
+      options: {
+        translateTime: "HH:MM:ss Z",
+        ignore: "pid,hostname",
+      },
+    },
+  },
+  production: true,
+  test: false,
+};
 
 export const startServer = async (db: Database) => {
   const secret = crypto.randomBytes(32).toString("hex");
-  const fastify = Fastify();
+  const fastify = await Fastify({
+    logger: envToLogger[process.env.NODE_ENV!] ?? true,
+  });
 
   try {
-    await Fastify({ logger: true })
+    fastify
       .register(fastifyCookie)
       .register(fastifySession, {
         secret,

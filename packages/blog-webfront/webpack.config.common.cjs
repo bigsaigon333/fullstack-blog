@@ -1,4 +1,5 @@
 const path = require("path");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 const isProduction = process.env.NODE_ENV == "production";
 
@@ -31,13 +32,18 @@ const config = {
       {
         test: /\.css$/i,
         use: [
-          "style-loader",
+          MiniCssExtractPlugin.loader,
           "css-loader",
           {
             loader: "postcss-loader",
             options: {
               postcssOptions: {
-                plugins: ["tailwindcss", "postcss-preset-env", "autoprefixer"],
+                plugins: [
+                  "tailwindcss",
+                  "postcss-preset-env",
+                  "autoprefixer",
+                  isProduction && { cssnano: {} },
+                ].filter(Boolean),
               },
             },
           },
@@ -45,6 +51,7 @@ const config = {
       },
     ],
   },
+  plugins: [new MiniCssExtractPlugin()],
   resolve: {
     extensions: ["mjs", "js", "ts", "tsx", "json", "jsx"].map(
       (ext) => `.${ext}`

@@ -36,7 +36,6 @@ async function run() {
           const filename = request.url.replace("/public/", "");
           const stream = fs.createReadStream(path.join(dir, filename));
 
-          reply.header("Content-Type", "application/octet-stream");
           reply.send(stream);
         },
       })

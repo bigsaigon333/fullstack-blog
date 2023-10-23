@@ -10,23 +10,6 @@ const config = {
     publicPath: "/",
     clean: true,
   },
-  devServer: {
-    open: true,
-    host: "localhost",
-    hot: true,
-    port: 3000,
-    proxy: {
-      "/api": {
-        target: "http://localhost:8080",
-        changeOrigin: true,
-      },
-      "/oauth": {
-        target: "http://localhost:8080",
-        changeOrigin: true,
-      },
-    },
-    historyApiFallback: true,
-  },
 };
 
 module.exports = merge(commonConfig, config);

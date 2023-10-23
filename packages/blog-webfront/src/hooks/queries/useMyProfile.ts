@@ -1,21 +1,15 @@
-import {
-  UseMutationOptions,
-  useMutation,
-  useSuspenseQuery,
-} from "@tanstack/react-query";
-import { fetchMyProfile, logout } from "../../remotes/myProfile.js";
+import { fetchMyProfile } from "../../remotes/myProfile.js";
+
+import { proxy, useSnapshot } from "valtio";
+
+const myProfilePromise = proxy({ profile: fetchMyProfile() });
 
 export default function useMyProfile() {
-  return useSuspenseQuery({
-    queryKey: ["my-profile"],
-    queryFn: () => fetchMyProfile(),
-  });
+  const { profile: myProfile } = useSnapshot(myProfilePromise);
+
+  return myProfile;
 }
 
-export function useLogout(options?: UseMutationOptions) {
-  return useMutation({
-    mutationKey: ["logout"],
-    mutationFn: () => logout(),
-    ...options,
-  });
-}
+useMyProfile.refetch = async () => {
+  return (myProfilePromise.profile = fetchMyProfile());
+};

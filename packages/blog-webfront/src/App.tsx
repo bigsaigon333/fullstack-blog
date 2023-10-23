@@ -1,4 +1,3 @@
-import { QueryClientProvider } from "@tanstack/react-query";
 import queryString from "query-string";
 import { Suspense } from "react";
 import { Navigate, Outlet, Route, Routes } from "react-router-dom";
@@ -12,7 +11,6 @@ import EditPage from "./pages/EditPage.js";
 import LoginPage from "./pages/LoginPage.js";
 import PostContentPage from "./pages/PostContentPage.js";
 import PostsPage from "./pages/PostsPage.js";
-import { globalQueryClient } from "./utils/reactQuery.js";
 
 import Authorized from "./components/Authorized.js";
 import "./main.css";

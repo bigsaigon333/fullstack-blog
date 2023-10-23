@@ -1,5 +1,6 @@
 import classNames from "classnames";
 import { Suspense, startTransition, useState } from "react";
+import { ErrorBoundary } from "react-error-boundary";
 import { AiOutlineEdit } from "react-icons/ai";
 import {
   MdOutlineDarkMode,
@@ -10,11 +11,10 @@ import {
 import { useLocation, useNavigate } from "react-router-dom";
 import { match } from "ts-pattern";
 import useColorMode from "../hooks/useColorMode.js";
+import Authorized from "./Authorized.js";
 import Link from "./Link.js";
 import LoginButton from "./LoginButton.js";
 import SearchModal from "./SearchModal.js";
-import { ErrorBoundary } from "react-error-boundary";
-import Authorized from "./Authorized.js";
 
 const Navbar = () => {
   const [colorMode, _, toggleColorMode] = useColorMode();
@@ -49,25 +49,25 @@ const Navbar = () => {
             <ColorModeIcon className="w-5 h-5" />
             <span className="sr-only">Write a new Article</span>
           </button>
-          <Authorized expectedRole="admin">
-            <Link className="p-1 opacity-75" to="/edit">
-              <AiOutlineEdit
-                className={classNames(
-                  "w-5 h-5",
-                  isEditPage && "text-cyan-700 scale-105"
-                )}
-              />
-              <span className="sr-only">Write a new Article</span>
-            </Link>
-          </Authorized>
+          <Suspense fallback={null}>
+            <Authorized expectedRole="admin" fallback={null}>
+              <Link className="p-1 opacity-75" to="/edit">
+                <AiOutlineEdit
+                  className={classNames(
+                    "w-5 h-5",
+                    isEditPage && "text-cyan-700 scale-105"
+                  )}
+                />
+                <span className="sr-only">Write a new Article</span>
+              </Link>
+            </Authorized>
+          </Suspense>
           <button className={"p-1"} onClick={handleSearchIconClick}>
             <MdOutlineSearch className="w-5 h-5" />
             <span className="sr-only">Search Article by keyword</span>
           </button>
           <ErrorBoundary fallback={<></>}>
-            <Suspense fallback={null}>
-              <LoginButton />
-            </Suspense>
+            <LoginButton />
           </ErrorBoundary>
         </div>
       </div>

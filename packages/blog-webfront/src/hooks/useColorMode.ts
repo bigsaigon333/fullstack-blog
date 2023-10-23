@@ -4,7 +4,7 @@ import { P, match } from "ts-pattern";
 
 import { atomWithStorage } from "jotai/utils";
 import { safeJsonParse } from "../utils/json.js";
-import { isServer } from "@tanstack/react-query";
+import { isServer } from "../utils/network.js";
 
 export type Theme = "light" | "dark";
 

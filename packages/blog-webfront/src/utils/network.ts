@@ -1,7 +1,8 @@
-import { isServer } from "@tanstack/react-query";
 import ky from "ky";
 
 const SSR_SERVER_UPSTREAM = "http://localhost:3000";
+
+export const isServer = typeof window === "undefined";
 
 export const http = ky.create({
   headers: { "content-type": "application/json" },

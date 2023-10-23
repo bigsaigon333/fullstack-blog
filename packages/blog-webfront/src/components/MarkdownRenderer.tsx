@@ -1,11 +1,11 @@
-import DOMPurify from "dompurify";
+import { sanitize } from "isomorphic-dompurify";
 import { marked } from "marked";
 import { memo, useMemo } from "react";
 
 marked.use({
   hooks: {
     preprocess: (markdown) => markdown,
-    postprocess: (html) => DOMPurify.sanitize(html, { ADD_ATTR: ["target"] }),
+    postprocess: (html) => sanitize(html, { ADD_ATTR: ["target"] }),
   },
   renderer: {
     link: (href, title, text) =>

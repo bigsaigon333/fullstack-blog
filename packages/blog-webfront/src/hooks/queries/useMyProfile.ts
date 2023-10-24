@@ -1,15 +1,17 @@
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { fetchMyProfile } from "../../remotes/myProfile.js";
 
-import { proxy, useSnapshot } from "valtio";
-
-const myProfilePromise = proxy({ profile: fetchMyProfile() });
+import { globalQueryClient } from "../../utils/reactQuery.js";
 
 export default function useMyProfile() {
-  const { profile: myProfile } = useSnapshot(myProfilePromise);
+  const { data } = useSuspenseQuery({
+    queryKey: ["my-profile"],
+    queryFn: () => fetchMyProfile(),
+  });
 
-  return myProfile;
+  return data;
 }
 
 useMyProfile.refetch = async () => {
-  return (myProfilePromise.profile = fetchMyProfile());
+  return globalQueryClient.refetchQueries({ queryKey: ["my-profile"] });
 };

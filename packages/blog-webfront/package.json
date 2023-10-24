@@ -85,7 +85,6 @@
     "react-router-dom": "^6.15.0",
     "ts-pattern": "^5.0.5",
     "use-query-params": "^2.2.1",
-    "valtio": "^1.11.3",
     "zod": "^3.22.2"
   }
 }

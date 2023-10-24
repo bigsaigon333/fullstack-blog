@@ -1,6 +1,6 @@
-import { ReactNode, Suspense, use } from "react";
-import { MyProfile, fetchMyProfile } from "../remotes/myProfile.js";
+import { ReactNode } from "react";
 import useMyProfile from "../hooks/queries/useMyProfile.js";
+import { MyProfile } from "../remotes/myProfile.js";
 
 type AuthorizedProps = {
   expectedRole: "admin" | "guest" | null;

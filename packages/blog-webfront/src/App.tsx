@@ -44,12 +44,14 @@ const App = () => {
             <Route
               path="/edit"
               element={
-                <Authorized
-                  expectedRole="admin"
-                  fallback={<Navigate to="/" replace />}
-                >
-                  <EditPage />
-                </Authorized>
+                <Suspense>
+                  <Authorized
+                    expectedRole="admin"
+                    fallback={<Navigate to="/" replace />}
+                  >
+                    <EditPage />
+                  </Authorized>
+                </Suspense>
               }
             />
             <Route path="/login" element={<LoginPage />} />

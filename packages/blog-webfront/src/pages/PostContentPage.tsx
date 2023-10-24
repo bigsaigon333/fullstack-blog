@@ -1,5 +1,5 @@
 import { Button } from "flowbite-react";
-import { startTransition } from "react";
+import { Suspense, startTransition } from "react";
 import { useLinkClickHandler, useNavigate, useParams } from "react-router-dom";
 import { z } from "zod";
 import Authorized from "../components/Authorized.js";
@@ -39,26 +39,28 @@ const PostContentPage = () => {
 
       <hr className="mb-4 mt-24" />
       <div className="flex justify-end gap-x-4">
-        <Authorized expectedRole="admin" fallback={null}>
-          <Button
-            color="failure"
-            onClick={() => {
-              const confirmed = window.confirm("정말 삭제하시겠습니까?");
-              if (confirmed) {
-                deletePost(postId);
-              }
-            }}
-          >
-            Delete
-          </Button>
-          <Button
-            as="a"
-            href={toEditPage}
-            onClick={(event) => startTransition(() => handleClick(event))}
-          >
-            Edit
-          </Button>
-        </Authorized>
+        <Suspense>
+          <Authorized expectedRole="admin" fallback={null}>
+            <Button
+              color="failure"
+              onClick={() => {
+                const confirmed = window.confirm("정말 삭제하시겠습니까?");
+                if (confirmed) {
+                  deletePost(postId);
+                }
+              }}
+            >
+              Delete
+            </Button>
+            <Button
+              as="a"
+              href={toEditPage}
+              onClick={(event) => startTransition(() => handleClick(event))}
+            >
+              Edit
+            </Button>
+          </Authorized>
+        </Suspense>
       </div>
     </>
   );

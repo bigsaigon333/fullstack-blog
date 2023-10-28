@@ -1,12 +1,7 @@
-import { sanitize } from "isomorphic-dompurify";
 import { marked } from "marked";
 import { memo, useMemo } from "react";
 
 marked.use({
-  hooks: {
-    preprocess: (markdown) => markdown,
-    postprocess: (html) => sanitize(html, { ADD_ATTR: ["target"] }),
-  },
   renderer: {
     link: (href, title, text) =>
       `<a href="${href}" target="_blank" rel="noopener noreferrer" ${

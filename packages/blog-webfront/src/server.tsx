@@ -9,10 +9,17 @@ import { StaticRouter } from "react-router-dom/server.js";
 import App from "./App.js";
 import { defaultOptions } from "./utils/reactQuery.js";
 
+type RenderParams = {
+  url: string;
+  cookie: string | undefined;
+};
+
 export function render(
-  url: string,
+  { url, cookie }: RenderParams,
   options?: RenderToPipeableStreamOptions
 ): PipeableStream {
+  globalThis.cookie = cookie;
+
   return renderToPipeableStream(<Main url={url} />, options);
 }
 

@@ -1,5 +1,5 @@
 import queryString from "query-string";
-import { Suspense } from "react";
+import { StrictMode, Suspense } from "react";
 import { Navigate, Outlet, Route, Routes } from "react-router-dom";
 import { QueryParamProvider } from "use-query-params";
 import { ReactRouter6Adapter } from "use-query-params/adapters/react-router-6";
@@ -17,49 +17,51 @@ import "./main.css";
 
 const App = () => {
   return (
-    <QueryParamProvider
-      adapter={ReactRouter6Adapter}
-      options={{
-        searchStringToObject: queryString.parse,
-        objectToSearchString: queryString.stringify,
-      }}
-    >
-      <Suspense fallback={null}>
-        <Routes>
-          <Route
-            element={
-              <Container>
-                <Navbar />
-                <Link to="/">
-                  <Header title="프론트엔드 개발자 김동희입니다" />
-                </Link>
-                <Suspense>
-                  <Outlet />
-                </Suspense>
-              </Container>
-            }
-          >
-            <Route path="/" element={<PostsPage />} />
-            <Route path="/posts/:id" element={<PostContentPage />} />
+    <StrictMode>
+      <QueryParamProvider
+        adapter={ReactRouter6Adapter}
+        options={{
+          searchStringToObject: queryString.parse,
+          objectToSearchString: queryString.stringify,
+        }}
+      >
+        <Suspense fallback={null}>
+          <Routes>
             <Route
-              path="/edit"
               element={
-                <Suspense>
-                  <Authorized
-                    expectedRole="admin"
-                    fallback={<Navigate to="/" replace />}
-                  >
-                    <EditPage />
-                  </Authorized>
-                </Suspense>
+                <Container>
+                  <Navbar />
+                  <Link to="/">
+                    <Header title="프론트엔드 개발자 김동희입니다" />
+                  </Link>
+                  <Suspense>
+                    <Outlet />
+                  </Suspense>
+                </Container>
               }
-            />
-            <Route path="/login" element={<LoginPage />} />
-            {/* TODO: 404 page */}
-          </Route>
-        </Routes>
-      </Suspense>
-    </QueryParamProvider>
+            >
+              <Route path="/" element={<PostsPage />} />
+              <Route path="/posts/:id" element={<PostContentPage />} />
+              <Route
+                path="/edit"
+                element={
+                  <Suspense>
+                    <Authorized
+                      expectedRole="admin"
+                      fallback={<Navigate to="/" replace />}
+                    >
+                      <EditPage />
+                    </Authorized>
+                  </Suspense>
+                }
+              />
+              <Route path="/login" element={<LoginPage />} />
+              {/* TODO: 404 page */}
+            </Route>
+          </Routes>
+        </Suspense>
+      </QueryParamProvider>
+    </StrictMode>
   );
 };
 

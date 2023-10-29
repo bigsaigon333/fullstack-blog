@@ -8,6 +8,7 @@ import {
 } from "react-dom/server";
 import { StaticRouter } from "react-router-dom/server.js";
 import App from "./App.js";
+import { Html } from "./common.js";
 import { defaultOptions } from "./utils/reactQuery.js";
 
 type RenderParams = {
@@ -38,22 +39,12 @@ function Main({ url }: Props) {
   const [queryClient] = useState(() => new QueryClient({ defaultOptions }));
 
   return (
-    <html lang="ko">
-      <head>
-        <meta charSet="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link href="/public/main.css" rel="stylesheet" />
-        <title>Document</title>
-      </head>
-      <body>
-        <div id="app">
-          <StaticRouter location={url}>
-            <QueryClientProvider client={queryClient}>
-              <App />
-            </QueryClientProvider>
-          </StaticRouter>
-        </div>
-      </body>
-    </html>
+    <Html>
+      <StaticRouter location={url}>
+        <QueryClientProvider client={queryClient}>
+          <App />
+        </QueryClientProvider>
+      </StaticRouter>
+    </Html>
   );
 }

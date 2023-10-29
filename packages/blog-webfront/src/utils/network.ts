@@ -1,19 +1,10 @@
 import ky from "ky";
 
-const SSR_SERVER_UPSTREAM = "http://localhost:3000";
+const API_SERVER_UPSTREAM = "http://localhost:8080";
 
 export const isServer = typeof window === "undefined";
 
 export const http = ky.create({
   headers: { "content-type": "application/json" },
-  prefixUrl: isServer ? SSR_SERVER_UPSTREAM : "/",
-  hooks: {
-    beforeRequest: [
-      (request) => {
-        if (isServer && globalThis.cookie) {
-          request.headers.set("cookie", globalThis.cookie);
-        }
-      },
-    ],
-  },
+  prefixUrl: isServer ? API_SERVER_UPSTREAM : "/",
 });

@@ -1,3 +1,4 @@
+import { FetchInterceptor } from "@mswjs/interceptors/fetch";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useState } from "react";
 import {
@@ -18,7 +19,13 @@ export function render(
   { url, cookie }: RenderParams,
   options?: RenderToPipeableStreamOptions
 ): PipeableStream {
-  globalThis.cookie = cookie;
+  const interceptor = new FetchInterceptor();
+  interceptor.apply();
+  interceptor.on("request", ({ request, requestId }) => {
+    if (cookie) {
+      request.headers.set("cookie", cookie);
+    }
+  });
 
   return renderToPipeableStream(<Main url={url} />, options);
 }

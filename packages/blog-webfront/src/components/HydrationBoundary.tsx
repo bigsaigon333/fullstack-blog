@@ -32,7 +32,7 @@ export default function HydrationBoundary({ children }: Props) {
   }
 
   const rawDehydrated = (window as any)?.__REACT_QUERY_STATE__?.[id];
-  if (rawDehydrated == null) return;
+  if (rawDehydrated == null) return <>{children}</>;
 
   const dehydrated = JSON.parse(rawDehydrated);
   hydrate(queryClient, dehydrated);

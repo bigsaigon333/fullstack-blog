@@ -8,7 +8,6 @@ import Header from "./components/Header.js";
 import Link from "./components/Link.js";
 import Navbar from "./components/Navbar.js";
 import EditPage from "./pages/EditPage.js";
-import LoginPage from "./pages/LoginPage.js";
 import PostContentPage from "./pages/PostContentPage.js";
 import PostsPage from "./pages/PostsPage.js";
 
@@ -55,7 +54,6 @@ const App = () => {
                   </Suspense>
                 }
               />
-              <Route path="/login" element={<LoginPage />} />
               {/* TODO: 404 page */}
             </Route>
           </Routes>

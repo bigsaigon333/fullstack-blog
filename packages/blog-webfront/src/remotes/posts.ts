@@ -1,8 +1,8 @@
+import queryString from "query-string";
 import { z } from "zod";
 import { Pagination } from "../models/pagination.js";
 import { Post, PostContent, PostResponse } from "../models/post.js";
-import { http } from "../utils/network.js";
-import queryString from "query-string";
+import { RemoteOptions, http } from "../utils/network.js";
 
 type FetchPostsParams = {
   page?: number;
@@ -13,14 +13,16 @@ type FetchPostsParams = {
 export const DEFAULT_PAGE_SIZE = 10;
 
 export const fetchPosts = async (
-  params: FetchPostsParams = {}
+  params: FetchPostsParams = {},
+  { httpClient = http, signal }: RemoteOptions = {}
 ): Promise<Pagination<Post>> => {
-  const json = await http
+  const json = await httpClient
     .get(
       `api/posts?${queryString.stringify(
         { size: DEFAULT_PAGE_SIZE, ...params },
         { skipEmptyString: true }
-      )}`
+      )}`,
+      { signal }
     )
     .json<PostResponse>();
   const parsedJson = PostResponse.parse(json);
@@ -28,33 +30,48 @@ export const fetchPosts = async (
   return z.object({ total: z.number(), data: z.array(Post) }).parse(parsedJson);
 };
 
-export const fetchPost = async ({ id }: { id: number }): Promise<Post> => {
-  const json = await http.get(`api/posts/${id}`).json<PostResponse>();
+export const fetchPost = async (
+  { id }: { id: number },
+  { httpClient = http, signal }: RemoteOptions = {}
+): Promise<Post> => {
+  const json = await httpClient
+    .get(`api/posts/${id}`, { signal })
+    .json<PostResponse>();
 
   return Post.parse(json);
 };
 
-export const fetchPostContent = async ({
-  id,
-}: {
-  id: number;
-}): Promise<PostContent> => {
-  const json = await http.get(`api/posts/${id}/content`).json<PostResponse>();
+export const fetchPostContent = async (
+  { id }: { id: number },
+  { httpClient = http, signal }: RemoteOptions = {}
+): Promise<PostContent> => {
+  const json = await httpClient
+    .get(`api/posts/${id}/content`, { signal })
+    .json<PostResponse>();
 
   return PostContent.parse(json);
 };
 
-export const craetePost = async (payload: {
-  title: string;
-  content: string;
-}) => {
-  const json = await http.post(`api/posts`, { json: payload }).json<Post>();
+export const craetePost = async (
+  payload: {
+    title: string;
+    content: string;
+  },
+  { httpClient = http, signal }: RemoteOptions = {}
+) => {
+  const json = await httpClient
+    .post(`api/posts`, { json: payload, signal })
+    .json<Post>();
 
   return json;
 };
 
-export const deletePost = async (id: number) => {
-  await http.delete(`api/posts/${id}`, {
+export const deletePost = async (
+  id: number,
+  { httpClient = http, signal }: RemoteOptions = {}
+) => {
+  await httpClient.delete(`api/posts/${id}`, {
     headers: { "Content-Type": undefined },
+    signal,
   });
 };

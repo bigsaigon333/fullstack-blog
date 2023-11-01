@@ -6,6 +6,7 @@ import { Pagination } from "../../models/pagination.js";
 import { Post } from "../../models/post.js";
 import { fetchPosts } from "../../remotes/posts.js";
 import { globalQueryClient } from "../../utils/reactQuery.js";
+import useHttpClient from "../useHttpClient.js";
 
 type UsePostsParams = {
   page?: number;
@@ -19,9 +20,11 @@ type UsePostsOptions = Omit<
 >;
 
 const usePosts = (params: UsePostsParams = {}, options?: UsePostsOptions) => {
+  const httpClient = useHttpClient();
+
   return useSuspenseQuery({
     queryKey: usePosts.getQueryKey(params),
-    queryFn: () => fetchPosts(params),
+    queryFn: () => fetchPosts(params, { httpClient }),
     ...options,
   });
 };

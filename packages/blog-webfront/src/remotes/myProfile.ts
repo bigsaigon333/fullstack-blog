@@ -1,5 +1,4 @@
-import ky from "ky";
-import { http } from "../utils/network.js";
+import { RemoteOptions, http } from "../utils/network.js";
 
 export type MyProfile = {
   id: number;
@@ -10,15 +9,23 @@ export type MyProfile = {
   is_default_image: boolean;
 };
 
-export async function fetchMyProfile(): Promise<MyProfile | null> {
-  const json = await http.get("oauth/my-profile").json<MyProfile | null>();
+export async function fetchMyProfile({
+  httpClient = http,
+  signal,
+}: RemoteOptions = {}): Promise<MyProfile | null> {
+  const json = await httpClient
+    .get("oauth/my-profile", { signal })
+    .json<MyProfile | null>();
 
   return json;
 }
 
-export async function logout(): Promise<true | null> {
-  const json = await http
-    .post("oauth/logout", { headers: { "Content-Type": undefined } })
+export async function logout({
+  httpClient = http,
+  signal,
+}: RemoteOptions = {}): Promise<true | null> {
+  const json = await httpClient
+    .post("oauth/logout", { headers: { "Content-Type": undefined }, signal })
     .json<true | null>();
 
   return json;

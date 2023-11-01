@@ -6,7 +6,7 @@ export function routeHandler(request: FastifyRequest, reply: FastifyReply) {
     { url: request.url, cookie: request.headers.cookie },
     {
       bootstrapScripts: ["/public/main.js"],
-      onShellReady: () => {
+      onAllReady: () => {
         reply.raw
           .setHeader("content-type", "text/html")
           .setHeader("charset", "utf-8");

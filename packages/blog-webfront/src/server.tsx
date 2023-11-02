@@ -9,6 +9,7 @@ import {
   renderToPipeableStream,
 } from "react-dom/server";
 import { StaticRouter } from "react-router-dom/server.js";
+import { serialize } from "superjson";
 import App from "./App.js";
 import { Html } from "./common.js";
 import { HttpClientProvider } from "./hooks/useHttpClient.js";
@@ -35,7 +36,7 @@ export function makeRenderContext(
 
   const dehydrate = (options?: DehydrateOptions) =>
     `<script>window.__REACT_QUERY_STATE__ = ${JSON.stringify(
-      dehydrateQueryClient(queryClient, options)
+      serialize(dehydrateQueryClient(queryClient, options))
     )}</script>`;
 
   return {

@@ -1,7 +1,10 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { useState } from "react";
 import {
-  PipeableStream,
+  DehydrateOptions,
+  QueryClient,
+  QueryClientProvider,
+  dehydrate as dehydrateQueryClient,
+} from "@tanstack/react-query";
+import {
   RenderToPipeableStreamOptions,
   renderToPipeableStream,
 } from "react-dom/server";
@@ -17,26 +20,37 @@ type RenderParams = {
   cookie: string | undefined;
 };
 
-export function render(
+export function makeRenderContext(
   { url, cookie }: RenderParams,
   options?: RenderToPipeableStreamOptions
-): PipeableStream {
-  const client = http.extend({ headers: { cookie } });
+) {
+  const httpClient = http.extend({ headers: { cookie } });
+  const queryClient = new QueryClient({ defaultOptions });
 
-  return renderToPipeableStream(
-    <Main url={url} httpClient={client} />,
-    options
-  );
+  const render = (options?: RenderToPipeableStreamOptions) =>
+    renderToPipeableStream(
+      <Main url={url} httpClient={httpClient} queryClient={queryClient} />,
+      options
+    );
+
+  const dehydrate = (options?: DehydrateOptions) =>
+    `<script>window.__REACT_QUERY_STATE__ = ${JSON.stringify(
+      dehydrateQueryClient(queryClient, options)
+    )}</script>`;
+
+  return {
+    render,
+    dehydrate,
+  };
 }
 
 type Props = {
   url: string;
   httpClient: typeof http;
+  queryClient: QueryClient;
 };
 
-function Main({ url, httpClient }: Props) {
-  const [queryClient] = useState(() => new QueryClient({ defaultOptions }));
-
+function Main({ url, httpClient, queryClient }: Props) {
   return (
     <Html>
       <HttpClientProvider value={httpClient}>

@@ -1,3 +1,4 @@
+import { DehydrateOptions, DehydratedState } from "@tanstack/react-query";
 import {
   PipeableStream,
   RenderToPipeableStreamOptions,
@@ -8,7 +9,10 @@ type RenderParams = {
   cookie: string | undefined;
 };
 
-export function render(
+export function makeRenderContext(
   { url, cookie }: RenderParams,
   options?: RenderToPipeableStreamOptions
-): PipeableStream;
+): {
+  render: (options?: RenderToPipeableStreamOptions) => PipeableStream;
+  dehydrate: (options?: DehydrateOptions) => string;
+};

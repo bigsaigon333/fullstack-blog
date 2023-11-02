@@ -2,17 +2,22 @@ import * as ssr from "blog-webfront/server";
 import { FastifyReply, FastifyRequest } from "fastify";
 
 export function routeHandler(request: FastifyRequest, reply: FastifyReply) {
-  const { pipe } = ssr.render(
-    { url: request.url, cookie: request.headers.cookie },
-    {
-      bootstrapScripts: ["/public/main.js"],
-      onAllReady: () => {
-        reply.raw
-          .setHeader("content-type", "text/html")
-          .setHeader("charset", "utf-8");
+  const { render, dehydrate } = ssr.makeRenderContext({
+    url: request.url,
+    cookie: request.headers.cookie,
+  });
 
-        pipe(reply.raw);
-      },
-    }
-  );
+  const { pipe } = render({
+    bootstrapScripts: ["/public/main.js"],
+    onAllReady: () => {
+      reply.raw
+        .setHeader("content-type", "text/html")
+        .setHeader("charset", "utf-8");
+
+      pipe(reply.raw);
+
+      const dehydrateBuffer = Buffer.from(dehydrate(), "utf-8");
+      reply.raw.write(dehydrateBuffer);
+    },
+  });
 }

@@ -46,10 +46,12 @@ const Navbar = () => {
               </Link>
             </Authorized>
           </Suspense>
-          <button className={"p-1"} onClick={handleSearchIconClick}>
-            <MdOutlineSearch className="w-5 h-5" />
-            <span className="sr-only">Search Article by keyword</span>
-          </button>
+          {isHomePage && (
+            <button className={"p-1"} onClick={handleSearchIconClick}>
+              <MdOutlineSearch className="w-5 h-5" />
+              <span className="sr-only">Search Article by keyword</span>
+            </button>
+          )}
           <ErrorBoundary fallback={<></>}>
             <LoginButton />
           </ErrorBoundary>

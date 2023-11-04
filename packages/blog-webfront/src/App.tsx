@@ -14,6 +14,7 @@ import PostsPage from "./pages/PostsPage.js";
 
 import Authorized from "./components/Authorized.js";
 import "./main.css";
+import "dayjs/esm/locale/ko";
 
 registerCustom<Dayjs, string>(
   {

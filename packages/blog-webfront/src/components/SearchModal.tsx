@@ -22,7 +22,6 @@ export default function SearchModal({ open, onClose }: Props) {
           <form
             className="flex max-w-md flex-col gap-4"
             onSubmit={forms.handleSubmit(({ keyword }) => {
-              console.log(keyword);
               startTransition(() => (setPage(1), setQ(keyword)));
               onClose();
             })}

@@ -25,6 +25,8 @@ registerCustom<Dayjs, string>(
   "dayjs"
 );
 
+dayjs.locale("ko");
+
 const App = () => {
   return (
     <StrictMode>

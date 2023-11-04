@@ -1,4 +1,4 @@
-import { Dayjs } from "dayjs";
+import dayjs, { Dayjs } from "dayjs";
 
 type Props = {
   title: string;
@@ -11,8 +11,8 @@ const PostListItem = ({ title, lastUpdatedAt }: Props) => {
       <h2 className="text-xl md:text-2xl font-medium">{title}</h2>
       <p className="self-end text-sm">
         <span>{"최종 수정 시간: "}</span>
-        <time dateTime={lastUpdatedAt.toISOString()}>
-          {lastUpdatedAt.locale("ko").format("YYYY-MM-DD ddd HH:MM:ss z")}
+        <time dateTime={lastUpdatedAt.toISOString()} suppressHydrationWarning>
+          {lastUpdatedAt.format("YYYY-MM-DD ddd HH:MM:ss z")}
         </time>
       </p>
     </article>

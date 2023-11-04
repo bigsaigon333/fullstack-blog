@@ -47,7 +47,7 @@ const Navbar = () => {
         <div className="flex gap-x-2">
           <button className="p-1 opacity-75" onClick={() => toggleColorMode()}>
             <ColorModeIcon className="w-5 h-5" />
-            <span className="sr-only">Write a new Article</span>
+            <span className="sr-only">Toggle Color Mode</span>
           </button>
           <Suspense fallback={null}>
             <Authorized expectedRole="admin" fallback={null}>

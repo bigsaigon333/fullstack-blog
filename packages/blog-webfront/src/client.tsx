@@ -15,7 +15,7 @@ hydrateRoot(document.getElementById("app")!, <Main />);
 function Main() {
   return (
     <Html>
-      <BrowserRouter>
+      <BrowserRouter future={{ v7_startTransition: true }}>
         <QueryClientProvider client={globalQueryClient}>
           <App />
         </QueryClientProvider>

@@ -3,9 +3,8 @@ import { Suspense, startTransition, useState } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { AiOutlineEdit } from "react-icons/ai";
 import { MdOutlineKeyboardBackspace, MdOutlineSearch } from "react-icons/md";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Authorized from "./Authorized.js";
-import Link from "./Link.js";
 import LoginButton from "./LoginButton.js";
 import SearchModal from "./SearchModal.js";
 

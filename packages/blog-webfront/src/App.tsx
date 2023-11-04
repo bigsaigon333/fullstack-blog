@@ -1,13 +1,12 @@
 import dayjs, { Dayjs, isDayjs } from "dayjs";
 import queryString from "query-string";
 import { StrictMode, Suspense } from "react";
-import { Navigate, Outlet, Route, Routes } from "react-router-dom";
+import { Link, Navigate, Outlet, Route, Routes } from "react-router-dom";
 import { registerCustom } from "superjson";
 import { QueryParamProvider } from "use-query-params";
 import { ReactRouter6Adapter } from "use-query-params/adapters/react-router-6";
 import Container from "./components/Container.js";
 import Header from "./components/Header.js";
-import Link from "./components/Link.js";
 import Navbar from "./components/Navbar.js";
 import EditPage from "./pages/EditPage.js";
 import PostContentPage from "./pages/PostContentPage.js";

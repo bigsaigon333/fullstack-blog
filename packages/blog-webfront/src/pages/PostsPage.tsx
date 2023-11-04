@@ -1,8 +1,8 @@
 import { Pagination } from "flowbite-react";
 import { startTransition } from "react";
 import { TiBackspaceOutline } from "react-icons/ti";
+import { Link } from "react-router-dom";
 import { NumberParam, StringParam, useQueryParam } from "use-query-params";
-import Link from "../components/Link.js";
 import PostListItem from "../components/PostListItem.js";
 import usePosts from "../hooks/queries/usePosts.js";
 import { DEFAULT_PAGE_SIZE } from "../remotes/posts.js";

@@ -12,7 +12,7 @@ const PostListItem = ({ title, lastUpdatedAt }: Props) => {
       <p className="self-end text-sm">
         <span>{"최종 수정 시간: "}</span>
         <time dateTime={lastUpdatedAt.toISOString()}>
-          {lastUpdatedAt.format("YYYY-MM-DD ddd HH:MM:ss z")}
+          {lastUpdatedAt.locale("ko").format("YYYY-MM-DD ddd HH:MM:ss z")}
         </time>
       </p>
     </article>

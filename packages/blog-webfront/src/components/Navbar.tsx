@@ -2,26 +2,14 @@ import classNames from "classnames";
 import { Suspense, startTransition, useState } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { AiOutlineEdit } from "react-icons/ai";
-import {
-  MdOutlineDarkMode,
-  MdOutlineKeyboardBackspace,
-  MdOutlineLightMode,
-  MdOutlineSearch,
-} from "react-icons/md";
+import { MdOutlineKeyboardBackspace, MdOutlineSearch } from "react-icons/md";
 import { useLocation, useNavigate } from "react-router-dom";
-import { match } from "ts-pattern";
-import useColorMode from "../hooks/useColorMode.js";
 import Authorized from "./Authorized.js";
 import Link from "./Link.js";
 import LoginButton from "./LoginButton.js";
 import SearchModal from "./SearchModal.js";
 
 const Navbar = () => {
-  const [colorMode, _, toggleColorMode] = useColorMode();
-  const ColorModeIcon = match(colorMode)
-    .with("dark", () => MdOutlineLightMode)
-    .with("light", () => MdOutlineDarkMode)
-    .exhaustive();
   const navigate = useNavigate();
   const location = useLocation();
   const isHomePage = location.pathname === "/";
@@ -45,10 +33,6 @@ const Navbar = () => {
           </button>
         )}
         <div className="flex gap-x-2">
-          <button className="p-1 opacity-75" onClick={() => toggleColorMode()}>
-            <ColorModeIcon className="w-5 h-5" />
-            <span className="sr-only">Toggle Color Mode</span>
-          </button>
           <Suspense fallback={null}>
             <Authorized expectedRole="admin" fallback={null}>
               <Link className="p-1 opacity-75" to="/edit">

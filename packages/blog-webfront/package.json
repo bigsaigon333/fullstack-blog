@@ -5,9 +5,6 @@
   "main": "src/index.tsx",
   "type": "module",
   "exports": {
-    "./client": {
-      "default": "./dist/client/main.js"
-    },
     "./server": {
       "types": "./dist/server/server.d.cts",
       "default": "./dist/server/main.cjs"

@@ -12,6 +12,7 @@ const config = {
     path: path.resolve(__dirname, "dist/client"),
     publicPath: "/",
     clean: true,
+    filename: "[id].[chunkhash].js",
   },
   plugins: [isAnalyzeMode && new BundleAnalyzerPlugin()].filter(Boolean),
   optimization: {

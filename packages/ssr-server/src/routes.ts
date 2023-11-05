@@ -1,7 +1,7 @@
 import * as ssr from "blog-webfront/server";
 import { FastifyReply, FastifyRequest } from "fastify";
 import fs from "node:fs/promises";
-import path from "node:path";
+import { getAssetDirectory } from "./utils";
 
 export async function routeHandler(
   request: FastifyRequest,
@@ -32,7 +32,7 @@ export async function routeHandler(
 }
 
 async function getAssetMap() {
-  const dir = path.dirname(require.resolve("blog-webfront/client"));
+  const dir = getAssetDirectory();
   const files = await fs.readdir(dir);
   const js = files
     .filter((file) => file.endsWith("js"))

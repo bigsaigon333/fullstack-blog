@@ -3,6 +3,7 @@ import Fastify from "fastify";
 import fs from "node:fs";
 import path from "node:path";
 import { routeHandler } from "./routes.js";
+import { getAssetDirectory } from "./utils.js";
 
 const API_SERVER_UPSTREAM = "http://localhost:8080";
 const PORT = 3000;
@@ -32,7 +33,7 @@ async function run() {
         method: "GET",
         url: "/public/*",
         handler: (request, reply) => {
-          const dir = path.dirname(require.resolve("blog-webfront/client"));
+          const dir = getAssetDirectory();
           const filename = request.url.replace("/public/", "");
           const stream = fs.createReadStream(path.join(dir, filename));
 

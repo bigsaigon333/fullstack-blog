@@ -1,25 +1,30 @@
 {
   "name": "fullstack-blog",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
   "scripts": {
     "build": "pnpm build:all",
     "build:all": "concurrently 'pnpm build:api-server' 'pnpm build:ssr-server' 'pnpm build:webfront'",
     "build:api-server": "cd packages/blog-server && pnpm build",
     "build:ssr-server": "cd packages/ssr-server && pnpm build",
     "build:webfront": "cd packages/blog-webfront && pnpm build",
-    "build:server": "concurrently 'pnpm build:api-server' 'pnpm build:ssr-server'"
+    "build:server": "concurrently 'pnpm build:api-server' 'pnpm build:ssr-server'",
+    "start": "pnpm start:pm2",
+    "start:pm2": "pnpm start:api-server:pm2 && pnpm start:ssr-server:pm2",
+    "start:api-server": "cd packages/blog-server && pnpm start",
+    "start:ssr-server": "cd packages/ssr-server && pnpm start",
+    "start:api-server:pm2": "pm2 start 'pnpm start:api-server' --name blog-api-server",
+    "start:ssr-server:pm2": "pm2 start 'pnpm start:ssr-server' --name blog-ssr-server --watch pacakges/ssr-server/dist",
+    "delete": "pnpm delete:pm2",
+    "delete:pm2": "pm2 delete all",
+    "delete:api-server:pm2": "pm2 delete blog-api-server",
+    "delete:ssr-server:pm2": "pm2 delete blog-ssr-server"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "pm2": "^5.3.0"
+  },
   "pnpm": {
     "patchedDependencies": {
       "react-icons@4.11.0": "patches/react-icons@4.11.0.patch"
     }
-  },
-  "devDependencies": {
-    "concurrently": "^8.2.2"
   }
 }

@@ -37,6 +37,7 @@ async function run() {
           const filename = request.url.replace("/public/", "");
           const stream = fs.createReadStream(path.join(dir, filename));
 
+          reply.header("Cache-Control", "public, max-age=31536000");
           reply.send(stream);
         },
       })

@@ -19,7 +19,8 @@ export async function routeHandler(
     onAllReady: () => {
       reply.raw
         .setHeader("content-type", "text/html")
-        .setHeader("charset", "utf-8");
+        .setHeader("charset", "utf-8")
+        .setHeader("Cache-Control", "public, s-maxage=31536000, no-cache");
 
       pipe(reply.raw);
 

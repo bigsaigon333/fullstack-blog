@@ -3,6 +3,8 @@ const { merge } = require("webpack-merge");
 const commonConfig = require("./webpack.config.common.cjs");
 const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
 
+const isAnalyzeMode = process.env.ANALYZE === "true";
+
 /** @type {import('webpack').Configuration} */
 const config = {
   entry: "./src/client.tsx",
@@ -11,7 +13,20 @@ const config = {
     publicPath: "/",
     clean: true,
   },
-  plugins: [new BundleAnalyzerPlugin()],
+  plugins: [isAnalyzeMode && new BundleAnalyzerPlugin()].filter(Boolean),
+  optimization: {
+    splitChunks: {
+      cacheGroups: {
+        vendor: {
+          test: /[\\/]node_modules[\\/]/,
+          name: "vendors",
+          chunks: "all",
+          priority: -10,
+          reuseExistingChunk: true,
+        },
+      },
+    },
+  },
 };
 
 module.exports = merge(commonConfig, config);

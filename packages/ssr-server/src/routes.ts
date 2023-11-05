@@ -7,14 +7,16 @@ export async function routeHandler(
   request: FastifyRequest,
   reply: FastifyReply
 ) {
-  const bootstrapScripts = await getBootstrapScripts();
+  const assetMap = await getAssetMap();
   const { render, dehydrate } = ssr.makeRenderContext({
     url: request.url,
     cookie: request.headers.cookie,
+    assetMap,
   });
 
   const { pipe } = render({
-    bootstrapScripts,
+    bootstrapScripts: assetMap.js,
+    bootstrapScriptContent: `window.assetMap = ${JSON.stringify(assetMap)};`,
     onAllReady: () => {
       reply.raw
         .setHeader("content-type", "text/html")
@@ -30,12 +32,15 @@ export async function routeHandler(
   return reply;
 }
 
-async function getBootstrapScripts() {
+async function getAssetMap() {
   const dir = path.dirname(require.resolve("blog-webfront/client"));
   const files = await fs.readdir(dir);
-  const bootstrapScripts = files
+  const js = files
     .filter((file) => file.endsWith("js"))
     .map((file) => `/public/${file}`);
+  const css = files
+    .filter((file) => file.endsWith("css"))
+    .map((file) => `/public/${file}`);
 
-  return bootstrapScripts;
+  return { js, css };
 }

@@ -7,10 +7,11 @@ import {
 type RenderParams = {
   url: string;
   cookie: string | undefined;
+  assetMap: { js: string[]; css: string[] };
 };
 
 export function makeRenderContext(
-  { url, cookie }: RenderParams,
+  renderParams: RenderParams,
   options?: RenderToPipeableStreamOptions
 ): {
   render: (options?: RenderToPipeableStreamOptions) => PipeableStream;

@@ -19,10 +19,11 @@ import { defaultOptions } from "./utils/reactQuery.js";
 type RenderParams = {
   url: string;
   cookie: string | undefined;
+  assetMap: { js: string[]; css: string[] };
 };
 
 export function makeRenderContext(
-  { url, cookie }: RenderParams,
+  { url, cookie, assetMap }: RenderParams,
   options?: RenderToPipeableStreamOptions
 ) {
   const httpClient = http.extend({ headers: { cookie } });
@@ -30,7 +31,12 @@ export function makeRenderContext(
 
   const render = (options?: RenderToPipeableStreamOptions) =>
     renderToPipeableStream(
-      <Main url={url} httpClient={httpClient} queryClient={queryClient} />,
+      <Main
+        url={url}
+        httpClient={httpClient}
+        queryClient={queryClient}
+        assetMap={assetMap}
+      />,
       options
     );
 
@@ -49,11 +55,12 @@ type Props = {
   url: string;
   httpClient: typeof http;
   queryClient: QueryClient;
+  assetMap: { js: string[]; css: string[] };
 };
 
-function Main({ url, httpClient, queryClient }: Props) {
+function Main({ url, httpClient, queryClient, assetMap }: Props) {
   return (
-    <Html>
+    <Html assetMap={assetMap}>
       <HttpClientProvider value={httpClient}>
         <StaticRouter location={url}>
           <QueryClientProvider client={queryClient}>

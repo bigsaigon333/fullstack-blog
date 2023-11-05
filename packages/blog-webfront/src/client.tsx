@@ -16,11 +16,18 @@ if (window.__REACT_QUERY_STATE__) {
   hydrate(queryClient, deserialize(window.__REACT_QUERY_STATE__));
 }
 
-hydrateRoot(document.getElementById("app")!, <Main />);
+hydrateRoot(
+  document.getElementById("app")!,
+  <Main assetMap={window.assetMap} />
+);
 
-function Main() {
+type Props = {
+  assetMap: { js: string[]; css: string[] };
+};
+
+function Main({ assetMap }: Props) {
   return (
-    <Html>
+    <Html assetMap={assetMap}>
       <BrowserRouter future={{ v7_startTransition: true }}>
         <QueryClientProvider client={queryClient}>
           <App />

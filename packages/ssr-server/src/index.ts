@@ -1,7 +1,7 @@
 import httpProxy from "@fastify/http-proxy";
 import Fastify from "fastify";
 import fs from "node:fs";
-import path, { dirname } from "node:path";
+import path from "node:path";
 import { routeHandler } from "./routes.js";
 
 const API_SERVER_UPSTREAM = "http://localhost:8080";
@@ -32,7 +32,7 @@ async function run() {
         method: "GET",
         url: "/public/*",
         handler: (request, reply) => {
-          const dir = dirname(require.resolve("blog-webfront/client"));
+          const dir = path.dirname(require.resolve("blog-webfront/client"));
           const filename = request.url.replace("/public/", "");
           const stream = fs.createReadStream(path.join(dir, filename));
 

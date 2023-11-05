@@ -1,6 +1,6 @@
 import { Pagination } from "flowbite-react";
 import { startTransition } from "react";
-import { TiBackspaceOutline } from "react-icons/ti";
+import { XCircle } from "react-feather";
 import { Link } from "react-router-dom";
 import {
   NumberParam,
@@ -31,7 +31,7 @@ const Posts = () => {
             className="p-1"
             onClick={() => startTransition(() => (setQ(""), setPage(1)))}
           >
-            <TiBackspaceOutline className="w-5 h-5" />
+            <XCircle className="w-5 h-5" />
             <span className="sr-only">초기화</span>
           </button>
         </div>

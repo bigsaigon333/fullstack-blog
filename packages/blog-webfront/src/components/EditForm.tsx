@@ -1,8 +1,8 @@
 import cx from "classnames";
 import { Button, Label, TextInput, Textarea } from "flowbite-react";
 import { memo, startTransition, useEffect, useId, useState } from "react";
+import { Image, Paperclip } from "react-feather";
 import { useForm } from "react-hook-form";
-import { MdAttachFile, MdImage } from "react-icons/md";
 import useSaveDraft from "../hooks/useSaveDraft.js";
 import { delay } from "../utils/time.js";
 
@@ -68,7 +68,7 @@ const EditForm = ({ onSubmit }: EditFormProps) => {
             )}
             disabled
           >
-            <MdAttachFile />
+            <Paperclip className="w-4 h-4" />
             <span className="sr-only">Attach file</span>
           </button>
 
@@ -79,7 +79,7 @@ const EditForm = ({ onSubmit }: EditFormProps) => {
             )}
             disabled
           >
-            <MdImage />
+            <Image className="w-4 h-4" />
             <span className="sr-only">Upload image</span>
           </button>
         </div>

@@ -1,8 +1,7 @@
 import classNames from "classnames";
 import { Suspense, startTransition, useState } from "react";
 import { ErrorBoundary } from "react-error-boundary";
-import { AiOutlineEdit } from "react-icons/ai";
-import { MdOutlineKeyboardBackspace, MdOutlineSearch } from "react-icons/md";
+import { ArrowLeft, Edit, Search } from "react-feather";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Authorized from "./Authorized.js";
 import LoginButton from "./LoginButton.js";
@@ -27,7 +26,7 @@ const Navbar = () => {
             className="p-1 opacity-75"
             onClick={() => startTransition(() => navigate(-1))}
           >
-            <MdOutlineKeyboardBackspace className="w-5 h-5" />
+            <ArrowLeft className="w-5 h-5" />
             <span className="sr-only">Go back</span>
           </button>
         )}
@@ -35,7 +34,7 @@ const Navbar = () => {
           <Suspense fallback={null}>
             <Authorized expectedRole="admin" fallback={null}>
               <Link className="p-1 opacity-75" to="/edit">
-                <AiOutlineEdit
+                <Edit
                   className={classNames(
                     "w-5 h-5",
                     isEditPage && "text-cyan-700 scale-105"
@@ -47,7 +46,7 @@ const Navbar = () => {
           </Suspense>
           {isHomePage && (
             <button className={"p-1"} onClick={handleSearchIconClick}>
-              <MdOutlineSearch className="w-5 h-5" />
+              <Search className="w-5 h-5" />
               <span className="sr-only">Search Article by keyword</span>
             </button>
           )}

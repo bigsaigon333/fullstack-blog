@@ -4,11 +4,6 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
-patchedDependencies:
-  react-icons@4.11.0:
-    hash: voxqrictzzqeedht23j4g53nci
-    path: patches/react-icons@4.11.0.patch
-
 importers:
 
   .:
@@ -95,12 +90,12 @@ importers:
       react-error-boundary:
         specifier: ^4.0.11
         version: 4.0.11(react@18.3.0-canary-d803f519e-20231020)
+      react-feather:
+        specifier: ^2.0.10
+        version: 2.0.10(react@18.3.0-canary-d803f519e-20231020)
       react-hook-form:
         specifier: ^7.46.1
         version: 7.46.1(react@18.3.0-canary-d803f519e-20231020)
-      react-icons:
-        specifier: ^4.11.0
-        version: 4.11.0(patch_hash=voxqrictzzqeedht23j4g53nci)(react@18.3.0-canary-d803f519e-20231020)
       react-router-dom:
         specifier: ^6.15.0
         version: 6.15.0(react-dom@18.3.0-canary-d803f519e-20231020)(react@18.3.0-canary-d803f519e-20231020)
@@ -5399,7 +5394,7 @@ packages:
       flowbite: 1.8.1
       react: 18.3.0-canary-d803f519e-20231020
       react-dom: 18.3.0-canary-d803f519e-20231020(react@18.3.0-canary-d803f519e-20231020)
-      react-icons: 4.11.0(patch_hash=voxqrictzzqeedht23j4g53nci)(react@18.3.0-canary-d803f519e-20231020)
+      react-icons: 4.11.0(react@18.3.0-canary-d803f519e-20231020)
       react-indiana-drag-scroll: 2.2.0(react-dom@18.3.0-canary-d803f519e-20231020)(react@18.3.0-canary-d803f519e-20231020)
       tailwind-merge: 1.14.0
       tailwindcss: 3.3.3(ts-node@10.9.1)
@@ -8552,6 +8547,14 @@ packages:
       read: 1.0.7
     dev: true
 
+  /prop-types@15.8.1:
+    resolution: {integrity: sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==}
+    dependencies:
+      loose-envify: 1.4.0
+      object-assign: 4.1.1
+      react-is: 16.13.1
+    dev: false
+
   /proxy-addr@2.0.7:
     resolution: {integrity: sha512-llQsMLSUDUPT44jdrU/O37qlnifitDP+ZwrmmZcoSKyLKvtZxpyV0n2/bD/N4tBAAZ/gJEdZU7KMraoK1+XYAg==}
     engines: {node: '>= 0.10'}
@@ -8652,6 +8655,15 @@ packages:
       react: 18.3.0-canary-d803f519e-20231020
     dev: false
 
+  /react-feather@2.0.10(react@18.3.0-canary-d803f519e-20231020):
+    resolution: {integrity: sha512-BLhukwJ+Z92Nmdcs+EMw6dy1Z/VLiJTzEQACDUEnWMClhYnFykJCGWQx+NmwP/qQHGX/5CzQ+TGi8ofg2+HzVQ==}
+    peerDependencies:
+      react: '>=16.8.6'
+    dependencies:
+      prop-types: 15.8.1
+      react: 18.3.0-canary-d803f519e-20231020
+    dev: false
+
   /react-hook-form@7.46.1(react@18.3.0-canary-d803f519e-20231020):
     resolution: {integrity: sha512-0GfI31LRTBd5tqbXMGXT1Rdsv3rnvy0FjEk8Gn9/4tp6+s77T7DPZuGEpBRXOauL+NhyGT5iaXzdIM2R6F/E+w==}
     engines: {node: '>=12.22.0'}
@@ -8661,14 +8673,13 @@ packages:
       react: 18.3.0-canary-d803f519e-20231020
     dev: false
 
-  /react-icons@4.11.0(patch_hash=voxqrictzzqeedht23j4g53nci)(react@18.3.0-canary-d803f519e-20231020):
+  /react-icons@4.11.0(react@18.3.0-canary-d803f519e-20231020):
     resolution: {integrity: sha512-V+4khzYcE5EBk/BvcuYRq6V/osf11ODUM2J8hg2FDSswRrGvqiYUYPRy4OdrWaQOBj4NcpJfmHZLNaD+VH0TyA==}
     peerDependencies:
       react: '*'
     dependencies:
       react: 18.3.0-canary-d803f519e-20231020
     dev: false
-    patched: true
 
   /react-indiana-drag-scroll@2.2.0(react-dom@18.3.0-canary-d803f519e-20231020)(react@18.3.0-canary-d803f519e-20231020):
     resolution: {integrity: sha512-+W/3B2OQV0FrbdnsoIo4dww/xpH0MUQJz6ziQb7H+oBko3OCbXuzDFYnho6v6yhGrYDNWYPuFUewb89IONEl/A==}
@@ -8682,6 +8693,10 @@ packages:
       easy-bem: 1.1.1
       react: 18.3.0-canary-d803f519e-20231020
       react-dom: 18.3.0-canary-d803f519e-20231020(react@18.3.0-canary-d803f519e-20231020)
+    dev: false
+
+  /react-is@16.13.1:
+    resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
     dev: false
 
   /react-router-dom@6.15.0(react-dom@18.3.0-canary-d803f519e-20231020)(react@18.3.0-canary-d803f519e-20231020):

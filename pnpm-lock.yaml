@@ -11,7 +11,11 @@ patchedDependencies:
 
 importers:
 
-  .: {}
+  .:
+    devDependencies:
+      concurrently:
+        specifier: ^8.2.2
+        version: 8.2.2
 
   packages/blog-server:
     dependencies:

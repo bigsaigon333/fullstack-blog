@@ -4,7 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "pnpm build:all",
+    "build:all": "concurrently 'pnpm build:api-server' 'pnpm build:ssr-server' 'pnpm build:webfront'",
+    "build:api-server": "cd packages/blog-server && pnpm build",
+    "build:ssr-server": "cd packages/ssr-server && pnpm build",
+    "build:webfront": "cd packages/blog-webfront && pnpm build",
+    "build:server": "concurrently 'pnpm build:api-server' 'pnpm build:ssr-server'"
   },
   "keywords": [],
   "author": "",
@@ -13,5 +18,8 @@
     "patchedDependencies": {
       "react-icons@4.11.0": "patches/react-icons@4.11.0.patch"
     }
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
   }
 }

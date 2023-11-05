@@ -2,17 +2,19 @@ import { Pagination } from "flowbite-react";
 import { startTransition } from "react";
 import { TiBackspaceOutline } from "react-icons/ti";
 import { Link } from "react-router-dom";
-import { NumberParam, StringParam, useQueryParam } from "use-query-params";
+import {
+  NumberParam,
+  StringParam,
+  useQueryParam,
+  withDefault,
+} from "use-query-params";
 import PostListItem from "../components/PostListItem.js";
 import usePosts from "../hooks/queries/usePosts.js";
 import { DEFAULT_PAGE_SIZE } from "../remotes/posts.js";
 
 const Posts = () => {
-  const [_page, setPage] = useQueryParam("page", NumberParam);
-  const [_q, setQ] = useQueryParam("q", StringParam);
-
-  const page = _page || 1;
-  const q = _q || "";
+  const [page, setPage] = useQueryParam("page", withDefault(NumberParam, 1));
+  const [q, setQ] = useQueryParam("q", withDefault(StringParam, ""));
 
   const { data, total } = usePosts({ page, q });
 

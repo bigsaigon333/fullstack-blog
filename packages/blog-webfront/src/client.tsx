@@ -18,7 +18,7 @@ if (window.__REACT_QUERY_STATE__) {
 
 hydrateRoot(
   document.getElementById("app")!,
-  <Main assetMap={window.assetMap} />
+  <Main assetMap={window.__ASSET_MAP__} />
 );
 
 type Props = {

@@ -16,7 +16,6 @@ export async function routeHandler(
 
   const { pipe } = render({
     bootstrapScripts: assetMap.js,
-    bootstrapScriptContent: `window.assetMap = ${JSON.stringify(assetMap)};`,
     onAllReady: () => {
       reply.raw
         .setHeader("content-type", "text/html")

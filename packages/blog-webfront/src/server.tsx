@@ -40,10 +40,13 @@ export function makeRenderContext(
       options
     );
 
-  const dehydrate = (options?: DehydrateOptions) =>
-    `<script>window.__REACT_QUERY_STATE__ = ${JSON.stringify(
-      serialize(dehydrateQueryClient(queryClient, options))
-    )}</script>`;
+  const dehydrate = (options?: DehydrateOptions) => /* html */ `
+    <script>
+      window.__REACT_QUERY_STATE__ = ${JSON.stringify(
+        serialize(dehydrateQueryClient(queryClient, options))
+      )};
+      window.__ASSET_MAP__ = ${JSON.stringify(assetMap)};
+    </script>`;
 
   return {
     render,

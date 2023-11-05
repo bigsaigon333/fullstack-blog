@@ -1,6 +1,7 @@
 import dayjs, { Dayjs, isDayjs } from "dayjs";
 import timezone from "dayjs/plugin/timezone.js";
 import utc from "dayjs/plugin/utc.js";
+import { Spinner } from "flowbite-react";
 import queryString from "query-string";
 import { StrictMode, Suspense } from "react";
 import { Link, Navigate, Outlet, Route, Routes } from "react-router-dom";
@@ -51,7 +52,7 @@ const App = () => {
                   <Link to="/">
                     <Header title="프론트엔드 개발자 김동희입니다" />
                   </Link>
-                  <Suspense>
+                  <Suspense fallback={<Spinner />}>
                     <Outlet />
                   </Suspense>
                 </Container>

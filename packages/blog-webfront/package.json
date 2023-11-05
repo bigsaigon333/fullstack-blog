@@ -27,7 +27,8 @@
     "dev:client": "webpack --watch --config webpack.config.client.cjs ",
     "dev:client:prod": "webpack --watch --node-env=production --config webpack.config.client.cjs ",
     "dev:server": "webpack --watch --config webpack.config.server.cjs",
-    "dev:server:prod": "webpack --watch --node-env=production --config webpack.config.server.cjs"
+    "dev:server:prod": "webpack --watch --node-env=production --config webpack.config.server.cjs",
+    "analyze": "webpack --mode=production --node-env=production --analyze --config webpack.config.client.cjs"
   },
   "keywords": [],
   "author": "",

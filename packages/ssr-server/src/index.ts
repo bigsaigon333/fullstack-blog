@@ -38,6 +38,13 @@ async function run() {
           const stream = fs.createReadStream(path.join(dir, filename));
 
           reply.header("Cache-Control", "public, max-age=31536000");
+
+          if (filename.endsWith(".js")) {
+            reply.type("text/javascript");
+          } else if (filename.endsWith(".css")) {
+            reply.type("text/css");
+          }
+
           reply.send(stream);
         },
       })

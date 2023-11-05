@@ -51,7 +51,12 @@ const config = {
       },
     ],
   },
-  plugins: [new MiniCssExtractPlugin()],
+  plugins: [
+    new MiniCssExtractPlugin({
+      filename: "[name].[contenthash].css",
+      chunkFilename: "[id].[contenthash].css",
+    }),
+  ],
   resolve: {
     extensions: ["mjs", "js", "ts", "tsx", "json", "jsx"].map(
       (ext) => `.${ext}`

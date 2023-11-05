@@ -1,4 +1,4 @@
-import { DefaultOptions, QueryClient } from "@tanstack/react-query";
+import { DefaultOptions } from "@tanstack/react-query";
 
 export const defaultOptions: DefaultOptions = {
   queries: {
@@ -8,5 +8,3 @@ export const defaultOptions: DefaultOptions = {
     refetchOnMount: false,
   },
 };
-
-export const globalQueryClient = new QueryClient({ defaultOptions });

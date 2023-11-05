@@ -2,7 +2,7 @@ import { Spinner } from "flowbite-react";
 import queryString from "query-string";
 import { Suspense } from "react";
 import kakaoLoginButton from "../assets/images/kakao_login_small.png";
-import useMyProfile from "../hooks/queries/useMyProfile.js";
+import { useMyProfileQuery } from "../hooks/queries/useMyProfile.js";
 import { logout } from "../remotes/myProfile.js";
 import Authorized from "./Authorized.js";
 
@@ -19,10 +19,12 @@ const url = `${KAKAO_AUTHORIZE_API_ENDPOINT}?${queryString.stringify(
 )}`;
 
 export default function LoginButton() {
+  const { refetch: refetchMyProfile } = useMyProfileQuery();
+
   const handleLogout = async () => {
     try {
       await logout();
-      await useMyProfile.refetch();
+      await refetchMyProfile();
       window.alert("logout succeed");
     } catch (error) {
       console.error(error);

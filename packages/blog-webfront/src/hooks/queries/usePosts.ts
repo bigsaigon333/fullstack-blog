@@ -5,7 +5,6 @@ import {
 import { Pagination } from "../../models/pagination.js";
 import { Post } from "../../models/post.js";
 import { fetchPosts } from "../../remotes/posts.js";
-import { globalQueryClient } from "../../utils/reactQuery.js";
 import useHttpClient from "../useHttpClient.js";
 
 type UsePostsParams = {
@@ -19,7 +18,17 @@ type UsePostsOptions = Omit<
   "queryKey" | "queryFn"
 >;
 
-const usePosts = (params: UsePostsParams = {}, options?: UsePostsOptions) => {
+export const usePosts = (
+  params: UsePostsParams = {},
+  options?: UsePostsOptions
+) => {
+  return usePostsQuery(params, options).data;
+};
+
+export const usePostsQuery = (
+  params: UsePostsParams = {},
+  options?: UsePostsOptions
+) => {
   const httpClient = useHttpClient();
 
   return useSuspenseQuery({
@@ -33,19 +42,5 @@ usePosts.getQueryKey = (params: UsePostsParams = {}) => [
   "posts",
   ...Object.values(params),
 ];
-
-usePosts.invalidate = (params: UsePostsParams = {}) => {
-  globalQueryClient.invalidateQueries({
-    queryKey: usePosts.getQueryKey(params),
-    exact: false,
-  });
-};
-
-usePosts.refetch = async (params: UsePostsParams = {}) => {
-  return globalQueryClient.refetchQueries({
-    queryKey: usePosts.getQueryKey(params),
-    exact: false,
-  });
-};
 
 export default usePosts;

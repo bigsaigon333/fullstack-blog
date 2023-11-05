@@ -6,9 +6,7 @@ type Props = {
 };
 
 const PostContent = ({ postId }: Props) => {
-  const {
-    data: { content },
-  } = usePostContent({ id: postId });
+  const { content } = usePostContent({ id: postId });
 
   return <MarkdownRenderer content={content} />;
 };

@@ -14,9 +14,7 @@ const Posts = () => {
   const page = _page || 1;
   const q = _q || "";
 
-  const {
-    data: { data, total },
-  } = usePosts({ page, q });
+  const { data, total } = usePosts({ page, q });
 
   const totalPages = Math.ceil(total / DEFAULT_PAGE_SIZE);
 

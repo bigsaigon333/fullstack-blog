@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "NODE_ENV=development tsx watch src/index.ts",
+    "dev": "NODE_ENV=development NODE_OPTIONS='--import dotenv/config' tsx watch src/index.ts dotenv_config_path=../../.env",
     "build": "tsup",
-    "start": "NODE_ENV=production node dist/index.js"
+    "start": "NODE_ENV=production NODE_OPTIONS='--import dotenv/config' node dist/index.js dotenv_config_path=../../.env"
   },
   "keywords": [],
   "author": "",
@@ -14,6 +14,7 @@
   "dependencies": {
     "@fastify/http-proxy": "^9.2.1",
     "blog-webfront": "workspace:*",
+    "dotenv": "^16.3.1",
     "fastify": "^4.21.0"
   },
   "devDependencies": {

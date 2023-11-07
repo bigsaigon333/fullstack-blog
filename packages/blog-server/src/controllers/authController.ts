@@ -1,4 +1,4 @@
-import { FastifyReply, FastifyRequest } from "fastify";
+import { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
 import { UserProfile } from "../models/userModel.js";
 import {
   authorizeKakao,
@@ -12,6 +12,7 @@ import {
 } from "../utils/constants.js";
 
 export async function getKakaoOAuthToken(
+  this: FastifyInstance,
   request: FastifyRequest<{ Querystring: { code: string } }>,
   reply: FastifyReply
 ) {

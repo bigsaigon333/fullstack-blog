@@ -5,9 +5,9 @@
   "main": "src/index.ts",
   "type": "module",
   "scripts": {
-    "dev": "NODE_ENV=development tsx watch src/index.ts ",
+    "dev": "NODE_ENV=development NODE_OPTIONS='--import dotenv/config' tsx watch src/index.ts dotenv_config_path=../../.env",
     "build": "tsup",
-    "start": "NODE_ENV=production node dist/index.js"
+    "start": "NODE_ENV=production NODE_OPTIONS='--import dotenv/config' node dist/index.js dotenv_config_path=../../.env"
   },
   "keywords": [],
   "author": "",
@@ -15,6 +15,7 @@
   "dependencies": {
     "@fastify/cookie": "^9.1.0",
     "@fastify/session": "^10.5.0",
+    "dotenv": "^16.3.1",
     "fastify": "^4.21.0",
     "ky": "^1.0.1",
     "sqlite3": "^5.1.6"

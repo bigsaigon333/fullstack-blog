@@ -3,11 +3,14 @@ import { Database } from "sqlite3";
 
 import fastifyCookie from "@fastify/cookie";
 import fastifySession from "@fastify/session";
+import dotenv from "dotenv";
 import crypto from "node:crypto";
 
 import { refreshKakao } from "./hooks/oauth.js";
 import authRoutes from "./routes/authRoutes.js";
 import postRoutes from "./routes/postRoutes.js";
+
+dotenv.config({ path: ".env" });
 
 const envToLogger = {
   development: {

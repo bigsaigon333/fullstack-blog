@@ -6,9 +6,10 @@ import {
   logoutKakao,
 } from "../services/kakaoService.js";
 import { getUserRole } from "../services/userService.js";
-
-const PUBLIC_SSR_SERVER_ORIGIN = "http://localhost:3000"; // live: https://bigsaigon333.me
-const PUBLIC_API_SERVER_ORIGIN = "http://localhost:8080"; // live: https://bigsaigon333.me
+import {
+  PUBLIC_API_SERVER_ORIGIN,
+  PUBLIC_SSR_SERVER_ORIGIN,
+} from "../utils/constants.js";
 
 export async function getKakaoOAuthToken(
   request: FastifyRequest<{ Querystring: { code: string } }>,

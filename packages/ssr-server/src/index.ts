@@ -2,10 +2,10 @@ import httpProxy from "@fastify/http-proxy";
 import Fastify from "fastify";
 import fs from "node:fs";
 import path from "node:path";
+import { INTERNAL_API_SERVER_ORIGIN } from "./constants.js";
 import { routeHandler } from "./routes.js";
 import { getAssetDirectory } from "./utils.js";
 
-const INTERNAL_API_SERVER_ORIGIN = "http://localhost:8080"; // live: http://localhost:8080
 const PORT = 3000;
 
 const envToLogger = {

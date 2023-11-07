@@ -4,6 +4,11 @@ import { Suspense } from "react";
 import kakaoLoginButton from "../assets/images/kakao_login_small.png";
 import { useMyProfileQuery } from "../hooks/queries/useMyProfile.js";
 import { logout } from "../remotes/myProfile.js";
+import {
+  KAKAO_AUTHORIZE_API_ENDPOINT,
+  KAKAO_CLIENT_ID,
+  PUBLIC_API_SERVER_ORIGIN,
+} from "../utils/constants.js";
 import Authorized from "./Authorized.js";
 
 export default function LoginButton() {
@@ -45,11 +50,6 @@ export default function LoginButton() {
 }
 
 function getKakaoLoginLink() {
-  const KAKAO_AUTHORIZE_API_ENDPOINT =
-    "https://kauth.kakao.com/oauth/authorize";
-  const KAKAO_CLIENT_ID = "38dad1a0f1c2a8f2064197351a79e6ed";
-  const PUBLIC_API_SERVER_ORIGIN = "http://localhost:8080"; // live: https://bigsaigon333.me
-
   const url = `${KAKAO_AUTHORIZE_API_ENDPOINT}?${queryString.stringify(
     {
       response_type: "code",

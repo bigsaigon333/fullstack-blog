@@ -10,16 +10,16 @@ export type KakaoOAuthTokenResponse = {
   refresh_token_expires_in: number;
 };
 
-export async function authorizeKakao(code: string) {
-  const CLIENT_ID = "38dad1a0f1c2a8f2064197351a79e6ed";
-  const CLIENT_SECRET = "Hh7Bu0ohy0X31Bsg78WDMfXy9vzzEoyG";
-  const REDIRECT_URL = "http://localhost:8080/oauth/kakao/authorize";
+const CLIENT_ID = "38dad1a0f1c2a8f2064197351a79e6ed";
+const CLIENT_SECRET = "Hh7Bu0ohy0X31Bsg78WDMfXy9vzzEoyG";
+const REDIRECT_PATH = "/oauth/kakao/authorize";
 
+export async function authorizeKakao(code: string, origin: string) {
   const body = new URLSearchParams({
     code,
     grant_type: "authorization_code",
     client_id: CLIENT_ID,
-    redirect_uri: encodeURI(REDIRECT_URL),
+    redirect_uri: origin + encodeURI(REDIRECT_PATH),
     client_secret: CLIENT_SECRET,
   });
 

@@ -7,6 +7,9 @@ import {
 } from "../services/kakaoService.js";
 import { getUserRole } from "../services/userService.js";
 
+const SSR_SERVER_ORIGIN = "http://localhost:3000";
+const API_SERVER_ORIGIN = "http://localhost:8080";
+
 export async function getKakaoOAuthToken(
   request: FastifyRequest<{ Querystring: { code: string } }>,
   reply: FastifyReply
@@ -14,11 +17,11 @@ export async function getKakaoOAuthToken(
   const { code } = request.query;
 
   try {
-    const kakaoResponse = await authorizeKakao(code);
+    const kakaoResponse = await authorizeKakao(code, API_SERVER_ORIGIN);
     const kakaoSession = { ...kakaoResponse, lastUpdatedAt: Date.now() };
     request.session.set("kakao", kakaoSession);
 
-    reply.redirect(302, "http://localhost:3000");
+    reply.redirect(302, SSR_SERVER_ORIGIN);
   } catch (error) {
     console.error((error as Error).message);
     reply.status(500).send({ message: "Internal Server Error" });

@@ -8,12 +8,13 @@ import Authorized from "./Authorized.js";
 
 const KAKAO_AUTHORIZE_API_ENDPOINT = "https://kauth.kakao.com/oauth/authorize";
 const KAKAO_CLIENT_ID = "38dad1a0f1c2a8f2064197351a79e6ed";
+const API_SERVER_ORIGIN = "http://localhost:8080";
 
 const url = `${KAKAO_AUTHORIZE_API_ENDPOINT}?${queryString.stringify(
   {
     response_type: "code",
     client_id: KAKAO_CLIENT_ID,
-    redirect_uri: "http://localhost:8080/oauth/kakao/authorize",
+    redirect_uri: API_SERVER_ORIGIN + "/oauth/kakao/authorize",
   },
   { sort: false }
 )}`;

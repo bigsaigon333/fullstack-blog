@@ -6,19 +6,6 @@ import { useMyProfileQuery } from "../hooks/queries/useMyProfile.js";
 import { logout } from "../remotes/myProfile.js";
 import Authorized from "./Authorized.js";
 
-const KAKAO_AUTHORIZE_API_ENDPOINT = "https://kauth.kakao.com/oauth/authorize";
-const KAKAO_CLIENT_ID = "38dad1a0f1c2a8f2064197351a79e6ed";
-const API_SERVER_ORIGIN = "http://localhost:8080";
-
-const url = `${KAKAO_AUTHORIZE_API_ENDPOINT}?${queryString.stringify(
-  {
-    response_type: "code",
-    client_id: KAKAO_CLIENT_ID,
-    redirect_uri: API_SERVER_ORIGIN + "/oauth/kakao/authorize",
-  },
-  { sort: false }
-)}`;
-
 export default function LoginButton() {
   const { refetch: refetchMyProfile } = useMyProfileQuery();
 
@@ -36,7 +23,7 @@ export default function LoginButton() {
     <Suspense fallback={<Spinner />}>
       <Authorized
         fallback={
-          <a href={url}>
+          <a href={getKakaoLoginLink()}>
             <img src={kakaoLoginButton} alt="카카오 로그인" />
           </a>
         }
@@ -55,4 +42,22 @@ export default function LoginButton() {
       />
     </Suspense>
   );
+}
+
+function getKakaoLoginLink() {
+  const KAKAO_AUTHORIZE_API_ENDPOINT =
+    "https://kauth.kakao.com/oauth/authorize";
+  const KAKAO_CLIENT_ID = "38dad1a0f1c2a8f2064197351a79e6ed";
+  const PUBLIC_API_SERVER_ORIGIN = "http://localhost:8080"; // live: https://bigsaigon333.me
+
+  const url = `${KAKAO_AUTHORIZE_API_ENDPOINT}?${queryString.stringify(
+    {
+      response_type: "code",
+      client_id: KAKAO_CLIENT_ID,
+      redirect_uri: PUBLIC_API_SERVER_ORIGIN + "/oauth/kakao/authorize",
+    },
+    { sort: false }
+  )}`;
+
+  return url;
 }

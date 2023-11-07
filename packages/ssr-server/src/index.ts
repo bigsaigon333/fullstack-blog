@@ -5,7 +5,7 @@ import path from "node:path";
 import { routeHandler } from "./routes.js";
 import { getAssetDirectory } from "./utils.js";
 
-const API_SERVER_ORIGIN = "http://localhost:8080";
+const INTERNAL_API_SERVER_ORIGIN = "http://localhost:8080"; // live: http://localhost:8080
 const PORT = 3000;
 
 const envToLogger = {
@@ -49,12 +49,12 @@ async function run() {
         },
       })
       .register(httpProxy, {
-        upstream: API_SERVER_ORIGIN,
+        upstream: INTERNAL_API_SERVER_ORIGIN,
         prefix: "/api",
         rewritePrefix: "/api",
       })
       .register(httpProxy, {
-        upstream: API_SERVER_ORIGIN,
+        upstream: INTERNAL_API_SERVER_ORIGIN,
         prefix: "/oauth",
         rewritePrefix: "/oauth",
       })

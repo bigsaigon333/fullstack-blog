@@ -22,11 +22,16 @@ type RenderParams = {
   assetMap: { js: string[]; css: string[] };
 };
 
+const API_SERVER_ORIGIN = "http://localhost:8080"; // live: http://localhost:8080
+
 export function makeRenderContext(
   { url, cookie, assetMap }: RenderParams,
   options?: RenderToPipeableStreamOptions
 ) {
-  const httpClient = http.extend({ headers: { cookie } });
+  const httpClient = http.extend({
+    headers: { cookie },
+    prefixUrl: API_SERVER_ORIGIN,
+  });
   const queryClient = new QueryClient({ defaultOptions });
 
   const render = (options?: RenderToPipeableStreamOptions) =>

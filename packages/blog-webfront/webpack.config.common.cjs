@@ -1,5 +1,6 @@
 const path = require("path");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const Dotenv = require("dotenv-webpack");
 
 const isProduction = process.env.NODE_ENV == "production";
 
@@ -56,6 +57,7 @@ const config = {
       filename: "[name].[contenthash].css",
       chunkFilename: "[id].[contenthash].css",
     }),
+    new Dotenv({ path: "../../.env" }),
   ],
   resolve: {
     extensions: ["mjs", "js", "ts", "tsx", "json", "jsx"].map(

@@ -1,4 +1,4 @@
-import * as ssr from "blog-webfront/server";
+import * as ssr from "webfront-js/server";
 import { FastifyReply, FastifyRequest } from "fastify";
 import fs from "node:fs/promises";
 import { getAssetDirectory } from "./utils";

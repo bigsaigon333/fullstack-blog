@@ -1,6 +1,6 @@
 {
   "extends": ["@tsconfig/recommended/tsconfig", "@tsconfig/node18/tsconfig"],
   "compilerOptions": {
-    "typeRoots": ["./node_modules/@types", "./src"]
+    "typeRoots": ["./node_modules/@types", "./src/types"]
   }
 }

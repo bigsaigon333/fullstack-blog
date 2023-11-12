@@ -1,5 +1,5 @@
 import "fastify";
-import type { KakaoOAuthTokenResponse } from "./services/kakaoService.js";
+import type { KakaoOAuthTokenResponse } from "../services/kakaoService.ts";
 
 type KakaoSession = KakaoOAuthTokenResponse & {
   lastUpdatedAt: number;

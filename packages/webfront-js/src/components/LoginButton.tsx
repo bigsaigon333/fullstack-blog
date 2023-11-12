@@ -54,7 +54,7 @@ function getKakaoLoginLink() {
     {
       response_type: "code",
       client_id: KAKAO_CLIENT_ID,
-      redirect_uri: PUBLIC_API_SERVER_ORIGIN + "/oauth/kakao/authorize",
+      redirect_uri: PUBLIC_API_SERVER_ORIGIN + "/api/oauth/kakao/authorize",
     },
     { sort: false }
   )}`;

@@ -39,7 +39,7 @@ export const startServer = async (db: Database) => {
       })
       .addHook("preHandler", refreshKakao)
       .register(postRoutes, { prefix: "api" })
-      .register(authRoutes, { prefix: "oauth" })
+      .register(authRoutes, { prefix: "api/oauth" })
       .listen({ port: 8080 });
 
     console.log("Server is running on port 8080");

@@ -12,7 +12,7 @@ export type KakaoOAuthTokenResponse = {
 
 const CLIENT_ID = "38dad1a0f1c2a8f2064197351a79e6ed";
 const CLIENT_SECRET = "Hh7Bu0ohy0X31Bsg78WDMfXy9vzzEoyG";
-const REDIRECT_PATH = "/oauth/kakao/authorize";
+const REDIRECT_PATH = "/api/oauth/kakao/authorize";
 
 export async function authorizeKakao(code: string, origin: string) {
   const body = new URLSearchParams({

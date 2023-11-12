@@ -14,7 +14,7 @@ export async function fetchMyProfile({
   signal,
 }: RemoteOptions = {}): Promise<MyProfile | null> {
   const json = await httpClient
-    .get("oauth/my-profile", { signal })
+    .get("api/oauth/my-profile", { signal })
     .json<MyProfile | null>();
 
   return json;
@@ -25,7 +25,10 @@ export async function logout({
   signal,
 }: RemoteOptions = {}): Promise<true | null> {
   const json = await httpClient
-    .post("oauth/logout", { headers: { "Content-Type": undefined }, signal })
+    .post("api/oauth/logout", {
+      headers: { "Content-Type": undefined },
+      signal,
+    })
     .json<true | null>();
 
   return json;

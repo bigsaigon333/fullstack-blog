@@ -53,11 +53,6 @@ async function run() {
         prefix: "/api",
         rewritePrefix: "/api",
       })
-      .register(httpProxy, {
-        upstream: INTERNAL_API_SERVER_ORIGIN,
-        prefix: "/oauth",
-        rewritePrefix: "/oauth",
-      })
       .route({
         method: "GET",
         url: "*",

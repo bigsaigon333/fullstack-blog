@@ -1,7 +1,6 @@
 import db from "./db.js";
-import { startServer } from "./server.js"; // Adjust the path accordingly
+import { startServer } from "./server.js";
 
-// Start the server
 try {
   await startServer(db);
 } catch (error) {

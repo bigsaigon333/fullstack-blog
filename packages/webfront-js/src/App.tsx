@@ -12,7 +12,7 @@ import Authorized from "./components/Authorized.js";
 import Container from "./components/Container.js";
 import Header from "./components/Header.js";
 import Navbar from "./components/Navbar.js";
-import EditPage from "./pages/EditPage.js";
+import WritePage from "./pages/WritePage.js";
 import PostContentPage from "./pages/PostContentPage.js";
 import PostsPage from "./pages/PostsPage.js";
 
@@ -60,16 +60,16 @@ const App = () => {
             >
               <Route path="/" element={<PostsPage />} />
               <Route path="/posts/:id" element={<PostContentPage />} />
-              <Route path="/posts/:id/edit" element={<EditPage />} />
+              <Route path="/posts/:id/edit" element={<WritePage />} />
               <Route
-                path="/edit"
+                path="/write"
                 element={
                   <Suspense>
                     <Authorized
                       expectedRole="admin"
                       fallback={<Navigate to="/" replace />}
                     >
-                      <EditPage />
+                      <WritePage />
                     </Authorized>
                   </Suspense>
                 }

@@ -11,7 +11,7 @@ const Navbar = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const isHomePage = location.pathname === "/";
-  const isEditPage = location.pathname.startsWith("/edit");
+  const isWritePage = location.pathname.startsWith("/write");
   const [openSearchModal, setOpenSearchModal] = useState(false);
   const handleSearchIconClick = () => setOpenSearchModal(true);
   const handleSearchModalClose = () => setOpenSearchModal(false);
@@ -33,11 +33,11 @@ const Navbar = () => {
         <div className="flex gap-x-2">
           <Suspense fallback={null}>
             <Authorized expectedRole="admin" fallback={null}>
-              <Link className="p-1 opacity-75" to="/edit">
+              <Link className="p-1 opacity-75" to="/write">
                 <Edit
                   className={classNames(
                     "w-5 h-5",
-                    isEditPage && "text-cyan-700 scale-105"
+                    isWritePage && "text-cyan-700 scale-105"
                   )}
                 />
                 <span className="sr-only">Write a new Article</span>

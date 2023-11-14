@@ -12,9 +12,10 @@ import Authorized from "./components/Authorized.js";
 import Container from "./components/Container.js";
 import Header from "./components/Header.js";
 import Navbar from "./components/Navbar.js";
-import WritePage from "./pages/WritePage.js";
 import PostContentPage from "./pages/PostContentPage.js";
+import PostEditPage from "./pages/PostEditPage.js";
 import PostsPage from "./pages/PostsPage.js";
+import WritePage from "./pages/WritePage.js";
 
 import "dayjs/esm/locale/ko";
 import "./main.css";
@@ -60,7 +61,7 @@ const App = () => {
             >
               <Route path="/" element={<PostsPage />} />
               <Route path="/posts/:id" element={<PostContentPage />} />
-              <Route path="/posts/:id/edit" element={<WritePage />} />
+              <Route path="/posts/:id/edit" element={<PostEditPage />} />
               <Route
                 path="/write"
                 element={

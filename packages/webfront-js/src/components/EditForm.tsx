@@ -8,6 +8,7 @@ import { delay } from "../utils/time.js";
 
 type EditFormProps = {
   onSubmit?: (data: FormValues) => void;
+  defaultValues?: FormValues | null;
 };
 
 export type FormValues = {
@@ -15,12 +16,12 @@ export type FormValues = {
   content: string;
 };
 
-const EditForm = ({ onSubmit }: EditFormProps) => {
+const EditForm = ({ onSubmit, defaultValues }: EditFormProps) => {
   const [draft, setDraft] = useSaveDraft();
   const titleId = useId();
   const editorId = useId();
   const form = useForm<FormValues>({
-    defaultValues: draft ?? { title: "", content: "" },
+    defaultValues: defaultValues ?? draft ?? { title: "", content: "" },
   });
 
   const handleSubmit = form.handleSubmit((data) => {

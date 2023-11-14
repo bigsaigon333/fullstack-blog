@@ -60,6 +60,7 @@ const App = () => {
             >
               <Route path="/" element={<PostsPage />} />
               <Route path="/posts/:id" element={<PostContentPage />} />
+              <Route path="/posts/:id/edit" element={<EditPage />} />
               <Route
                 path="/edit"
                 element={

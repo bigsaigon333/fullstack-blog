@@ -1,11 +1,11 @@
 import { FastifyReply, FastifyRequest } from "fastify";
 
-import { INTERNAL_API_SERVER_ORIGIN } from "./constants";
+import {
+  INTERNAL_API_SERVER_ORIGIN,
+  PUBLIC_SSR_SERVER_ORIGIN,
+} from "./constants";
 
-export async function sitemapHandler(
-  request: FastifyRequest,
-  reply: FastifyReply
-) {
+export async function sitemapHandler(_: FastifyRequest, reply: FastifyReply) {
   const { default: ky } = await import("ky");
   const { data: posts } = await ky
     .get("api/posts", {
@@ -17,6 +17,8 @@ export async function sitemapHandler(
 
   reply.header("Content-Type", "application/xml");
   reply.send(sitemap);
+
+  return reply;
 }
 
 export interface Post {
@@ -28,5 +30,24 @@ export interface Post {
 }
 
 async function createSitemap(posts: Post[]) {
-  return JSON.stringify(posts, null, 2);
+  return /* xml */ `
+  <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <url>
+      <loc>${PUBLIC_SSR_SERVER_ORIGIN}</loc>
+      <changefreq>daily</changefreq>
+      <priority>0.7</priority>
+      <lastmod>${new Date().toISOString()}</lastmod>
+    </url>
+    ${posts.map(
+      (post) => /* xml */ `
+      <url>
+        <loc>${PUBLIC_SSR_SERVER_ORIGIN}/posts/${post.id}</loc>
+        <changefreq>daily</changefreq>
+        <priority>0.7</priority>
+        <lastmod>${new Date(post.lastUpdatedAt).toISOString()}</lastmod>
+      </url>
+      `
+    )}
+  </urlset>
+  `;
 }

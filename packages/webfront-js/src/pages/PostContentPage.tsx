@@ -1,3 +1,4 @@
+import { useQueryClient } from "@tanstack/react-query";
 import { Button } from "flowbite-react";
 import { Suspense, startTransition } from "react";
 import { useLinkClickHandler, useNavigate, useParams } from "react-router-dom";
@@ -7,7 +8,6 @@ import PostContent from "../components/PostContent.js";
 import PostListItem from "../components/PostListItem.js";
 import useDeletePost from "../hooks/mutation/useDeletePost.js";
 import usePost from "../hooks/queries/usePost.js";
-import { usePostsQuery } from "../hooks/queries/usePosts.js";
 
 const PostContentPage = () => {
   const navigate = useNavigate();
@@ -18,11 +18,14 @@ const PostContentPage = () => {
     .refine((value) => !Number.isNaN(value))
     .parse(id);
 
-  const { refetch: refetchPosts } = usePostsQuery();
+  const queryClient = useQueryClient();
   const post = usePost({ id: postId });
   const { mutate: deletePost } = useDeletePost({
     onSuccess: async () => {
-      await refetchPosts();
+      await queryClient.refetchQueries({
+        queryKey: ["posts"],
+        exact: false,
+      });
       navigate("/");
     },
   });

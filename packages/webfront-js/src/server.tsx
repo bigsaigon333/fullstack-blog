@@ -13,6 +13,7 @@ import { serialize } from "superjson";
 import App from "./App.js";
 import { Html } from "./common.js";
 import { HttpClientProvider } from "./hooks/useHttpClient.js";
+import { INTERNAL_API_SERVER_ORIGIN } from "./utils/constants.js";
 import { http } from "./utils/network.js";
 import { defaultOptions } from "./utils/reactQuery.js";
 
@@ -22,15 +23,13 @@ type RenderParams = {
   assetMap: { js: string[]; css: string[] };
 };
 
-const API_SERVER_ORIGIN = "http://localhost:8080"; // live: http://localhost:8080
-
 export function makeRenderContext(
   { url, cookie, assetMap }: RenderParams,
   options?: RenderToPipeableStreamOptions
 ) {
   const httpClient = http.extend({
     headers: { cookie },
-    prefixUrl: API_SERVER_ORIGIN,
+    prefixUrl: INTERNAL_API_SERVER_ORIGIN,
   });
   const queryClient = new QueryClient({ defaultOptions });
 

@@ -13,6 +13,7 @@ declare global {
   interface ProcessEnv {
     PUBLIC_SSR_SERVER_ORIGIN: string;
     PUBLIC_API_SERVER_ORIGIN: string;
+    INTERNAL_API_SERVER_ORIGIN: string;
     KAKAO_CLIENT_ID: string;
   }
 }

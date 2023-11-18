@@ -36,6 +36,7 @@
     "@babel/preset-react": "^7.22.5",
     "@babel/preset-typescript": "^7.22.5",
     "@tailwindcss/typography": "^0.5.9",
+    "@tanstack/react-query-devtools": "^5.8.4",
     "@types/node": "^18",
     "@types/react": "^18",
     "@types/react-dom": "^18",

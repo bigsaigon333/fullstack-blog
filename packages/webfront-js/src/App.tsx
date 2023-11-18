@@ -1,3 +1,4 @@
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import dayjs, { Dayjs, isDayjs } from "dayjs";
 import timezone from "dayjs/plugin/timezone.js";
 import utc from "dayjs/plugin/utc.js";
@@ -12,6 +13,7 @@ import Authorized from "./components/Authorized.js";
 import Container from "./components/Container.js";
 import Header from "./components/Header.js";
 import Navbar from "./components/Navbar.js";
+import { useIsMounted } from "./hooks/useIsMounted.js";
 import PostContentPage from "./pages/PostContentPage.js";
 import PostEditPage from "./pages/PostEditPage.js";
 import PostsPage from "./pages/PostsPage.js";
@@ -35,8 +37,11 @@ dayjs.extend(timezone);
 dayjs.tz.setDefault("Asia/Seoul");
 
 const App = () => {
+  const isMounted = useIsMounted();
+
   return (
     <StrictMode>
+      {isMounted ? <ReactQueryDevtools /> : null}
       <QueryParamProvider
         adapter={ReactRouter6Adapter}
         options={{

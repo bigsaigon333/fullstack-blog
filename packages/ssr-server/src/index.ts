@@ -4,6 +4,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { INTERNAL_API_SERVER_ORIGIN } from "./constants.js";
 import { routeHandler } from "./routes.js";
+import { sitemapHandler } from "./sitemap.xml.js";
 import { getAssetDirectory } from "./utils.js";
 
 const PORT = 3000;
@@ -52,6 +53,11 @@ async function run() {
         upstream: INTERNAL_API_SERVER_ORIGIN,
         prefix: "/api",
         rewritePrefix: "/api",
+      })
+      .route({
+        method: "GET",
+        url: "/sitemap.xml",
+        handler: sitemapHandler,
       })
       .route({
         method: "GET",

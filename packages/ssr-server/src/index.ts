@@ -6,6 +6,7 @@ import { INTERNAL_API_SERVER_ORIGIN } from "./constants.js";
 import { routeHandler } from "./routes.js";
 import { sitemapHandler } from "./sitemap.xml.js";
 import { getAssetDirectory } from "./utils.js";
+import { ogImageRouter, ogImageSchema } from "./og-image.js";
 
 const PORT = 3000;
 
@@ -58,6 +59,12 @@ async function run() {
         method: "GET",
         url: "/sitemap.xml",
         handler: sitemapHandler,
+      })
+      .route({
+        method: "GET",
+        url: "/og-image",
+        schema: ogImageSchema,
+        handler: ogImageRouter,
       })
       .route({
         method: "GET",

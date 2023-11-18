@@ -1,5 +1,6 @@
 const path = require("path");
 const { merge } = require("webpack-merge");
+const CopyPlugin = require("copy-webpack-plugin");
 const commonConfig = require("./webpack.config.common.cjs");
 const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
 
@@ -14,7 +15,17 @@ const config = {
     clean: true,
     filename: "[id].[chunkhash].js",
   },
-  plugins: [isAnalyzeMode && new BundleAnalyzerPlugin()].filter(Boolean),
+  plugins: [
+    isAnalyzeMode && new BundleAnalyzerPlugin(),
+    new CopyPlugin({
+      patterns: [
+        {
+          from: "public",
+          to: ".",
+        },
+      ],
+    }),
+  ].filter(Boolean),
   optimization: {
     splitChunks: {
       cacheGroups: {

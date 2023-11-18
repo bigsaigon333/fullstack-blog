@@ -1,10 +1,9 @@
 import { useQueryClient } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import { Button } from "flowbite-react";
-import { FormEventHandler, startTransition, useState } from "react";
+import { FormEventHandler, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useCreatePost from "../hooks/mutation/useCreatePost.js";
-import usePosts from "../hooks/queries/usePosts.js";
 import useSaveDraft from "../hooks/useSaveDraft.js";
 import MarkdownRenderer from "./MarkdownRenderer.js";
 import PostListItem from "./PostListItem.js";
@@ -18,19 +17,16 @@ export const EditPreview = (data: EditPreviewProps) => {
   const [, , clearDraft] = useSaveDraft();
   const queryClient = useQueryClient();
   const { mutateAsync } = useCreatePost({
-    onSuccess: (data) => {
+    onSuccess: async (data) => {
       window.alert("아티클 게시에 성공하였습니다!");
       clearDraft();
       setShowModal(false);
 
-      startTransition(() => {
-        queryClient.refetchQueries({
-          queryKey: usePosts.getQueryKey(),
-          exact: true,
-        });
-
-        navigate(`/posts/${data.id}`);
+      await queryClient.refetchQueries({
+        queryKey: ["posts"],
+        exact: false,
       });
+      navigate(`/posts/${data.id}`);
     },
     onError: (error) => {
       setShowModal(false);

@@ -34,8 +34,13 @@ export function Html({ children, assetMap }: HtmlProps) {
           href="/public/favicon/safari-pinned-tab.svg"
           color="#5bbad5"
         />
+        <link rel="shortcut icon" href="/public/favicon/favicon.ico" />
         <meta name="msapplication-TileColor" content="#da532c" />
-        <meta name="theme-color" content="#ffffff" />
+        <meta
+          name="msapplication-config"
+          content="/public/favicon/browserconfig.xml"
+        />
+        <meta name="theme-color" content="#ffffff"></meta>
         {assetMap.css.map((href) => (
           <link key={href} href={href} rel="stylesheet" />
         ))}
